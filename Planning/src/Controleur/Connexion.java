@@ -1,7 +1,7 @@
-package Modele;
+package Controleur;
 
 
-import Controleur.ConnexionDatabase;
+import Modele.ConnexionDatabase;
 import java.util.*;
 import java.sql.*;
 import java.util.logging.Level;

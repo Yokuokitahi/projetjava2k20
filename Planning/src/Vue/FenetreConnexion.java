@@ -5,7 +5,7 @@ package Vue;
  * @author Xavier Antoine
  */
 
-import Modele.Connexion;
+import Controleur.Connexion;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.*;
@@ -82,12 +82,12 @@ public class FenetreConnexion extends FenetreTemplate {
                 }
                 if(logUser == 1){
                     System.out.print("Connexion ok");
+                    fenetre.dispose();
                 }else{
                     System.out.print("Connexion refusée");
-                }
-                
-            }
-            
+                    
+                }    
+            }   
         }
         );
     }
