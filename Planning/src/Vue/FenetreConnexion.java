@@ -80,10 +80,15 @@ public class FenetreConnexion extends FenetreTemplate {
                 } catch (SQLException ex) {
                     Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
                 if(logUser == 1){
-                    System.out.print("Connexion ok");
+                    JOptionPane jop = new JOptionPane();
+                    jop.showMessageDialog(null,"Connexion réussie","Etat connexion",JOptionPane.INFORMATION_MESSAGE);
+                    fenetre.dispose();
+                    FenetreEdt edt = new FenetreEdt();
                 }else{
-                    System.out.print("Connexion refusée");
+                    JOptionPane jop1 = new JOptionPane();
+                    jop1.showMessageDialog(null,"La connexion a échoué","Etat connexion",JOptionPane.ERROR_MESSAGE);
                 }
                 
             }

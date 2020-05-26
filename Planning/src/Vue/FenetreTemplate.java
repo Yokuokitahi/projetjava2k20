@@ -2,6 +2,7 @@ package Vue;
 
 import javax.swing.*;
 
+
 /**
  *
  * @author Xavier Antoine
