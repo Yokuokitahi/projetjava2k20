@@ -4,10 +4,8 @@ import Modele.ConnexionDatabase;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- *
- * @author Xavier Antoine
- */
+ /* @author Xavier Antoine*/
+
 public class RechercherSeance {
     private ConnexionDatabase connect = null;
 

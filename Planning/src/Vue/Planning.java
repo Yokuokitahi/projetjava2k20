@@ -1,6 +1,6 @@
 package Vue;
 
-import Controleur.RechercherSeance;
+import Controleur.RechercherSeanceSemaine;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -9,18 +9,16 @@ import java.util.ArrayList;
  * @author xavan
  */
 public class Planning {
-
-    public static void main(String[] args) throws SQLException {
+        
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
        //FenetreConnexion test = new FenetreConnexion();
        //test.constructPanel();
        
-       RechercherSeance testSeance = new RechercherSeance();
+       RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
+       ArrayList<String> result = testSeance.SeanceSemaine("abdoulnasir@edu.ece.fr",22);
        
-       ArrayList<String> result = testSeance.Seance("abdoulnasir@edu.ece.fr");
-       
-        for (String result1 : result) {
-            System.out.println(result1);
-        }
-    }
-    
+        //for (String result1 : result) {
+          //  System.out.println(result1);
+        //}
+    }   
 }
