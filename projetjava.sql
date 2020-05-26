@@ -3,7 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
+<<<<<<< Updated upstream
 -- Généré le :  lun. 25 mai 2020 à 15:14
+=======
+-- Généré le :  mar. 26 mai 2020 à 12:49
+>>>>>>> Stashed changes
 -- Version du serveur :  8.0.18
 -- Version de PHP :  7.3.12
 
@@ -112,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `salle` (
 
 DROP TABLE IF EXISTS `seance`;
 CREATE TABLE IF NOT EXISTS `seance` (
-  `ID` int(11) NOT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Semaine` int(11) NOT NULL,
   `Date` date NOT NULL,
   `Heure_debut` time NOT NULL,
@@ -121,7 +125,18 @@ CREATE TABLE IF NOT EXISTS `seance` (
   `ID_Cours` int(11) NOT NULL,
   `ID_Type` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `seance`
+--
+
+INSERT INTO `seance` (`ID`, `Semaine`, `Date`, `Heure_debut`, `Heure_fin`, `Etat`, `ID_Cours`, `ID_Type`) VALUES
+(1, 22, '2020-05-26', '10:15:00', '11:45:00', 1, 5, 1),
+(2, 22, '2020-05-27', '15:30:00', '17:00:00', 1, 4, 1),
+(3, 22, '2020-05-24', '12:00:00', '13:30:00', 1, 5, 1),
+(4, 22, '2020-05-29', '08:30:00', '10:00:00', 1, 6, 1),
+(5, 22, '2020-05-26', '08:30:00', '10:00:00', 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -148,6 +163,17 @@ CREATE TABLE IF NOT EXISTS `seance_groupes` (
   `ID_Groupe` int(11) NOT NULL,
   PRIMARY KEY (`ID_Seance`,`ID_Groupe`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `seance_groupes`
+--
+
+INSERT INTO `seance_groupes` (`ID_Seance`, `ID_Groupe`) VALUES
+(1, 2),
+(2, 2),
+(3, 2),
+(4, 3),
+(5, 2);
 
 -- --------------------------------------------------------
 
