@@ -21,7 +21,6 @@ public class FenetreEdt extends FenetreTemplate{
     private final JMenuItem item1 = new JMenuItem("Ouvrir");
     private final JMenuItem item2 = new JMenuItem("Fermer");
     
-    protected final JFrame fen = new JFrame();
     private final Object[][] data = {
         {"","","","","","","",""},
         {"","","","","","","",""},
@@ -36,11 +35,9 @@ public class FenetreEdt extends FenetreTemplate{
     
 
     public FenetreEdt(){
-        /*this.setSize(1000,1000);
-        this.setTitle("Planning");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-
+        
+        fenetre.setSize(new Dimension(1200,1000));
+        
         this.test1.add(item1);
         this.test1.addSeparator();
         item2.addActionListener(new ActionListener(){
@@ -52,10 +49,9 @@ public class FenetreEdt extends FenetreTemplate{
         this.test1.add(item2);
         this.menuBar.add(test1);
         this.menuBar.add(test2);
-        this.setJMenuBar(menuBar);
- 
-        //this.getContentPane().add(new JScrollPane(tableau));
         
-        this.setVisible(true);*/
+        fenetre.setJMenuBar(menuBar);
+        fenetre.add(new JScrollPane(tableau));
+    
     }
 }
