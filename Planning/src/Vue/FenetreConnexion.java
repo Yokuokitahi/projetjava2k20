@@ -5,7 +5,7 @@ package Vue;
  * @author Xavier Antoine
  */
 
-import Modele.Connexion;
+import Controleur.Connexion;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.*;
