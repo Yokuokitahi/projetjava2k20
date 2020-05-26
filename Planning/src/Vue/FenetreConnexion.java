@@ -74,7 +74,7 @@ public class FenetreConnexion extends FenetreTemplate {
             {
                 String log = login.getText();
                 String passw = password.getText();
-                container.removeAll();
+                
                 try {
                     logUser = connexion.UserConnect(log, passw);
                 } catch (SQLException ex) {

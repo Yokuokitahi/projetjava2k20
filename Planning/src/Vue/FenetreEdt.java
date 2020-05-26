@@ -13,7 +13,7 @@ import java.awt.event.*;
  *
  * @author Drakking
  */
-public class FenetreEdt extends JFrame{
+public class FenetreEdt extends FenetreTemplate{
     private final JMenuBar menuBar = new JMenuBar();
     private final JMenu test1 = new JMenu("Emploi du temps");
     private final JMenu test2 = new JMenu("Récapitulatif des cours");
@@ -22,12 +22,25 @@ public class FenetreEdt extends JFrame{
     private final JMenuItem item2 = new JMenuItem("Fermer");
     
     protected final JFrame fen = new JFrame();
+    private final Object[][] data = {
+        {"","","","","","","",""},
+        {"","","","","","","",""},
+        {"","","","","","","",""},
+        {"","","","","","","",""},
+        {"","","","","","","",""},
+        {"","","","","","","",""},
+        {"","","","","","","",""}    
+        };
+    private final String titre[] = {"","lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"};
+    private final JTable tableau = new JTable(data,titre);
+    
 
     public FenetreEdt(){
-        this.setSize(900,900);
+        /*this.setSize(1000,1000);
+        this.setTitle("Planning");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        
+
         this.test1.add(item1);
         this.test1.addSeparator();
         item2.addActionListener(new ActionListener(){
@@ -40,6 +53,9 @@ public class FenetreEdt extends JFrame{
         this.menuBar.add(test1);
         this.menuBar.add(test2);
         this.setJMenuBar(menuBar);
-        this.setVisible(true);
+ 
+        //this.getContentPane().add(new JScrollPane(tableau));
+        
+        this.setVisible(true);*/
     }
 }
