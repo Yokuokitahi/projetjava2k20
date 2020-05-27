@@ -57,20 +57,20 @@ public class Panneau extends JPanel{
         
        //lignes
         
-        g.drawLine(x,y,x+width,y);
-        g.drawLine(x,y+75,x+width,y+75);
-        g.drawLine(x,y+87,x+width,y+87);
-        g.drawLine(x,y+162,x+width,y+162);
-        g.drawLine(x,y+175,x+width,y+175);
-        g.drawLine(x,y+250,x+width,y+250);
-        g.drawLine(x,y+262,x+width,y+262);
-        g.drawLine(x,y+337,x+width,y+337);
-        g.drawLine(x,y+350,x+width,y+350);
-        g.drawLine(x,y+425,x+width,y+425);
-        g.drawLine(x,y+437,x+width,y+437);
-        g.drawLine(x,y+512,x+width,y+512);
-        g.drawLine(x,y+525,x+width,y+525);
-        g.drawLine(x,y+600,x+width,y+600);
+        g.drawLine(x,y,x+width,y);//8h30
+        g.drawLine(x,y+75,x+width,y+75);//10h
+        g.drawLine(x,y+87,x+width,y+87);//10h15
+        g.drawLine(x,y+162,x+width,y+162);//11h45
+        g.drawLine(x,y+175,x+width,y+175);//12h
+        g.drawLine(x,y+250,x+width,y+250);//13h30
+        g.drawLine(x,y+262,x+width,y+262);//13h45
+        g.drawLine(x,y+337,x+width,y+337);//15h15
+        g.drawLine(x,y+350,x+width,y+350);//15h30
+        g.drawLine(x,y+425,x+width,y+425);//17h
+        g.drawLine(x,y+437,x+width,y+437);//17h15
+        g.drawLine(x,y+512,x+width,y+512);//18h45
+        g.drawLine(x,y+525,x+width,y+525);//19h
+        g.drawLine(x,y+600,x+width,y+600);//20h30
         
         
         
