@@ -5,7 +5,7 @@ package Vue;
  * @author Xavier Antoine
  */
 
-import Modele.Connexion;
+import Controleur.Connexion;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.*;
@@ -83,12 +83,11 @@ public class FenetreConnexion extends FenetreTemplate {
                 
                 if(logUser == 1){
                     JOptionPane jop = new JOptionPane();
-                    jop.showMessageDialog(null,"Connexion réussie","Etat connexion",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Connexion réussie","Etat connexion",JOptionPane.INFORMATION_MESSAGE);
                     fenetre.dispose();
                     FenetreEdt edt = new FenetreEdt();
                 }else{
-                    JOptionPane jop1 = new JOptionPane();
-                    jop1.showMessageDialog(null,"La connexion a échoué","Etat connexion",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"La connexion a échoué","Etat connexion",JOptionPane.ERROR_MESSAGE);
                 }
                 
             }
