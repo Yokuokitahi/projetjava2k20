@@ -16,7 +16,7 @@ public class RechercherSeanceSemaine {
     
     public ArrayList<ArrayList<String>> SeanceSemaine(String login, int semaine) throws SQLException{
         ArrayList<String> identifiant, IDSeance, resultats, IDGroupe,recherche;
-        String request = "SELECT ID,Semaine,Date,Heure_debut,Heure_fin,ID_Cours,ID_Type FROM `seance` WHERE (ID =";
+        String request = "SELECT ID,Semaine,Date,Heure_debut,ID_Cours,ID_Type FROM `seance` WHERE (ID =";
         
         identifiant = connect.ExecuterRequete("SELECT ID FROM `user` WHERE Email = \""+ login +"\"");
         IDGroupe = connect.ExecuterRequete("SELECT ID_Groupe FROM `etudiant` WHERE ID = \""+ identifiant.get(0) +"\"");
@@ -103,8 +103,50 @@ public class RechercherSeanceSemaine {
                 }
             
             }
+            
+            for (ArrayList<String> iterator : tokenResultats) { //affichage Jour de la séance
+                
+                String requete = "SELECT DAYOFWEEK('" + iterator.get(2)+"')";
+                ArrayList<String> jour = connect.ExecuterRequete(requete);
+                jour.set(0, jour.get(0).replaceAll("\n", ""));
+                int day = Integer.parseInt(jour.get(0));
+                day -= 2;
+                String s=String.valueOf(day);
+                
+                if (!jour.isEmpty()) {
+                    iterator.set(2, s);
+                }
+            }
+            
+            
+            for (ArrayList<String> iterator : tokenResultats) { //Determination du numero de l'heure
+                
+                if(iterator.get(3).equals("08:30:00")){
+                    iterator.set(3, "0");
+                }
+                if(iterator.get(3).equals("10:15:00")){
+                    iterator.set(3, "1");
+                }
+                if(iterator.get(3).equals("12:00:00")){
+                    iterator.set(3, "2");
+                }
+                if(iterator.get(3).equals("13:45:00")){
+                    iterator.set(3, "3");
+                }
+                if(iterator.get(3).equals("15:30:00")){
+                    iterator.set(3, "4");
+                }
+                if(iterator.get(3).equals("17:15:00")){
+                    iterator.set(3, "5");
+                }
+                if(iterator.get(3).equals("19:30:00")){
+                    iterator.set(3, "6");
+                }
+            }
+            
+            
         
-            for (ArrayList<String> tokenResultat : tokenResultats) {//TOKENIZER 
+            for (ArrayList<String> tokenResultat : tokenResultats) {//TOKENIZER
                 for (String iterator : tokenResultat) {
                     String temp = iterator.replaceAll("\n", "");
                     tokenResultat.set(tokenResultat.indexOf(iterator), temp);
