@@ -1,14 +1,13 @@
 package Vue;
 
-import Controleur.RechercherSeanceSemaine;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  *
  * @author xavan
  */
 public class Planning {
+
         
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         
@@ -40,4 +39,5 @@ public class Planning {
             System.out.println(result.get(0).get(0));
         } 
     }   
+
 }
