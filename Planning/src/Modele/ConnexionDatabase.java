@@ -1,6 +1,7 @@
-package Controleur;
+package Modele;
 
 import java.sql.*;
+import java.text.*;
 import java.util.ArrayList;
 
 public class ConnexionDatabase {
@@ -16,12 +17,12 @@ public class ConnexionDatabase {
  
     public ArrayList<String> requetesMaj = new ArrayList<>();
 
-    public ConnexionDatabase(String nameDatabase, String loginDatabase, String passwordDatabase) throws SQLException, ClassNotFoundException{
+    public ConnexionDatabase() throws SQLException, ClassNotFoundException{
         Class.forName("com.mysql.jdbc.Driver");
 
-        String urlDatabase = "jdbc:mysql://localhost:3306/" + nameDatabase;
+        String urlDatabase = "jdbc:mysql://localhost:3306/projetjava";
 
-        conn = DriverManager.getConnection(urlDatabase, loginDatabase, passwordDatabase);
+        conn = DriverManager.getConnection(urlDatabase, "root", "");
 
         stmt = conn.createStatement();
     }
@@ -89,5 +90,34 @@ public class ConnexionDatabase {
 
     public void executeUpdate(String requeteMaj) throws SQLException {
         stmt.executeUpdate(requeteMaj);
+    }
+    
+    public String dateAjd(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        java.util.Date date = new java.util.Date();
+        System.out.println(dateFormat.format(date));
+        
+        return(dateFormat.format(date));
+    }
+    
+    public ArrayList<String> SQLDateAjd() throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = new ConnexionDatabase();
+        
+        ArrayList<String> resultat = connect.ExecuterRequete("SELECT CURDATE()");
+        
+        return resultat;   
+    }
+    
+    public int SQLNumSemaine() throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = new ConnexionDatabase();
+        
+        ArrayList<String> resultat = connect.ExecuterRequete("SELECT YEARWEEK(CURDATE())");
+        String result = resultat.get(0);
+        int longueur = result.length();
+        
+        String semaine = Character.toString(result.charAt(longueur-3)) + Character.toString(result.charAt(longueur-2)) ;
+        int numSemaine = Integer.parseInt(semaine) + 1; 
+        
+        return numSemaine; 
     }
 }

@@ -5,7 +5,7 @@ package Vue;
  * @author Xavier Antoine
  */
 
-import Modele.Connexion;
+import Controleur.Connexion;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.*;
@@ -74,16 +74,20 @@ public class FenetreConnexion extends FenetreTemplate {
             {
                 String log = login.getText();
                 String passw = password.getText();
-                container.removeAll();
+                
                 try {
                     logUser = connexion.UserConnect(log, passw);
                 } catch (SQLException ex) {
                     Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
                 if(logUser == 1){
-                    System.out.print("Connexion ok");
+                    JOptionPane jop = new JOptionPane();
+                    JOptionPane.showMessageDialog(null,"Connexion réussie","Etat connexion",JOptionPane.INFORMATION_MESSAGE);
+                    fenetre.dispose();
+                    FenetreEdt edt = new FenetreEdt();
                 }else{
-                    System.out.print("Connexion refusée");
+                    JOptionPane.showMessageDialog(null,"La connexion a échoué","Etat connexion",JOptionPane.ERROR_MESSAGE);
                 }
                 
             }

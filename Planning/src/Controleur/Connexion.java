@@ -1,7 +1,7 @@
-package Modele;
+package Controleur;
 
 
-import Controleur.ConnexionDatabase;
+import Modele.ConnexionDatabase;
 import java.util.*;
 import java.sql.*;
 import java.util.logging.Level;
@@ -17,7 +17,7 @@ public class Connexion{
 
     public Connexion() throws SQLException {
         try {
-            connect = new ConnexionDatabase("ProjetJava","root","");
+            connect = new ConnexionDatabase();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Erreur Database");
