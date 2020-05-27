@@ -21,7 +21,7 @@ public class FenetreEdt extends FenetreTemplate{
     private final JMenuItem item1 = new JMenuItem("Ouvrir");
     private final JMenuItem item2 = new JMenuItem("Fermer");
     
-    /*private final Object[][] data = {
+    private final Object[][] data = {
         {"","","","","","","",""},
         {"","","","","","","",""},
         {"","","","","","","",""},
@@ -31,7 +31,7 @@ public class FenetreEdt extends FenetreTemplate{
         {"","","","","","","",""}    
         };
     private final String titre[] = {"","lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"};
-    private final JTable tableau = new JTable(data,titre);*/
+    private final JTable tableau = new JTable(data,titre);
     
 
     public FenetreEdt(){
@@ -50,9 +50,8 @@ public class FenetreEdt extends FenetreTemplate{
         this.menuBar.add(test1);
         this.menuBar.add(test2);
         
-        
         fenetre.setJMenuBar(menuBar);
-        fenetre.setContentPane(new Panneau());
-        //fenetre.add(new JScrollPane(tableau));
+        fenetre.add(new JScrollPane(tableau));
+    
     }
 }

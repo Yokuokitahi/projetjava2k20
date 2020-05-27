@@ -1,6 +1,8 @@
 package Vue;
 
+import Controleur.RechercherSeanceSemaine;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -8,13 +10,25 @@ import java.sql.SQLException;
  */
 public class Planning {
 
+<<<<<<< Updated upstream
+    public static void main(String[] args) throws SQLException {
+       FenetreConnexion test = new FenetreConnexion();
+       test.constructPanel();
+    }
+    
+=======
         
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         
+        
+       FenetreConnexion test = new FenetreConnexion();
+       test.constructPanel();
+       
+       
        int i=0;
        
        RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
-       ArrayList<ArrayList<String>> result = testSeance.SeanceSemaineEtudiant("abdoulnasir@edu.ece.fr",22);
+       ArrayList<ArrayList<String>> result = testSeance.SeanceSemaineEtudiant("xavier.antoine@edu.ece.fr",22);
        
         if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
             for(ArrayList<String> iterator : result){
@@ -40,4 +54,5 @@ public class Planning {
         } 
     }   
 
+>>>>>>> Stashed changes
 }

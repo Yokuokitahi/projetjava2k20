@@ -16,12 +16,12 @@ public class ConnexionDatabase {
  
     public ArrayList<String> requetesMaj = new ArrayList<>();
 
-    public ConnexionDatabase(String nameDatabase, String loginDatabase, String passwordDatabase) throws SQLException, ClassNotFoundException{
+    public ConnexionDatabase() throws SQLException, ClassNotFoundException{
         Class.forName("com.mysql.jdbc.Driver");
 
-        String urlDatabase = "jdbc:mysql://localhost:3306/" + nameDatabase;
+        String urlDatabase = "jdbc:mysql://localhost:3306/projetjava";
 
-        conn = DriverManager.getConnection(urlDatabase, loginDatabase, passwordDatabase);
+        conn = DriverManager.getConnection(urlDatabase, "root", "");
 
         stmt = conn.createStatement();
     }

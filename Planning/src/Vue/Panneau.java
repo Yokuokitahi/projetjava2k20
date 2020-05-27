@@ -12,6 +12,7 @@ import javax.swing.*;
  * @author Drakking
  */
 public class Panneau extends JPanel{
+    @Override
     public void paintComponent(Graphics g){
         int x,y,width,height;
         x=80;

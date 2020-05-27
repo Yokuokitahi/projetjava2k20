@@ -17,7 +17,7 @@ public class Connexion{
 
     public Connexion() throws SQLException {
         try {
-            connect = new ConnexionDatabase("ProjetJava","root","");
+            connect = new ConnexionDatabase();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Erreur Database");
@@ -26,7 +26,7 @@ public class Connexion{
     }
     
     public int UserConnect(String login,String password) throws SQLException{
-        int log = 0;
+        int log;
         ArrayList<String> resultats;
         resultats = connect.ExecuterRequete("SELECT * FROM `user` WHERE Email = \""+ login +"\" AND Password = \""+ password+ "\"");
         int n=resultats.size();
