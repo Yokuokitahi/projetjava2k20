@@ -9,14 +9,6 @@ import java.util.ArrayList;
  * @author xavan
  */
 public class Planning {
-
-<<<<<<< Updated upstream
-    public static void main(String[] args) throws SQLException {
-       FenetreConnexion test = new FenetreConnexion();
-       test.constructPanel();
-    }
-    
-=======
         
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         
@@ -28,7 +20,7 @@ public class Planning {
        int i=0;
        
        RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
-       ArrayList<ArrayList<String>> result = testSeance.SeanceSemaineEtudiant("xavier.antoine@edu.ece.fr",22);
+       ArrayList<ArrayList<String>> result = testSeance.SeanceSemaine("coudray@edu.ece.fr",22);
        
         if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
             for(ArrayList<String> iterator : result){
@@ -53,6 +45,4 @@ public class Planning {
             System.out.println(result.get(0).get(0));
         } 
     }   
-
->>>>>>> Stashed changes
 }
