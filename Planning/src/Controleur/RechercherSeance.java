@@ -15,7 +15,7 @@ public class RechercherSeance {
 
     public RechercherSeance() throws SQLException {
         try {
-            connect = new ConnexionDatabase("ProjetJava","root","");
+            connect = new ConnexionDatabase();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Erreur Database");
