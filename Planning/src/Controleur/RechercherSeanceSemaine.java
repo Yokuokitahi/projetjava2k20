@@ -328,7 +328,9 @@ public class RechercherSeanceSemaine {
             }
         }
         request += ")  AND Semaine = " + semaine + " ORDER BY date, heure_debut";
+        request = "SELECT ID,Semaine,Date,Heure_debut,ID_Cours,ID_Type FROM `seance` WHERE ID =1";
         resultats = connect.ExecuterRequete(request);
+       
         
         
         

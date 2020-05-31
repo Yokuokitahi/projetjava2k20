@@ -52,7 +52,6 @@ public class Panneau extends JPanel{
         g.drawString("19h00",x-45,y+525);
         g.drawString("20h30",x-45,y+600);
         
-     
         g.setColor(Color.black);
         
        //lignes
@@ -71,9 +70,7 @@ public class Panneau extends JPanel{
         g.drawLine(x,y+512,x+width,y+512);//18h45
         g.drawLine(x,y+525,x+width,y+525);//19h
         g.drawLine(x,y+600,x+width,y+600);//20h30
-        
-        
-        
+ 
         //colonnes
         g.drawLine(x,y,x,height+y);
         g.drawLine(x,y+height,x+width,y+height);
@@ -84,6 +81,13 @@ public class Panneau extends JPanel{
         g.drawLine(x+750,y,x+750,height+y);
         g.drawLine(x+900,y,x+900,height+y);
         
-          
+        //intercours
+        g.setColor(Color.cyan);
+        g.fillRect(x+1,y+76,width-1,11);
+        g.fillRect(x+1,y+163,width-1,12);
+        g.fillRect(x+1,y+251,width-1,11);
+        g.fillRect(x+1,y+338,width-1,12);
+        g.fillRect(x+1,y+426,width-1,11);
+        g.fillRect(x+1,y+513,width-1,12);
     }
 }
