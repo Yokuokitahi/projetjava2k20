@@ -85,7 +85,11 @@ public class FenetreConnexion extends FenetreTemplate {
                     JOptionPane jop = new JOptionPane();
                     JOptionPane.showMessageDialog(null,"Connexion réussie","Etat connexion",JOptionPane.INFORMATION_MESSAGE);
                     fenetre.dispose();
-                    FenetreEdt edt = new FenetreEdt();
+                    try {
+                        FenetreEdt edt = new FenetreEdt(log);
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }else{
                     JOptionPane.showMessageDialog(null,"La connexion a échoué","Etat connexion",JOptionPane.ERROR_MESSAGE);
                 }

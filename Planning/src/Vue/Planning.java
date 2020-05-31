@@ -17,8 +17,8 @@ public class Planning {
        
        int i=0;
        
-       RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
-       ArrayList<ArrayList<String>> result = testSeance.SeanceSemaineSalle("Amphi A",22);
+       /*RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
+       ArrayList<ArrayList<String>> result = testSeance.SeanceSemaine("yacin",22);
        
         if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
             for(ArrayList<String> iterator : result){
@@ -40,6 +40,6 @@ public class Planning {
             }
         }else{
             System.out.println(result.get(0).get(0));
-        } 
+        }*/ 
     }   
 }
