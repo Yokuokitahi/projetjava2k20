@@ -10,7 +10,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 /**
  *
@@ -56,9 +59,21 @@ public class FenetreEdt extends FenetreTemplate{
         this.menuBar.add(test1);
         this.menuBar.add(test2);
         
+        JTextPane cours = new JTextPane();
+        StyledDocument doc = cours.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+        cours.setBackground(Color.orange);
+        cours.setEditable(false);
+        Font font = new Font("courier",Font.ROMAN_BASELINE,10);
+        cours.setFont(font);
+        cours.setBounds(81,276,149,74);
+        
        RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
        ArrayList<ArrayList<String>> result = testSeance.SeanceSemaine(login,22);
        int i=0;
+       String infox = null;
         if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
             for(ArrayList<String> iterator : result){
                 i+=1;
@@ -72,18 +87,21 @@ public class FenetreEdt extends FenetreTemplate{
                 System.out.println("Professeur : " + iterator.get(6).toUpperCase());
                 System.out.println("Salle : " + iterator.get(7));
                 System.out.println("Site : " + iterator.get(8));
+                infox = iterator.get(4)+"\n"+iterator.get(6).toUpperCase()+"\n"+iterator.get(5)+"\n"+iterator.get(7)+"\n";
+                
                 for(int k=9;k<iterator.size();k++){
                     System.out.println("Groupe : " + iterator.get(k));
+                    infox=infox + "Gr."+iterator.get(k)+" ";
                 }
                 System.out.println("\n-----------------\n");
+                
             }
+            cours.setText(infox);
         }else{
             JOptionPane.showMessageDialog(null,result.get(0).get(0),"Etat connexion",JOptionPane.ERROR_MESSAGE);
         }
         
-        JTextPane cours = new JTextPane();
-        cours.setBackground(Color.orange);
-        cours.setBounds(81,276,149,74);
+        
         fenetre.setJMenuBar(menuBar);
         fenetre.add(cours);
         fenetre.add(grille);
