@@ -6,7 +6,6 @@
 package Vue;
 
 import Controleur.RechercherSeanceSemaine;
-import Modele.ConnexionDatabase;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -47,6 +46,42 @@ public class FenetreEdt extends FenetreTemplate{
         this.test1.add(item2);
         this.menuBar.add(test1);
         this.menuBar.add(test2);
+        JButton suivant = new JButton("Semaine suivante");
+        suivant.setBounds(550,20,155,20);
+        
+        JButton prec = new JButton("Semaine précédente");
+        prec.setBounds(350,20,155,20);
+        
+        suivant.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    fenetre.dispose();
+                    FenetreEdt suiv = new FenetreEdt(login,nbSemaine+1);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        });
+        
+        prec.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    fenetre.dispose();
+                    FenetreEdt suiv = new FenetreEdt(login,nbSemaine-1);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        });
+        
+        fenetre.setJMenuBar(menuBar);
+        fenetre.add(suivant);
+        fenetre.add(prec);
+        fenetre.add(grille);
         
         
         String infox;
@@ -55,28 +90,14 @@ public class FenetreEdt extends FenetreTemplate{
         
         RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
         ArrayList<ArrayList<String>> result = testSeance.SeanceSemaine(login,nbSemaine);
-        int i=0;
+        System.out.println(result.get(0).get(0));
         if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
             for(ArrayList<String> iterator : result){
-                i+=1;
-                System.out.println("Cours n°"+i);
-                System.out.println("ID de la séance : " + iterator.get(0));
-                System.out.println("Semaine n°" + iterator.get(1));
-                System.out.println("Jour de la séance : " + iterator.get(2));
-                System.out.println("Heure de début : " + iterator.get(3));
-                System.out.println("Matière : " + iterator.get(4));
-                System.out.println("Type de cours : " + iterator.get(5));
-                System.out.println("Professeur : " + iterator.get(6).toUpperCase());
-                System.out.println("Salle : " + iterator.get(7));
-                System.out.println("Site : " + iterator.get(8));
-                
                 infox = iterator.get(4)+"\n"+iterator.get(6).toUpperCase()+"\n"+iterator.get(5)+"\n"+iterator.get(7)+"\n";
                 
                 for(int k=9;k<iterator.size();k++){
-                    System.out.println("Groupe : " + iterator.get(k));
                     infox=infox + "Gr."+iterator.get(k)+" ";
                 }
-                System.out.println("\n-----------------\n");
                 
                 switch (iterator.get(2)) {
                     case "0":
@@ -360,63 +381,71 @@ break;
                         } break;
                         
                     case "4":
-                        if("0".equals(iterator.get(3))){
-                            JTextPane cours1B = new JTextPane();
-                            cours1B.setBackground(Color.orange);
-                            cours1B.setBounds(681,101,149,74);
-                            cours1B.setText(infox);
-                            cours1B.setFont(font);
-                            cours1B.setEditable(false);
-                            fenetre.add(cours1B);
-                        }else if("1".equals(iterator.get(3))){
-                            JTextPane cours1C = new JTextPane();
-                            cours1C.setBackground(Color.orange);
-                            cours1C.setBounds(681,188,149,74);
-                            cours1C.setText(infox);
-                            cours1C.setFont(font);
-                            cours1C.setEditable(false);
-                            fenetre.add(cours1C);
-                        }else if("2".equals(iterator.get(3))){
-                            JTextPane cours1D = new JTextPane();
-                            cours1D.setBackground(Color.orange);
-                            cours1D.setBounds(681,276,149,74);
-                            cours1D.setText(infox);
-                            cours1D.setFont(font);
-                            cours1D.setEditable(false);
-                            fenetre.add(cours1D);
-                        }else if("3".equals(iterator.get(3))){
-                            JTextPane cours1E = new JTextPane();
-                            cours1E.setBackground(Color.orange);
-                            cours1E.setBounds(681,363,149,74);
-                            cours1E.setText(infox);
-                            cours1E.setFont(font);
-                            cours1E.setEditable(false);
-                            fenetre.add(cours1E);
-                        }else if("4".equals(iterator.get(3))){
-                            JTextPane cours1F = new JTextPane();
-                            cours1F.setBackground(Color.orange);
-                            cours1F.setBounds(681,451,149,74);
-                            cours1F.setText(infox);
-                            cours1F.setFont(font);
-                            cours1F.setEditable(false);
-                            fenetre.add(cours1F);
-                        }else if("5".equals(iterator.get(3))){
-                            JTextPane cours1G = new JTextPane();
-                            cours1G.setBackground(Color.orange);
-                            cours1G.setBounds(681,538,149,74);
-                            cours1G.setText(infox);
-                            cours1G.setFont(font);
-                            cours1G.setEditable(false);
-                            fenetre.add(cours1G);
-                        }else if("6".equals(iterator.get(3))){
-                            JTextPane cours1H = new JTextPane();
-                            cours1H.setBackground(Color.orange);
-                            cours1H.setBounds(681,626,149,74);
-                            cours1H.setText(infox);
-                            cours1H.setFont(font);
-                            cours1H.setEditable(false);
-                            fenetre.add(cours1H);
-                        }   break;
+                         if(null != iterator.get(3))switch (iterator.get(3)) {
+                    case "0":
+                        JTextPane cours1B = new JTextPane();
+                        cours1B.setBackground(Color.orange);
+                        cours1B.setBounds(681,101,149,74);
+                        cours1B.setText(infox);
+                        cours1B.setFont(font);
+                        cours1B.setEditable(false);
+                        fenetre.add(cours1B);
+                        break;
+                    case "1":
+                        JTextPane cours1C = new JTextPane();
+                        cours1C.setBackground(Color.orange);
+                        cours1C.setBounds(681,188,149,74);
+                        cours1C.setText(infox);
+                        cours1C.setFont(font);
+                        cours1C.setEditable(false);
+                        fenetre.add(cours1C);
+                        break;
+                    case "2":
+                        JTextPane cours1D = new JTextPane();
+                        cours1D.setBackground(Color.orange);
+                        cours1D.setBounds(681,276,149,74);
+                        cours1D.setText(infox);
+                        cours1D.setFont(font);
+                        cours1D.setEditable(false);
+                        fenetre.add(cours1D);
+                        break;
+                    case "3":
+                        JTextPane cours1E = new JTextPane();
+                        cours1E.setBackground(Color.orange);
+                        cours1E.setBounds(681,363,149,74);
+                        cours1E.setText(infox);
+                        cours1E.setFont(font);
+                        cours1E.setEditable(false);
+                        fenetre.add(cours1E);
+                        break;
+                    case "4":
+                        JTextPane cours1F = new JTextPane();
+                        cours1F.setBackground(Color.orange);
+                        cours1F.setBounds(681,451,149,74);
+                        cours1F.setText(infox);
+                        cours1F.setFont(font);
+                        cours1F.setEditable(false);
+                        fenetre.add(cours1F);
+                        break;
+                    case "5":
+                        JTextPane cours1G = new JTextPane();
+                        cours1G.setBackground(Color.orange);
+                        cours1G.setBounds(681,538,149,74);
+                        cours1G.setText(infox);
+                        cours1G.setFont(font);
+                        cours1G.setEditable(false);
+                        fenetre.add(cours1G);
+                        break;
+                    case "6":
+                        JTextPane cours1H = new JTextPane();
+                        cours1H.setBackground(Color.orange);
+                        cours1H.setBounds(681,626,149,74);
+                        cours1H.setText(infox);
+                        cours1H.setFont(font);
+                        cours1H.setEditable(false);
+                        fenetre.add(cours1H);
+                        break;
+                }  break;
                     default:
                         break;
                 }
@@ -493,47 +522,11 @@ break;
                     }
             }
         }
-            
+  
         }else{
-            JOptionPane.showMessageDialog(null,result.get(0).get(0),"Etat connexion",JOptionPane.ERROR_MESSAGE);
-            System.exit(0);
+            JOptionPane.showMessageDialog(null,result.get(0).get(0));
         }
         
-        JButton suivant = new JButton("Semaine suivante");
-        suivant.setBounds(550,20,155,20);
-        
-        JButton prec = new JButton("Semaine précédente");
-        prec.setBounds(350,20,155,20);
-        
-        suivant.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                try {
-                    fenetre.dispose();
-                    FenetreEdt suiv = new FenetreEdt(login,nbSemaine+1);
-                } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            
-        });
-        
-        prec.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                try {
-                    fenetre.dispose();
-                    FenetreEdt suiv = new FenetreEdt(login,nbSemaine-1);
-                } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            
-        });
-        
-        fenetre.setJMenuBar(menuBar);
-        fenetre.add(suivant);
-        fenetre.add(prec);
         fenetre.add(grille);
     }
 }

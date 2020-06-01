@@ -318,9 +318,7 @@ public class RechercherSeanceSemaine {
         }else{
             IDSeance = connect.ExecuterRequete("SELECT ID_Seance FROM `seance_groupes` WHERE ID_Groupe = \""+ IDGroupe.get(0) +"\"");
         }
-        
         if(!IDSeance.isEmpty()){
-        
         for (String IDSeance1 : IDSeance) {
             request = request + " " + IDSeance1;
             if(!IDSeance1.equals(IDSeance.get(IDSeance.size()-1))){
@@ -330,8 +328,7 @@ public class RechercherSeanceSemaine {
         request += ")  AND Semaine = " + semaine + " ORDER BY date, heure_debut";
         resultats = connect.ExecuterRequete(request);
         
-        
-        
+        if(!resultats.isEmpty()){
             ArrayList<ArrayList<String>> tokenResultats = new ArrayList<>();
             ArrayList<String> tokens;
  
@@ -455,6 +452,13 @@ public class RechercherSeanceSemaine {
             return erreur;
         }
         
+    }else{
+            ArrayList<ArrayList<String>> erreur = new ArrayList<>();
+            ArrayList<String> erreur2 = new ArrayList<>();
+            erreur2.add("Erreur : pas de cours disponibles actuellement");
+            erreur.add(erreur2);
+            return erreur;
+        }
     }
     //RECHERCHE AVEC PROMOTION
     public ArrayList<ArrayList<String>> SeanceSemainePromotion(String promotion, int semaine) throws SQLException{
