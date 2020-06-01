@@ -6,6 +6,7 @@ package Vue;
  */
 
 import Controleur.Connexion;
+import Modele.ConnexionDatabase;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.*;
@@ -86,7 +87,9 @@ public class FenetreConnexion extends FenetreTemplate {
                     JOptionPane.showMessageDialog(null,"Connexion réussie","Etat connexion",JOptionPane.INFORMATION_MESSAGE);
                     fenetre.dispose();
                     try {
-                        FenetreEdt edt = new FenetreEdt(log);
+                        ConnexionDatabase dt = new ConnexionDatabase();
+                        int nbSemaine = dt.SQLNumSemaine();
+                        FenetreEdt edt = new FenetreEdt(log,nbSemaine);
                     } catch (SQLException | ClassNotFoundException ex) {
                         Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
                     }
