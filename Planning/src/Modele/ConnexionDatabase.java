@@ -3,6 +3,7 @@ package Modele;
 import java.sql.*;
 import java.text.*;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class ConnexionDatabase {
 
@@ -88,14 +89,14 @@ public class ConnexionDatabase {
         return liste;
     }
 
-    public void executeUpdate(String requeteMaj) throws SQLException {
+    public void ExecuterUpdate(String requeteMaj) throws SQLException {
         stmt.executeUpdate(requeteMaj);
     }
     
     public String dateAjd(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         java.util.Date date = new java.util.Date();
-        System.out.println(dateFormat.format(date));
+        //System.out.println(dateFormat.format(date));
         
         return(dateFormat.format(date));
     }
@@ -119,5 +120,24 @@ public class ConnexionDatabase {
         int numSemaine = Integer.parseInt(semaine) + 1; 
         
         return numSemaine; 
+    }
+    
+    public int SQLNumSemaine(String date) throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = new ConnexionDatabase();
+        
+        ArrayList<String> resultat = connect.ExecuterRequete("SELECT YEARWEEK(\""+date+"\")");
+        if(!resultat.isEmpty()){
+            String result = resultat.get(0);
+            int longueur = result.length();
+        
+            String semaine = Character.toString(result.charAt(longueur-3)) + Character.toString(result.charAt(longueur-2)) ;
+            int numSemaine = Integer.parseInt(semaine) + 1; 
+        
+            return numSemaine; 
+        }else{
+            JOptionPane.showMessageDialog(null, "Erreur");
+            return 0;
+        }
+        
     }
 }
