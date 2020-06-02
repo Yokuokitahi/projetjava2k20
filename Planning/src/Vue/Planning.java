@@ -1,6 +1,6 @@
 package Vue;
 
-import Controleur.AjouterDB;
+import Controleur.RechercherSeance;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -12,12 +12,12 @@ public class Planning {
         
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         
-       FenetreConnexion test = new FenetreConnexion();
-       test.constructPanel();
-       /*AjouterDB yes = new AjouterDB();
-       ArrayList<String> groupes = new ArrayList<>();
-       groupes.add("A");
-       groupes.add("B");
-       yes.AjouterSeance("2020-06-06", "10:15", "Analyse de Fourier", "Cours Magistral", "coudray", groupes, "2023", "Amphi A");*/
+       //FenetreConnexion test = new FenetreConnexion();
+       //test.constructPanel();
+        ArrayList<String> tt;
+       RechercherSeance test = new RechercherSeance();
+       tt = test.RecapSeance("malo", "Initiation réseau");
+       double nbHeures = (tt.size())*1.5;
+       System.out.println("Initiation réseau : " + nbHeures+ " heures");
     }   
 }
