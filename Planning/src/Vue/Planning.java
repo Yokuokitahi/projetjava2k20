@@ -1,8 +1,6 @@
 package Vue;
 
-import Controleur.RechercherSeance;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  *

@@ -11,13 +11,11 @@ import java.util.Set;
  /* @author Xavier Antoine */
 
 public class InfosDB {
-    private ConnexionDatabase connect = null;
     
     public InfosDB() throws SQLException, ClassNotFoundException{
-        connect = new ConnexionDatabase();
     }
     //RETOURNE TOUTES LES SALLES
-    public ArrayList<String> getSalles() throws SQLException{
+    public ArrayList<String> getSalles(ConnexionDatabase connect) throws SQLException{
         ArrayList<String> salles = connect.ExecuterRequete("SELECT Nom FROM salle");
         for (String iterator : salles) {
             String temp = iterator.replaceAll("\n", "");
@@ -26,7 +24,7 @@ public class InfosDB {
         return salles;
     }
     //RETOURNE TOUTES LES MATIERES
-    public ArrayList<String> getMatiere() throws SQLException{
+    public ArrayList<String> getMatiere(ConnexionDatabase connect) throws SQLException{
         ArrayList<String> cours = connect.ExecuterRequete("SELECT Nom FROM cours");
         for (String iterator : cours) {
             String temp = iterator.replaceAll("\n", "");
@@ -35,7 +33,7 @@ public class InfosDB {
         return cours;
     }
     //RETOURNE TOUS LES ENSEIGNANTS LIES A UNE MATIERE
-    public ArrayList<String> getEnseignant(int IDCours) throws SQLException{
+    public ArrayList<String> getEnseignant(int IDCours, ConnexionDatabase connect) throws SQLException{
         ArrayList<String> ID = connect.ExecuterRequete("SELECT IDProf FROM enseignant WHERE ID_Cours =" + IDCours);
         String request = "SELECT Nom FROM user WHERE ID =";
         
@@ -57,12 +55,12 @@ public class InfosDB {
         return enseignants;
     }
     //RETOURNE LES TYPES DE COURS
-    public ArrayList<String> getTypeDeCours() throws SQLException{
+    public ArrayList<String> getTypeDeCours(ConnexionDatabase connect) throws SQLException{
         ArrayList<String> types = connect.ExecuterRequete("SELECT Nom FROM type_cours");
         return types;
     }
     //RETOURNE LES GROUPES EN FONCTION DES PROMOS
-    public ArrayList<String> getGroupes(String promo) throws SQLException{
+    public ArrayList<String> getGroupes(String promo, ConnexionDatabase connect) throws SQLException{
         ArrayList<String> groupes = connect.ExecuterRequete("SELECT Nom FROM groupe WHERE ID_Promotion = "+promo);
         for (String iterator : groupes) {
             String temp = iterator.replaceAll("\n", "");
@@ -71,7 +69,7 @@ public class InfosDB {
         return groupes;
     }
     //RETOURNE LES PROMOTIONS
-    public ArrayList<String> getPromotion() throws SQLException{
+    public ArrayList<String> getPromotion(ConnexionDatabase connect) throws SQLException{
         ArrayList<String> promo = connect.ExecuterRequete("SELECT ID_Promotion FROM groupe ORDER BY ID_Promotion");
         Set<String> mySet = new HashSet<>(promo);
         promo = new ArrayList<>(mySet);

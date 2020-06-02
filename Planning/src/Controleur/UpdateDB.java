@@ -9,13 +9,11 @@ import javax.swing.JOptionPane;
  /* @author Xavier Antoine */
 
 public class UpdateDB {
-    private ConnexionDatabase connect = null;
     
     public UpdateDB() throws SQLException, ClassNotFoundException{
-        connect = new ConnexionDatabase();
     }
     
-    public void Supprimer(int idSeance) throws SQLException{
+    public void Supprimer(int idSeance, ConnexionDatabase connect) throws SQLException{
         connect.ExecuterUpdate("DELETE FROM seance WHERE ID = "+ idSeance);
         connect.ExecuterUpdate("DELETE FROM seance_enseignant WHERE ID_Seance = "+ idSeance);
         connect.ExecuterUpdate("DELETE FROM seance_groupes WHERE ID_Seance = "+ idSeance);
@@ -23,7 +21,7 @@ public class UpdateDB {
         JOptionPane.showMessageDialog(null, "Séance supprimée");
     }
     
-    public void Modifier(String type,int idSeance, String changement) throws SQLException{
+    public void Modifier(String type,int idSeance, String changement, ConnexionDatabase connect) throws SQLException{
         if("Date".equals(type)){
             connect.ExecuterUpdate("UPDATE seance SET Date =\""+changement+"\"WHERE ID ="+idSeance);
             JOptionPane.showMessageDialog(null, "Changement effectué");

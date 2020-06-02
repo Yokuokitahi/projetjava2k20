@@ -1,5 +1,7 @@
 package Vue;
 
+import Controleur.InfosDB;
+import Controleur.RechercherSeance;
 import Controleur.RechercherSeanceSemaine;
 import Modele.ConnexionDatabase;
 import javax.swing.*;
@@ -20,8 +22,11 @@ public class FenetreEdt extends FenetreTemplate{
     private final JMenu test1 = new JMenu("Etudiant");
     
     private final JMenuItem item1 = new JMenuItem("Emploi du temps");
-    private final JMenuItem item2 = new JMenuItem("Récap cours");
+    private final JMenuItem item2 = new JMenuItem("Récapitulatif des cours");
     private final JMenuItem item3 = new JMenuItem("Fermer");
+    
+    private final Font font = new Font("courier",Font.ROMAN_BASELINE,10);
+    private final Font font2 = new Font("courier",Font.ROMAN_BASELINE,15);
     
     private final Panneau grille = new Panneau();
     
@@ -29,8 +34,7 @@ public class FenetreEdt extends FenetreTemplate{
     
     public FenetreEdt() throws SQLException, ClassNotFoundException{
         fenetre.setSize(new Dimension(1200,1000));
-        fenetre.setContentPane(grille);
-        grille.setLayout(null);
+        
         
         test1.add(item1);
         test1.add(item2);
@@ -44,14 +48,16 @@ public class FenetreEdt extends FenetreTemplate{
             }
         });
         
+        
+       
         menuBar.add(test1);
      
     }
     
-    public void CreerEDT(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
+    public void CreerEDT(final String login, final int nbSemaine, final ConnexionDatabase connect) throws SQLException, ClassNotFoundException{
         
-        Font font = new Font("courier",Font.ROMAN_BASELINE,10);
-        Font font2 = new Font("courier",Font.ROMAN_BASELINE,15);
+        fenetre.setContentPane(grille);
+        grille.setLayout(null);
         
         semaine.setText("Semaine n°"+ nbSemaine);
         semaine.setFont(font2);
@@ -73,8 +79,22 @@ public class FenetreEdt extends FenetreTemplate{
                 try {
                 grille.removeAll();
                 grille.repaint();
-                int nbSemaineact = ConnexionDatabase.SQLNumSemaine();
-                CreerEDT(login,nbSemaineact);
+                int nbSemaineact = connect.SQLNumSemaine(connect);
+                CreerEDT(login,nbSemaineact, connect);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        item2.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                
+                try {
+                    grille.removeAll();
+                    grille.repaint();
+                    Recap(login, connect);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -87,7 +107,7 @@ public class FenetreEdt extends FenetreTemplate{
                 try {
                     grille.removeAll();
                     grille.repaint();
-                    CreerEDT(login, nbSemaine-1);
+                    CreerEDT(login, nbSemaine-1, connect);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -101,26 +121,22 @@ public class FenetreEdt extends FenetreTemplate{
                 try {
                     grille.removeAll();
                     grille.repaint();
-                    CreerEDT(login, nbSemaine+1);
+                    CreerEDT(login, nbSemaine+1, connect);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             
         });
-        
-        
-        
+
         fenetre.setJMenuBar(menuBar);
         grille.add(suivant);
         grille.add(prec);        
         
         String infox;
         int posX=0, posY=0;
-        
-        
         RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
-        ArrayList<ArrayList<String>> result = testSeance.SeanceSemaine(login,nbSemaine);
+        ArrayList<ArrayList<String>> result = testSeance.SeanceSemaine(login,nbSemaine, connect);
         if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
             for(ArrayList<String> iterator : result){
                 infox = iterator.get(4)+"\n"+iterator.get(6).toUpperCase()+"\n"+iterator.get(5)+"\n"+iterator.get(7)+"\n";
@@ -184,5 +200,63 @@ public class FenetreEdt extends FenetreTemplate{
         }else{
             JOptionPane.showMessageDialog(null,result.get(0).get(0));
         }
+    }
+    
+    public void Recap(final String login, final ConnexionDatabase connect) throws SQLException, ClassNotFoundException{
+        
+        InfosDB infos = new InfosDB();
+        RechercherSeance heures = new RechercherSeance();
+        ArrayList<String> matieres = infos.getMatiere(connect);
+        fenetre.setJMenuBar(menuBar); 
+        int posX = 81,posY=101, pas = 25, i=0;
+        final JPanel buffer = new JPanel();
+        buffer.setLayout(null);
+        fenetre.setContentPane(buffer);
+        
+        item1.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                try {
+                buffer.removeAll();
+                buffer.repaint();
+                int nbSemaineact = connect.SQLNumSemaine(connect);
+                CreerEDT(login,nbSemaineact, connect);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        item2.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                try {
+                    grille.removeAll();
+                    grille.repaint();
+                    Recap(login, connect);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        ArrayList<String> infosHeures;
+        ArrayList<String> informations = new ArrayList<>();
+        for(String iterator:matieres){
+            infosHeures = heures.RecapSeance(login, iterator, connect);
+            double nbHeures = (infosHeures.size())*1.5;
+            informations.add(iterator + "  " + nbHeures + " heures");
+        }
+       
+        for(String iterator:informations){
+            JTextPane cours = new JTextPane();
+                cours.setBackground(Color.LIGHT_GRAY);
+                cours.setFont(font);
+                cours.setEditable(false);
+                cours.setBounds(posX,posY+(i*pas),149,20);
+                cours.setText(iterator);
+                buffer.add(cours);
+                i++;
+        }
+        
     }
 }

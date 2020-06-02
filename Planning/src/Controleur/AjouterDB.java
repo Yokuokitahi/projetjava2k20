@@ -9,13 +9,11 @@ import javax.swing.JOptionPane;
  /* @author Xavier Antoine */
 
 public class AjouterDB {
-    private ConnexionDatabase connect = null;
     
     public AjouterDB() throws SQLException, ClassNotFoundException{
-        connect = new ConnexionDatabase();
     }
     
-    public void AjouterSeance(String date, String heureDebut, String cours, String typeCours, String nomProf, ArrayList<String> groupes, String promo, String salle) throws SQLException, ClassNotFoundException{
+    public void AjouterSeance(ConnexionDatabase connect, String date, String heureDebut, String cours, String typeCours, String nomProf, ArrayList<String> groupes, String promo, String salle) throws SQLException, ClassNotFoundException{
         String heureFin = "";
         int semaine = connect.SQLNumSemaine(date);
         ArrayList<String> IDCours = connect.ExecuterRequete("SELECT IDC FROM cours WHERE Nom = '" +cours+"'");
