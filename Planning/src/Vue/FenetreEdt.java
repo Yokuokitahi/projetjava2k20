@@ -1,6 +1,7 @@
 package Vue;
 
 import Controleur.InfosDB;
+import Controleur.RechercherSeance;
 import Controleur.RechercherSeanceSemaine;
 import Modele.ConnexionDatabase;
 import javax.swing.*;
@@ -134,7 +135,6 @@ public class FenetreEdt extends FenetreTemplate{
         
         String infox;
         int posX=0, posY=0;
-               
         RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
         ArrayList<ArrayList<String>> result = testSeance.SeanceSemaine(login,nbSemaine, connect);
         if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
@@ -205,6 +205,7 @@ public class FenetreEdt extends FenetreTemplate{
     public void Recap(final String login, final ConnexionDatabase connect) throws SQLException, ClassNotFoundException{
         
         InfosDB infos = new InfosDB();
+        RechercherSeance heures = new RechercherSeance();
         ArrayList<String> matieres = infos.getMatiere(connect);
         fenetre.setJMenuBar(menuBar); 
         int posX = 81,posY=101, pas = 25, i=0;
@@ -238,11 +239,17 @@ public class FenetreEdt extends FenetreTemplate{
                 }
             }
         });
-        
-        
+        ArrayList<String> infosHeures;
+        ArrayList<String> informations = new ArrayList<>();
         for(String iterator:matieres){
+            infosHeures = heures.RecapSeance(login, iterator, connect);
+            double nbHeures = (infosHeures.size())*1.5;
+            informations.add(iterator + "  " + nbHeures + " heures");
+        }
+       
+        for(String iterator:informations){
             JTextPane cours = new JTextPane();
-                cours.setBackground(Color.orange);
+                cours.setBackground(Color.LIGHT_GRAY);
                 cours.setFont(font);
                 cours.setEditable(false);
                 cours.setBounds(posX,posY+(i*pas),149,20);

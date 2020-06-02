@@ -3,8 +3,7 @@ package Controleur;
 import Modele.ConnexionDatabase;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -12,14 +11,8 @@ import java.util.logging.Logger;
  */
 public class RechercherSeance {
 
-    public RechercherSeance(ConnexionDatabase connect) throws SQLException {
-        try {
-            connect = new ConnexionDatabase();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Erreur Database");
-            System.exit(-1);
-        }
+    public RechercherSeance() throws SQLException {
+
     }
     
     public ArrayList<String> Seance(String login, ConnexionDatabase connect) throws SQLException{
