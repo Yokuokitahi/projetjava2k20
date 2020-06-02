@@ -85,9 +85,9 @@ public class FenetreConnexion extends FenetreTemplate{
                     JOptionPane.showMessageDialog(null,"Connexion réussie","Etat connexion",JOptionPane.INFORMATION_MESSAGE);
                     fenetre.dispose();
                     try {
-                        ConnexionDatabase dt = new ConnexionDatabase();
-                        int nbSemaine = dt.SQLNumSemaine();
+                        int nbSemaine = ConnexionDatabase.SQLNumSemaine();
                         FenetreEdt edt = new FenetreEdt();
+                        FenetreAdmin admin = new FenetreAdmin(log);
                         edt.CreerEDT(log, nbSemaine);
                     } catch (SQLException | ClassNotFoundException ex) {
                         Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);

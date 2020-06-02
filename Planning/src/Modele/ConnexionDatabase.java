@@ -110,7 +110,7 @@ public class ConnexionDatabase {
         return resultat;   
     }
     
-    public int SQLNumSemaine() throws SQLException, ClassNotFoundException{
+    public static int SQLNumSemaine() throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = new ConnexionDatabase();
         
         ArrayList<String> resultat = connect.ExecuterRequete("SELECT YEARWEEK(CURDATE())");

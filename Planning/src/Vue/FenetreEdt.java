@@ -1,6 +1,7 @@
 package Vue;
 
 import Controleur.RechercherSeanceSemaine;
+import Modele.ConnexionDatabase;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -16,11 +17,11 @@ import java.util.logging.Logger;
  */
 public class FenetreEdt extends FenetreTemplate{
     private final JMenuBar menuBar = new JMenuBar();
-    private final JMenu test1 = new JMenu("Emploi du temps");
-    private final JMenu test2 = new JMenu("Récapitulatif des cours");
+    private final JMenu test1 = new JMenu("Etudiant");
     
-    private final JMenuItem item1 = new JMenuItem("Etudiant");
-    private final JMenuItem item2 = new JMenuItem("Fermer");
+    private final JMenuItem item1 = new JMenuItem("Emploi du temps");
+    private final JMenuItem item2 = new JMenuItem("Récap cours");
+    private final JMenuItem item3 = new JMenuItem("Fermer");
     
     private final Panneau grille = new Panneau();
     
@@ -30,26 +31,28 @@ public class FenetreEdt extends FenetreTemplate{
         fenetre.setSize(new Dimension(1200,1000));
         fenetre.setContentPane(grille);
         grille.setLayout(null);
+        
         test1.add(item1);
+        test1.add(item2);
         test1.addSeparator();
-        item2.addActionListener(new ActionListener(){
+        test1.add(item3);
+        
+        item3.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 System.exit(0);
             }
         });
-        test1.add(item2);
+        
         menuBar.add(test1);
-        menuBar.add(test2);
-        
-        
-                
+     
     }
     
     public void CreerEDT(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
         
         Font font = new Font("courier",Font.ROMAN_BASELINE,10);
         Font font2 = new Font("courier",Font.ROMAN_BASELINE,15);
+        
         semaine.setText("Semaine n°"+ nbSemaine);
         semaine.setFont(font2);
         semaine.setEditable(false);
@@ -62,6 +65,21 @@ public class FenetreEdt extends FenetreTemplate{
         
         JButton prec = new JButton("Semaine précédente");
         prec.setBounds(350,30,155,20);
+        
+        
+        item1.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                try {
+                grille.removeAll();
+                grille.repaint();
+                int nbSemaineact = ConnexionDatabase.SQLNumSemaine();
+                CreerEDT(login,nbSemaineact);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
         
         prec.addActionListener(new ActionListener(){
             @Override
