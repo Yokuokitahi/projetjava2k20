@@ -79,10 +79,14 @@ public class FenetreConnexion extends FenetreTemplate{
                 } catch (SQLException ex) {
                     Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
                 if(logUser == 1){
-                    JOptionPane jop = new JOptionPane(); 
-                    JOptionPane.showMessageDialog(null,"Connexion réussie","Etat connexion",JOptionPane.INFORMATION_MESSAGE);
+                    //FENETRE ADMIN
+                }
+                if(logUser == 2){
+                    //FENETRE REFERENT
+                }
+                if(logUser == 3 || logUser == 4){
+                    JOptionPane.showMessageDialog(null,"Connexion réussie");
                     fenetre.dispose();
                     try {
                         ConnexionDatabase dt = new ConnexionDatabase();
