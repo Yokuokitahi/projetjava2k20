@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
-public class FenetreConnexion extends FenetreTemplate {
+public class FenetreConnexion extends FenetreTemplate{
     
     private JTextField login;
     private JPasswordField password;
@@ -66,16 +66,14 @@ public class FenetreConnexion extends FenetreTemplate {
         connectButton.setBounds(350, 550, 150, 60);
         labelLogin.setBounds(130, 350, 200, 60);
         labelPassword.setBounds(130, 450, 200, 60);
-        
         connectButton.addActionListener(new ActionListener ()
         {
-            
             @Override
             public void actionPerformed(ActionEvent e)
             {
                 String log = login.getText();
                 String passw = password.getText();
-                
+               
                 try {
                     logUser = connexion.UserConnect(log, passw);
                 } catch (SQLException ex) {
@@ -83,13 +81,14 @@ public class FenetreConnexion extends FenetreTemplate {
                 }
                 
                 if(logUser == 1){
-                    JOptionPane jop = new JOptionPane();
+                    JOptionPane jop = new JOptionPane(); 
                     JOptionPane.showMessageDialog(null,"Connexion réussie","Etat connexion",JOptionPane.INFORMATION_MESSAGE);
                     fenetre.dispose();
                     try {
                         ConnexionDatabase dt = new ConnexionDatabase();
                         int nbSemaine = dt.SQLNumSemaine();
-                        FenetreEdt edt = new FenetreEdt(log,nbSemaine);
+                        FenetreEdt edt = new FenetreEdt();
+                        edt.CreerEDT(log, nbSemaine);
                     } catch (SQLException | ClassNotFoundException ex) {
                         Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -97,10 +96,8 @@ public class FenetreConnexion extends FenetreTemplate {
                     JOptionPane.showMessageDialog(null,"La connexion a échoué","Etat connexion",JOptionPane.ERROR_MESSAGE);
                 }
                 
-            }
-            
-        }
-        );
+            }  
+        });
     }
 }
 

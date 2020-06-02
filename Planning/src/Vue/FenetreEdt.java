@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vue;
 
 import Controleur.RechercherSeanceSemaine;
@@ -27,50 +22,54 @@ public class FenetreEdt extends FenetreTemplate{
     private final JMenuItem item1 = new JMenuItem("Etudiant");
     private final JMenuItem item2 = new JMenuItem("Fermer");
     
-    Panneau grille = new Panneau();
-    CardLayout c1 = new CardLayout();
+    private final Panneau grille = new Panneau();
     
-    @SuppressWarnings("empty-statement")
-    public FenetreEdt(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
-        
+    private final JTextPane semaine = new JTextPane();
+    
+    public FenetreEdt() throws SQLException, ClassNotFoundException{
         fenetre.setSize(new Dimension(1200,1000));
-        
-        this.test1.add(item1);
-        this.test1.addSeparator();
+        fenetre.setContentPane(grille);
+        grille.setLayout(null);
+        test1.add(item1);
+        test1.addSeparator();
         item2.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent arg0) {
-        System.exit(0);
-        }
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                System.exit(0);
+            }
         });
-        this.test1.add(item2);
-        this.menuBar.add(test1);
-        this.menuBar.add(test2);
+        test1.add(item2);
+        menuBar.add(test1);
+        menuBar.add(test2);
+        
+        
+                
+    }
+    
+    public void CreerEDT(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
+        
+        Font font = new Font("courier",Font.ROMAN_BASELINE,10);
+        Font font2 = new Font("courier",Font.ROMAN_BASELINE,15);
+        semaine.setText("Semaine n°"+ nbSemaine);
+        semaine.setFont(font2);
+        semaine.setEditable(false);
+        semaine.setBackground(grille.getBackground());
+        semaine.setBounds(475, 10, 155, 20);
+        grille.add(semaine);
+        
         JButton suivant = new JButton("Semaine suivante");
-        suivant.setBounds(550,20,155,20);
+        suivant.setBounds(550,30,155,20);
         
         JButton prec = new JButton("Semaine précédente");
-        prec.setBounds(350,20,155,20);
-        
-        suivant.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                try {
-                    fenetre.dispose();
-                    FenetreEdt suiv = new FenetreEdt(login,nbSemaine+1);
-                } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            
-        });
+        prec.setBounds(350,30,155,20);
         
         prec.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ae) {
                 try {
-                    fenetre.dispose();
-                    FenetreEdt suiv = new FenetreEdt(login,nbSemaine-1);
+                    grille.removeAll();
+                    grille.repaint();
+                    CreerEDT(login, nbSemaine-1);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -78,15 +77,29 @@ public class FenetreEdt extends FenetreTemplate{
             
         });
         
-        fenetre.setJMenuBar(menuBar);
-        fenetre.add(suivant);
-        fenetre.add(prec);
-        fenetre.add(grille);
+        suivant.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    grille.removeAll();
+                    grille.repaint();
+                    CreerEDT(login, nbSemaine+1);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        });
         
+        
+        
+        fenetre.setJMenuBar(menuBar);
+        grille.add(suivant);
+        grille.add(prec);        
         
         String infox;
         int posX=0, posY=0;
-        Font font = new Font("courier",Font.ROMAN_BASELINE,10);
+        
         
         RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
         ArrayList<ArrayList<String>> result = testSeance.SeanceSemaine(login,nbSemaine);
@@ -148,12 +161,10 @@ public class FenetreEdt extends FenetreTemplate{
                 cours.setEditable(false);
                 cours.setBounds(posX,posY,149,74);
                 cours.setText(infox);
-                fenetre.add(cours);
+                grille.add(cours);
             }
         }else{
             JOptionPane.showMessageDialog(null,result.get(0).get(0));
         }
-        
-        fenetre.add(grille);
     }
 }
