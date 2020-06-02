@@ -24,8 +24,10 @@ public class FenetreConnexion extends FenetreTemplate{
     private Container container = null;
     private final Connexion connexion;
     private int logUser =0;
+    private final ConnexionDatabase connect;
     
-    public FenetreConnexion() throws SQLException {
+    public FenetreConnexion() throws SQLException, ClassNotFoundException {
+        this.connect = new ConnexionDatabase();
         this.connexion = new Connexion();
        
         container = fenetre;
@@ -75,7 +77,7 @@ public class FenetreConnexion extends FenetreTemplate{
                 String passw = password.getText();
                
                 try {
-                    logUser = connexion.UserConnect(log, passw);
+                    logUser = connexion.UserConnect(log, passw, connect);
                 } catch (SQLException ex) {
                     Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -89,10 +91,10 @@ public class FenetreConnexion extends FenetreTemplate{
                     JOptionPane.showMessageDialog(null,"Connexion réussie");
                     fenetre.dispose();
                     try {
-                        int nbSemaine = ConnexionDatabase.SQLNumSemaine();
+                        int nbSemaine = connect.SQLNumSemaine(connect);
                         FenetreEdt edt = new FenetreEdt();
-                        FenetreAdmin admin = new FenetreAdmin(log);
-                        edt.CreerEDT(log, nbSemaine);
+                        
+                        edt.CreerEDT(log, nbSemaine, connect);
                     } catch (SQLException | ClassNotFoundException ex) {
                         Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
                     }

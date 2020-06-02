@@ -1,6 +1,5 @@
 package Modele;
 
-import java.awt.event.KeyEvent;
 import java.sql.*;
 import java.text.*;
 import java.util.ArrayList;
@@ -110,8 +109,7 @@ public class ConnexionDatabase {
         return resultat;   
     }
     
-    public static int SQLNumSemaine() throws SQLException, ClassNotFoundException{
-        ConnexionDatabase connect = new ConnexionDatabase();
+    public int SQLNumSemaine(ConnexionDatabase connect) throws SQLException, ClassNotFoundException{
         
         ArrayList<String> resultat = connect.ExecuterRequete("SELECT YEARWEEK(CURDATE())");
         String result = resultat.get(0);

@@ -8,13 +8,11 @@ import java.util.Arrays;
  /* @author Xavier Antoine*/
 
 public class RechercherSeanceSemaine {
-    private ConnexionDatabase connect = null;
 
     public RechercherSeanceSemaine() throws SQLException, ClassNotFoundException {
-        connect = new ConnexionDatabase();
     }
     //RECHERCHE AVEC GROUPE
-    public ArrayList<ArrayList<String>> SeanceSemaineGroupe(String groupe, String promotion, int semaine) throws SQLException{
+    public ArrayList<ArrayList<String>> SeanceSemaineGroupe(String groupe, String promotion, int semaine, ConnexionDatabase connect) throws SQLException{
         ArrayList<String> IDSeance, resultats,recherche, IDGroupe;
         String request = "SELECT ID,Semaine,Date,Heure_debut,ID_Cours,ID_Type FROM `seance` WHERE (ID =";
         
@@ -157,7 +155,7 @@ public class RechercherSeanceSemaine {
         
     }
     //RECHERCHE AVEC NOM ET PRENOM
-    public ArrayList<ArrayList<String>> SeanceSemaine(String nom, String prenom, int semaine) throws SQLException{
+    public ArrayList<ArrayList<String>> SeanceSemaine(String nom, String prenom, int semaine, ConnexionDatabase connect) throws SQLException{
         ArrayList<String> identifiant, IDSeance, resultats, IDGroupe,recherche;
         String request = "SELECT ID,Semaine,Date,Heure_debut,ID_Cours,ID_Type FROM `seance` WHERE (ID =";
         
@@ -307,7 +305,7 @@ public class RechercherSeanceSemaine {
         
     }
     //RECHERCHE AVEC MAIL(LOGIN)
-    public ArrayList<ArrayList<String>> SeanceSemaine(String login, int semaine) throws SQLException{
+    public ArrayList<ArrayList<String>> SeanceSemaine(String login, int semaine, ConnexionDatabase connect) throws SQLException{
         ArrayList<String> identifiant, IDSeance, resultats, IDGroupe,recherche;
         String request = "SELECT ID,Semaine,Date,Heure_debut,ID_Cours,ID_Type FROM `seance` WHERE (ID =";
         
@@ -461,7 +459,7 @@ public class RechercherSeanceSemaine {
         }
     }
     //RECHERCHE AVEC PROMOTION
-    public ArrayList<ArrayList<String>> SeanceSemainePromotion(String promotion, int semaine) throws SQLException{
+    public ArrayList<ArrayList<String>> SeanceSemainePromotion(String promotion, int semaine, ConnexionDatabase connect) throws SQLException{
         ArrayList<String> IDSeance, resultats, IDGroupe,recherche;
         String request = "SELECT ID,Semaine,Date,Heure_debut,ID_Cours,ID_Type FROM `seance` WHERE (ID =";
         String request2 = "SELECT ID_Seance FROM `seance_groupes` WHERE ID_Groupe =";
@@ -614,7 +612,7 @@ public class RechercherSeanceSemaine {
         
     }
     //RECHERCHE AVEC COURS
-    public ArrayList<ArrayList<String>> SeanceSemaineCours(String cours, int semaine) throws SQLException{
+    public ArrayList<ArrayList<String>> SeanceSemaineCours(String cours, int semaine, ConnexionDatabase connect) throws SQLException{
         ArrayList<String> identifiant, resultats,recherche;
         
         identifiant = connect.ExecuterRequete("SELECT IDC FROM `cours` WHERE Nom = \""+ cours +"\"");
@@ -747,8 +745,8 @@ public class RechercherSeanceSemaine {
         
     }
     //RECHERCHE AVEC SALLE
-    public ArrayList<ArrayList<String>> SeanceSemaineSalle(String salle, int semaine) throws SQLException{
-        ArrayList<String> identifiant, IDSeance, resultats, IDGroupe,recherche;
+    public ArrayList<ArrayList<String>> SeanceSemaineSalle(String salle, int semaine, ConnexionDatabase connect) throws SQLException{
+        ArrayList<String> identifiant, IDSeance, resultats,recherche;
         String request = "SELECT ID,Semaine,Date,Heure_debut,ID_Cours,ID_Type FROM `seance` WHERE (ID =";
         
         identifiant = connect.ExecuterRequete("SELECT IDSalle FROM `salle` WHERE Nom = \""+ salle +"\"");
