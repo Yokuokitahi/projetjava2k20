@@ -30,8 +30,10 @@ public class Connexion{
         ArrayList<String> resultats;
         resultats = connect.ExecuterRequete("SELECT DroitAcces FROM `user` WHERE Email = \""+ login +"\" AND Password = \""+ password+ "\"");
         int n= resultats.size();
+        
         if(n!=0)
         {
+            resultats.set(0, resultats.get(0).replaceAll("\n", ""));
             n= Integer.parseInt(resultats.get(0));
             switch(n){
                 case 1:
