@@ -24,11 +24,9 @@ public class FenetreConnexion extends FenetreTemplate{
     private Container container = null;
     private final Connexion connexion;
     private int logUser =0;
-    private final ConnexionDatabase connect;
     
     public FenetreConnexion() throws SQLException, ClassNotFoundException {
-        this.connect = new ConnexionDatabase();
-        this.connexion = new Connexion();
+        connexion = new Connexion();
        
         container = fenetre;
         
@@ -76,11 +74,11 @@ public class FenetreConnexion extends FenetreTemplate{
                 String log = login.getText();
                 String passw = password.getText();
                
-                try {
-                    logUser = connexion.UserConnect(log, passw, connect);
-                } catch (SQLException ex) {
-                    Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                    try {
+                        logUser = connexion.UserConnect(log, passw);
+                    } catch (ClassNotFoundException | SQLException  ex) {
+                        Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 if(logUser == 1){
                     //FENETRE ADMIN
                 }
@@ -91,10 +89,9 @@ public class FenetreConnexion extends FenetreTemplate{
                     JOptionPane.showMessageDialog(null,"Connexion réussie");
                     fenetre.dispose();
                     try {
-                        int nbSemaine = connect.SQLNumSemaine(connect);
-                        FenetreEdt edt = new FenetreEdt();
-                        
-                        edt.CreerEDT(log, nbSemaine, connect);
+                        int nbSemaine = ConnexionDatabase.SQLNumSemaine();
+                        FenetreEdt edt = new FenetreEdt(log);
+                        edt.CreerEDT(log, nbSemaine);
                     } catch (SQLException | ClassNotFoundException ex) {
                         Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
                     }

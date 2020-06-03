@@ -13,7 +13,8 @@ public class UpdateDB {
     public UpdateDB() throws SQLException, ClassNotFoundException{
     }
     
-    public void Supprimer(int idSeance, ConnexionDatabase connect) throws SQLException{
+    public void Supprimer(int idSeance) throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         connect.ExecuterUpdate("DELETE FROM seance WHERE ID = "+ idSeance);
         connect.ExecuterUpdate("DELETE FROM seance_enseignant WHERE ID_Seance = "+ idSeance);
         connect.ExecuterUpdate("DELETE FROM seance_groupes WHERE ID_Seance = "+ idSeance);
@@ -21,7 +22,8 @@ public class UpdateDB {
         JOptionPane.showMessageDialog(null, "Séance supprimée");
     }
     
-    public void Modifier(String type,int idSeance, String changement, ConnexionDatabase connect) throws SQLException{
+    public void Modifier(String type,int idSeance, String changement) throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         if("Date".equals(type)){
             connect.ExecuterUpdate("UPDATE seance SET Date =\""+changement+"\"WHERE ID ="+idSeance);
             JOptionPane.showMessageDialog(null, "Changement effectué");

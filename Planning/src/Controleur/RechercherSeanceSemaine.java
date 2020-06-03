@@ -130,7 +130,7 @@ public class RechercherSeanceSemaine {
                 if(iterator.get(3).equals("17:15:00")){
                     iterator.set(3, "5");
                 }
-                if(iterator.get(3).equals("19:30:00")){
+                if(iterator.get(3).equals("19:00:00")){
                     iterator.set(3, "6");
                 }
             }
@@ -155,7 +155,8 @@ public class RechercherSeanceSemaine {
         
     }
     //RECHERCHE AVEC NOM ET PRENOM
-    public ArrayList<ArrayList<String>> SeanceSemaine(String nom, String prenom, int semaine, ConnexionDatabase connect) throws SQLException{
+    public ArrayList<ArrayList<String>> SeanceSemaine(String nom, String prenom, int semaine) throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> identifiant, IDSeance, resultats, IDGroupe,recherche;
         String request = "SELECT ID,Semaine,Date,Heure_debut,ID_Cours,ID_Type FROM `seance` WHERE (ID =";
         
@@ -280,7 +281,7 @@ public class RechercherSeanceSemaine {
                 if(iterator.get(3).equals("17:15:00")){
                     iterator.set(3, "5");
                 }
-                if(iterator.get(3).equals("19:30:00")){
+                if(iterator.get(3).equals("19:00:00")){
                     iterator.set(3, "6");
                 }
             }
@@ -305,7 +306,8 @@ public class RechercherSeanceSemaine {
         
     }
     //RECHERCHE AVEC MAIL(LOGIN)
-    public ArrayList<ArrayList<String>> SeanceSemaine(String login, int semaine, ConnexionDatabase connect) throws SQLException{
+    public ArrayList<ArrayList<String>> SeanceSemaine(String login, int semaine) throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> identifiant, IDSeance, resultats, IDGroupe,recherche;
         String request = "SELECT ID,Semaine,Date,Heure_debut,ID_Cours,ID_Type FROM `seance` WHERE (ID =";
         
@@ -427,7 +429,7 @@ public class RechercherSeanceSemaine {
                 if(iterator.get(3).equals("17:15:00")){
                     iterator.set(3, "5");
                 }
-                if(iterator.get(3).equals("19:30:00")){
+                if(iterator.get(3).equals("19:00:00")){
                     iterator.set(3, "6");
                 }
             }
@@ -459,7 +461,8 @@ public class RechercherSeanceSemaine {
         }
     }
     //RECHERCHE AVEC PROMOTION
-    public ArrayList<ArrayList<String>> SeanceSemainePromotion(String promotion, int semaine, ConnexionDatabase connect) throws SQLException{
+    public ArrayList<ArrayList<String>> SeanceSemainePromotion(String promotion, int semaine) throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> IDSeance, resultats, IDGroupe,recherche;
         String request = "SELECT ID,Semaine,Date,Heure_debut,ID_Cours,ID_Type FROM `seance` WHERE (ID =";
         String request2 = "SELECT ID_Seance FROM `seance_groupes` WHERE ID_Groupe =";
@@ -587,7 +590,7 @@ public class RechercherSeanceSemaine {
                 if(iterator.get(3).equals("17:15:00")){
                     iterator.set(3, "5");
                 }
-                if(iterator.get(3).equals("19:30:00")){
+                if(iterator.get(3).equals("19:00:00")){
                     iterator.set(3, "6");
                 }
             }
@@ -612,7 +615,8 @@ public class RechercherSeanceSemaine {
         
     }
     //RECHERCHE AVEC COURS
-    public ArrayList<ArrayList<String>> SeanceSemaineCours(String cours, int semaine, ConnexionDatabase connect) throws SQLException{
+    public ArrayList<ArrayList<String>> SeanceSemaineCours(String cours, int semaine) throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> identifiant, resultats,recherche;
         
         identifiant = connect.ExecuterRequete("SELECT IDC FROM `cours` WHERE Nom = \""+ cours +"\"");
@@ -720,7 +724,7 @@ public class RechercherSeanceSemaine {
                 if(iterator.get(3).equals("17:15:00")){
                     iterator.set(3, "5");
                 }
-                if(iterator.get(3).equals("19:30:00")){
+                if(iterator.get(3).equals("19:00:00")){
                     iterator.set(3, "6");
                 }
             }
@@ -745,7 +749,8 @@ public class RechercherSeanceSemaine {
         
     }
     //RECHERCHE AVEC SALLE
-    public ArrayList<ArrayList<String>> SeanceSemaineSalle(String salle, int semaine, ConnexionDatabase connect) throws SQLException{
+    public ArrayList<ArrayList<String>> SeanceSemaineSalle(String salle, int semaine) throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> identifiant, IDSeance, resultats,recherche;
         String request = "SELECT ID,Semaine,Date,Heure_debut,ID_Cours,ID_Type FROM `seance` WHERE (ID =";
         
@@ -866,7 +871,7 @@ public class RechercherSeanceSemaine {
                 if(iterator.get(3).equals("17:15:00")){
                     iterator.set(3, "5");
                 }
-                if(iterator.get(3).equals("19:30:00")){
+                if(iterator.get(3).equals("19:00:00")){
                     iterator.set(3, "6");
                 }
             }

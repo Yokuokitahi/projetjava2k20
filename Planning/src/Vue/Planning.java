@@ -1,6 +1,9 @@
 package Vue;
 
+import Controleur.AjouterDB;
+import Modele.ConnexionDatabase;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,5 +20,6 @@ public class Planning {
        tt = test.RecapSeance("malo", "Initiation réseau");
        double nbHeures = (tt.size())*1.5;
        System.out.println("Initiation réseau : " + nbHeures+ " heures");*/
+        
     }   
 }
