@@ -81,11 +81,21 @@ public class FenetreConnexion extends FenetreTemplate{
                     }
                 if(logUser == 1){
                     //FENETRE ADMIN
+                    JOptionPane.showMessageDialog(null,"Connexion réussie");
+                    fenetre.dispose();
+                    try {
+                        FenetreAdmin admin = new FenetreAdmin(log);
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-                if(logUser == 2){
+                else if(logUser == 2){
                     //FENETRE REFERENT
+                    JOptionPane.showMessageDialog(null,"Connexion réussie");
+                    fenetre.dispose();
+                    
                 }
-                if(logUser == 3 || logUser == 4){
+                else if(logUser == 3 || logUser == 4){
                     JOptionPane.showMessageDialog(null,"Connexion réussie");
                     fenetre.dispose();
                     try {
