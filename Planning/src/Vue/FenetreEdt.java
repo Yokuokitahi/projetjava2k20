@@ -93,6 +93,22 @@ public class FenetreEdt extends FenetreTemplate{
         JButton prec = new JButton("Semaine précédente");
         prec.setBounds(350,30,155,20);
         
+        JButton affichage = new JButton("Afficher en liste");
+        affichage.setBounds(1000,200,155,20);
+        
+        affichage.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                grille.removeAll();
+                grille.repaint();
+                try {
+                    ListeEdt(login, nbSemaine);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }   
+        });
+        
         prec.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -121,7 +137,8 @@ public class FenetreEdt extends FenetreTemplate{
 
         fenetre.setJMenuBar(menuBar);
         grille.add(suivant);
-        grille.add(prec);        
+        grille.add(prec); 
+        grille.add(affichage);
         
         String infox;
         int posX=0, posY=0;
@@ -225,7 +242,7 @@ public class FenetreEdt extends FenetreTemplate{
         
     }
     
-    public void listeEdt(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
+    public void ListeEdt(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
         JTextPane jours = new JTextPane();
         JTextPane jours2 = new JTextPane();
         JTextPane jours3 = new JTextPane();
@@ -247,13 +264,29 @@ public class FenetreEdt extends FenetreTemplate{
         JButton prec = new JButton("Semaine précédente");
         prec.setBounds(350,30,155,20);
         
+        JButton affichage = new JButton("Afficher en tableau");
+        affichage.setBounds(1000,200,155,20);
+        
+        affichage.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                grille.removeAll();
+                grille.repaint();
+                try {
+                    CreerEDT(login, nbSemaine);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }   
+        });
+        
         prec.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ae) {
                 try {
                     buffer.removeAll();
                     buffer.repaint();
-                    listeEdt( login, nbSemaine-1);
+                    ListeEdt( login, nbSemaine-1);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -267,7 +300,7 @@ public class FenetreEdt extends FenetreTemplate{
                 try {
                     buffer.removeAll();
                     buffer.repaint();
-                    listeEdt( login, nbSemaine+1);
+                    ListeEdt( login, nbSemaine+1);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -279,7 +312,8 @@ public class FenetreEdt extends FenetreTemplate{
         
         fenetre.setJMenuBar(menuBar);
         buffer.add(suivant);
-        buffer.add(prec);      
+        buffer.add(prec); 
+        buffer.add(affichage);
         int posX=200, posY=150;
         String infox; 
         
@@ -292,11 +326,6 @@ public class FenetreEdt extends FenetreTemplate{
                     infox+= "Gr."+iterator.get(k)+" ";
                     
                 }
-                for(int i=0;i<8;i++){
-                    System.out.println(iterator.get(i));
-                }
-                
-            System.out.println(infox);
             }
             
             jours.setText("Lundi"); 
