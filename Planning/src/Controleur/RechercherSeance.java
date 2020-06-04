@@ -15,7 +15,8 @@ public class RechercherSeance {
 
     }
     
-    public ArrayList<String> Seance(String login, ConnexionDatabase connect) throws SQLException{
+    public ArrayList<String> Seance(String login) throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> identifiant;
         ArrayList<String> IDGroupe;
         ArrayList<String> resultats;
@@ -27,7 +28,8 @@ public class RechercherSeance {
         return resultats;
     }
     
-    public ArrayList<String> RecapSeance(String login, String matiere, ConnexionDatabase connect) throws SQLException{
+    public ArrayList<String> RecapSeance(String login, String matiere) throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> identifiant;
         ArrayList<String> IDGroupe, IDMatiere, IDSeance;
         ArrayList<String> resultats;

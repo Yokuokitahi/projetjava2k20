@@ -17,7 +17,8 @@ public class Connexion{
        
     }
     
-    public int UserConnect(String login,String password, ConnexionDatabase connect) throws SQLException{
+    public int UserConnect(String login,String password) throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = ConnexionDatabase.getInstance();
         int log = 0;
         ArrayList<String> resultats;
         resultats = connect.ExecuterRequete("SELECT DroitAcces FROM `user` WHERE Email = \""+ login +"\" AND Password = \""+ password+ "\"");

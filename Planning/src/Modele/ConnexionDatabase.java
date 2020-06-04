@@ -7,10 +7,11 @@ import javax.swing.JOptionPane;
 
 public class ConnexionDatabase {
 
-    private final Connection conn;
+    private static Connection conn = null;
     private final Statement stmt;
     private ResultSet rset;
     private ResultSetMetaData rsetMeta;
+    private static ConnexionDatabase connexion = null;
 
     public ArrayList<String> tables = new ArrayList<>();
 
@@ -18,7 +19,7 @@ public class ConnexionDatabase {
  
     public ArrayList<String> requetesMaj = new ArrayList<>();
 
-    public ConnexionDatabase() throws SQLException, ClassNotFoundException{
+    private ConnexionDatabase() throws SQLException, ClassNotFoundException{
         Class.forName("com.mysql.jdbc.Driver");
 
         String urlDatabase = "jdbc:mysql://localhost:3306/projetjava";
@@ -27,6 +28,14 @@ public class ConnexionDatabase {
 
         stmt = conn.createStatement();
     }
+    
+    public static ConnexionDatabase getInstance() throws SQLException, ClassNotFoundException{
+    if(conn == null){
+      connexion = new ConnexionDatabase();
+      
+    } 
+    return connexion;   
+  }  
 
     public void ajouterTable(String table) {
         tables.add(table);
@@ -109,8 +118,8 @@ public class ConnexionDatabase {
         return resultat;   
     }
     
-    public int SQLNumSemaine(ConnexionDatabase connect) throws SQLException, ClassNotFoundException{
-        
+    public static int SQLNumSemaine() throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = ConnexionDatabase.getInstance();
         ArrayList<String> resultat = connect.ExecuterRequete("SELECT YEARWEEK(CURDATE())");
         String result = resultat.get(0);
         int longueur = result.length();
