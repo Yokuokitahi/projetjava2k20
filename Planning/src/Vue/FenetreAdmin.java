@@ -5,6 +5,7 @@
  */
 package Vue;
 
+import Controleur.AjouterDB;
 import Controleur.InfosDB;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -33,6 +34,9 @@ public class FenetreAdmin extends FenetreTemplate{
     private final JComboBox matiere = new JComboBox();
     private final JComboBox typeCours = new JComboBox();
     private final JComboBox enseignants = new JComboBox();
+    private final JComboBox salles = new JComboBox();
+    private final JComboBox promotion = new JComboBox();
+    private final JComboBox groupes = new JComboBox();
     
     private String j;
     private String m;
@@ -44,46 +48,41 @@ public class FenetreAdmin extends FenetreTemplate{
     private String typeC;
     private String mat;
     private String prof;
+    private String salle;
+    private String promo;
     
     
     public FenetreAdmin(String login)throws SQLException, ClassNotFoundException{
         fenetre.setTitle("Administration");
         fenetre.setSize(1200,1000);
         pan.setLayout(null);
+
+        menuBar.add(test1);
+        fenetre.setContentPane(pan);
+        fenetre.setJMenuBar(menuBar);
+        
+    }
+    
+    public void ajouterCours() throws SQLException, ClassNotFoundException{
         
         //fonction pour avoir matieres + typecours depuis BDD
         ArrayList<String> matieres = InfosDB.getMatiere();
         ArrayList<String> type = InfosDB.getTypeDeCours();
         ArrayList<String> enseignant = InfosDB.getEnseignant();
+        ArrayList<String> sal = InfosDB.getSalles();
+        ArrayList<String> prom = InfosDB.getPromotion();
         
         //Creations de boutons
         JButton ajouter = new JButton("Ajouter un cours");
         ajouter.setBackground(Color.GREEN);
         ajouter.setBounds(50,50,160,50);
-        
-        JButton suppr = new JButton("Supprimer un cours");
-        suppr.setBackground(Color.RED);
-        suppr.setBounds(250,50,160,50);
-        
-        JButton valide = new JButton("Valider");
-        valide.setBounds(250,250,80,30);
-        
-        //Bouton ajouter cours
-        ajouter.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                
-            }
-        });
        
-        //bouton supprimer cours
-        suppr.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                System.exit(0);
-            }
-        });
+        JButton valide = new JButton("Valider");
+        valide.setBounds(250,350,80,30);
         
+        JButton ajouterGr = new JButton("Ajouter Groupe");
+        ajouterGr.setBounds(300,250,130,30);
+
         //on créer des menus deroulants
         jours.setBounds(50, 150, 80, 30);
         jours.addItem("Jour");
@@ -121,6 +120,21 @@ public class FenetreAdmin extends FenetreTemplate{
             enseignants.addItem(enseignant.get(i));
         }
         
+        salles.setBounds(50,250,120,30);
+        salles.addItem("Salles");
+        for (int i = 0; i < sal.size();i++){
+            salles.addItem(sal.get(i));
+        }
+        
+        promotion.setBounds(200,250,100,30);
+        promotion.addItem("Promo");
+        for (int i = 0; i < prom.size();i++){
+            promotion.addItem(prom.get(i));
+        }
+        
+        groupes.setBounds(450,250,80,30);
+        groupes.addItem("Groupes");
+        
         //setup des menus deroulants
         for (int i=1;i<=31;i++)
         {
@@ -132,7 +146,7 @@ public class FenetreAdmin extends FenetreTemplate{
             mois.addItem(i);
         }
         
-        for (int i=2019;i<=2023;i++)
+        for (int i=2020;i<=2023;i++)
         {
             annee.addItem(i);
         }
@@ -151,6 +165,7 @@ public class FenetreAdmin extends FenetreTemplate{
         
         //on ajoute les menus a notre pannel
         pan.add(valide);
+        pan.add(ajouterGr);
         pan.add(jours);
         pan.add(mois);
         pan.add(annee);
@@ -159,6 +174,37 @@ public class FenetreAdmin extends FenetreTemplate{
         pan.add(typeCours);
         pan.add(matiere);
         pan.add(enseignants);  
+        pan.add(promotion);
+        pan.add(salles);
+        pan.add(groupes);
+        groupes.setVisible(false);
+        
+        ajouterGr.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                promo = promotion.getSelectedItem().toString();
+                
+                ArrayList<String> gr = new ArrayList<>();
+                
+                if (!"Promo".equals(promo)){  
+                try {
+                    gr = InfosDB.getGroupes(promo);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                groupes.removeAllItems();
+                groupes.addItem("Groupes");
+                for (int i = 0; i < gr.size();i++){
+                        groupes.addItem(gr.get(i));
+                }
+                    
+                groupes.setVisible(true);
+                
+                }else{
+                groupes.setVisible(false);
+                }
+            }
+        });
         
         
         //Boutons de validation avec action (on recupere les infos saisies)
@@ -175,20 +221,34 @@ public class FenetreAdmin extends FenetreTemplate{
                 prof = enseignants.getSelectedItem().toString();
                 typeC = typeCours.getSelectedItem().toString();
                 mat = matiere.getSelectedItem().toString();
+                salle = salles.getSelectedItem().toString();
+                promo = promotion.getSelectedItem().toString();
+                ArrayList<String> grp = new ArrayList<>();
+                grp.add(groupes.getSelectedItem().toString());
                 System.out.println(date);
                 System.out.println(horaire);
                 System.out.println(typeC);
                 System.out.println(mat);
                 System.out.println(prof);
+                System.out.println(salle);
+                System.out.println(promo);
+                
+                try {
+                    AjouterDB.AjouterSeance(date, horaire, mat, typeC, prof, grp, promo, salle);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        //Bouton ajouter cours
+        ajouter.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                
             }
         });
  
         pan.add(ajouter);
-        pan.add(suppr);
-
-        menuBar.add(test1);
-        fenetre.setContentPane(pan);
-        fenetre.setJMenuBar(menuBar);
-        
     }
 }
