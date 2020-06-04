@@ -24,7 +24,7 @@ public class InfosDB {
         return salles;
     }
     //RETOURNE TOUTES LES MATIERES
-    public ArrayList<String> getMatiere(ConnexionDatabase connect) throws SQLException{
+    public static ArrayList<String> getMatiere(ConnexionDatabase connect) throws SQLException{
         ArrayList<String> cours = connect.ExecuterRequete("SELECT Nom FROM cours");
         for (String iterator : cours) {
             String temp = iterator.replaceAll("\n", "");
