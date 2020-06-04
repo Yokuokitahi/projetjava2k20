@@ -20,7 +20,8 @@ import java.util.logging.Logger;
 public class FenetreEdt extends FenetreTemplate{
     private final JMenuBar menuBar = new JMenuBar();
     private final JMenu menuEtudiant = new JMenu("Etudiant");
-    private JTable tableau = new JTable();
+    
+   
     
     private final JMenuItem item1 = new JMenuItem("Emploi du temps");
     private final JMenuItem item2 = new JMenuItem("Recap");
@@ -247,6 +248,7 @@ public class FenetreEdt extends FenetreTemplate{
         grille.setVisible(false);
         buffer.setVisible(false);
         buffer2.setVisible(true);
+        
         RechercherSeance heures = new RechercherSeance();
         ArrayList<String> matieres = InfosDB.getMatiere();
         fenetre.setJMenuBar(menuBar); 
@@ -255,11 +257,32 @@ public class FenetreEdt extends FenetreTemplate{
         
         ArrayList<String> informations = new ArrayList<>();
         ArrayList<String> infosHeures;
+        
+        
         for(String iterator:matieres){
             infosHeures = heures.RecapSeance(login, iterator);
             double nbHeures = (infosHeures.size())*1.5;
-            informations.add(iterator + "     "+ nbHeures + " heures");
+            informations.add(nbHeures + " heures");
         }
+        System.out.println(informations.size());
+         Object[][] table = new Object[1][informations.size()];
+         
+         for (int j=0; j < informations.size();j++)
+         {
+             table[0][j] = informations.get(j);
+         }
+         
+         String colonne[] = new String[matieres.size()];
+         
+         for (int j=0; j < matieres.size();j++)
+         {
+             colonne[j] = matieres.get(j);
+         }
+         
+         JTable tableau = new JTable(table,colonne);
+         
+         buffer2.add(new JScrollPane(tableau));
+        /*
         for(String iterator:informations){
             JTextPane cours = new JTextPane();
                 cours.setBackground(Color.LIGHT_GRAY);
@@ -269,7 +292,7 @@ public class FenetreEdt extends FenetreTemplate{
                 cours.setText(iterator);
                 buffer2.add(cours);
                 i++;
-        } 
+        } */
     }
     
     public void ListeEdt(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
