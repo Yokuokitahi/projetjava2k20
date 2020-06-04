@@ -254,7 +254,6 @@ public class FenetreEdt extends FenetreTemplate{
         RechercherSeance heures = new RechercherSeance();
         ArrayList<String> matieres = InfosDB.getMatiere();
         fenetre.setJMenuBar(menuBar); 
-        int posX = 81,posY=101, pas = 25, i=0;
         fenetre.setContentPane(buffer2);
         
         ArrayList<String> informations = new ArrayList<>();
@@ -266,7 +265,6 @@ public class FenetreEdt extends FenetreTemplate{
             double nbHeures = (infosHeures.size())*1.5;
             informations.add(nbHeures + " heures");
         }
-        System.out.println(informations.size());
          Object[][] table = new Object[1][informations.size()];
          
          for (int j=0; j < informations.size();j++)
@@ -284,30 +282,18 @@ public class FenetreEdt extends FenetreTemplate{
          JTable tableau = new JTable(table,colonne);
          
          buffer2.add(new JScrollPane(tableau));
-        /*
-        for(String iterator:informations){
-            JTextPane cours = new JTextPane();
-                cours.setBackground(Color.LIGHT_GRAY);
-                cours.setFont(font);
-                cours.setEditable(false);
-                cours.setBounds(posX,posY+(i*pas),1000,20);
-                cours.setText(iterator);
-                buffer2.add(cours);
-                i++;
-        } */
     }
     
     public void ListeEdt(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
-        //JScrollPane test = new JScrollPane(buffer);
         grille.setVisible(false);
         buffer.setVisible(true);
         buffer2.setVisible(false);
-        JTextPane jours = new JTextPane();
+        /*JTextPane jours1 = new JTextPane();
         JTextPane jours2 = new JTextPane();
         JTextPane jours3 = new JTextPane();
         JTextPane jours4 = new JTextPane();
         JTextPane jours5 = new JTextPane();
-        JTextPane jours6 = new JTextPane();
+        JTextPane jours6 = new JTextPane();*/
         fenetre.setContentPane(buffer);
         semaine.setText("Semaine n°"+ nbSemaine);
         semaine.setFont(font2);
@@ -367,24 +353,41 @@ public class FenetreEdt extends FenetreTemplate{
         buffer.add(suivant);
         buffer.add(prec); 
         buffer.add(affichage);
-        int posX=200, posY=150, var =0;
+        //int posX=200, posY=150, var =0;
         String infox; 
         
         RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
         ArrayList<ArrayList<String>> result = testSeance.SeanceSemaine(login,nbSemaine);
-        
-        if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
+        ArrayList<String> infos = new ArrayList<>();
+        String[] jours = {"Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"};
+        //if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
             for(ArrayList<String> iterator : result){     
                 infox = "heure du cours"+ " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
                 for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
                     infox+= "Gr."+iterator.get(k)+" ";
                     
                 }
+                infos.add(infox);
             }
             
-            jours.setText("Lundi"); 
-            jours.setBounds(posX, posY, 150, 20);
-            buffer.add(jours);
+            System.out.println(infos.size());
+            System.out.println(infos);
+            
+            Object[][] table = new Object[1][infos.size()];
+         
+            for (int j=0; j < infos.size();j++)
+            {
+                table[0][j] = infos.get(j);
+            }
+            
+            JTable tableau2 = new JTable(table,jours);
+         
+            buffer.add(new JScrollPane(tableau2));
+            
+            
+            /*jours1.setText("Lundi"); 
+            jours1.setBounds(posX, posY, 150, 20);
+            buffer.add(jours1);
             posY+=20;
             
             
@@ -721,9 +724,9 @@ public class FenetreEdt extends FenetreTemplate{
                     pasDeCours.setText("Pas de cours de jour-là");
                     buffer.add(pasDeCours);
                     posY+=75;
-                }            
-        }else{
-            JOptionPane.showMessageDialog(null,result.get(0).get(0));
-        }
+                } */           
+        //}else{
+          //  JOptionPane.showMessageDialog(null,result.get(0).get(0));
+        //}
     }
 }
