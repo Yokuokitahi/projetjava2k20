@@ -37,9 +37,8 @@ public class FenetreEdt extends FenetreTemplate{
     
     public FenetreEdt(final String login) throws SQLException, ClassNotFoundException{
         fenetre.setSize(new Dimension(1200,1000)); 
-        buffer.setLayout(null);
-         //buffer2.setLayout(null);
         grille.setLayout(null);
+        buffer.setLayout(null);
         menuEtudiant.add(item1);
         menuEtudiant.add(item2);
         menuEtudiant.addSeparator();
@@ -288,12 +287,13 @@ public class FenetreEdt extends FenetreTemplate{
         grille.setVisible(false);
         buffer.setVisible(true);
         buffer2.setVisible(false);
-        /*JTextPane jours1 = new JTextPane();
+        JTextPane jours1 = new JTextPane();
         JTextPane jours2 = new JTextPane();
         JTextPane jours3 = new JTextPane();
         JTextPane jours4 = new JTextPane();
         JTextPane jours5 = new JTextPane();
-        JTextPane jours6 = new JTextPane();*/
+        JTextPane jours6 = new JTextPane();
+        fenetre.setJMenuBar(menuBar);
         fenetre.setContentPane(buffer);
         semaine.setText("Semaine n°"+ nbSemaine);
         semaine.setFont(font2);
@@ -349,18 +349,18 @@ public class FenetreEdt extends FenetreTemplate{
             }   
         });
         
-        fenetre.setJMenuBar(menuBar);
+        
         buffer.add(suivant);
         buffer.add(prec); 
         buffer.add(affichage);
-        //int posX=200, posY=150, var =0;
+        int posX=200, posY=150, var =0;
         String infox; 
         
         RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
         ArrayList<ArrayList<String>> result = testSeance.SeanceSemaine(login,nbSemaine);
         ArrayList<String> infos = new ArrayList<>();
         String[] jours = {"Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"};
-        //if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
+        if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
             for(ArrayList<String> iterator : result){     
                 infox = "heure du cours"+ " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
                 for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
@@ -369,23 +369,25 @@ public class FenetreEdt extends FenetreTemplate{
                 }
                 infos.add(infox);
             }
-            
-            System.out.println(infos.size());
-            System.out.println(infos);
-            
-            Object[][] table = new Object[1][infos.size()];
-         
-            for (int j=0; j < infos.size();j++)
-            {
-                table[0][j] = infos.get(j);
+            /*int max = 0;
+            for(int i = 0;i<result.size();i++){
+                    if(result.get(i).size() > max){
+                        max = result.get(i).size();
+                    }
             }
             
+        Object[][] table = new Object[result.size()][max];
+        for(int i=0; i<result.size();i++){
+            for (int j=0; j < result.get(i).size();j++)
+            {
+                table[i][j] = result.get(i).get(j);
+            }
+         }
+            
             JTable tableau2 = new JTable(table,jours);
-         
-            buffer.add(new JScrollPane(tableau2));
+            buffer.add(new JScrollPane(tableau2));*/
             
-            
-            /*jours1.setText("Lundi"); 
+            jours1.setText("Lundi"); 
             jours1.setBounds(posX, posY, 150, 20);
             buffer.add(jours1);
             posY+=20;
@@ -724,9 +726,9 @@ public class FenetreEdt extends FenetreTemplate{
                     pasDeCours.setText("Pas de cours de jour-là");
                     buffer.add(pasDeCours);
                     posY+=75;
-                } */           
-        //}else{
-          //  JOptionPane.showMessageDialog(null,result.get(0).get(0));
-        //}
+                }           
+        }else{
+            JOptionPane.showMessageDialog(null,result.get(0).get(0));
+        }
     }
 }
