@@ -27,6 +27,7 @@ public class InfosDB {
     //RETOURNE TOUTES LES MATIERES
     public static ArrayList<String> getMatiere() throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
+
         ArrayList<String> cours = connect.ExecuterRequete("SELECT Nom FROM cours");
         for (String iterator : cours) {
             String temp = iterator.replaceAll("\n", "");

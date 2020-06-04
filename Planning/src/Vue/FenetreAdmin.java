@@ -5,10 +5,12 @@
  */
 package Vue;
 
+import Controleur.InfosDB;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -26,10 +28,18 @@ public class FenetreAdmin extends FenetreTemplate{
     private final JComboBox jours = new JComboBox();
     private final JComboBox mois = new JComboBox();
     private final JComboBox annee = new JComboBox();
+    private final JComboBox heure = new JComboBox();
+    private final JComboBox min = new JComboBox();
+    private final JComboBox matiere = new JComboBox();
+    private final JComboBox typeCours = new JComboBox();
+    
     private String j;
     private String m;
     private String a;
+    private String h;
+    private String mn;
     private String date;
+    private String horaire;
     
     
     public FenetreAdmin(String login)throws SQLException, ClassNotFoundException{
@@ -37,6 +47,8 @@ public class FenetreAdmin extends FenetreTemplate{
         fenetre.setSize(1200,1000);
         
         pan.setLayout(null);
+        
+        //ArrayList<String> matieres = InfosDB.getMatiere(connect);
         
         JButton ajouter = new JButton("Ajouter un cours");
         ajouter.setBackground(Color.GREEN);
@@ -47,7 +59,11 @@ public class FenetreAdmin extends FenetreTemplate{
         suppr.setBounds(250,50,160,50);
         
         JButton valide = new JButton("Valider");
-        valide.setBounds(350,150,80,30);
+        valide.setBounds(250,200,80,30);
+        
+        JButton valide1 = new JButton("Valider");
+        valide1.setBounds(250,300,80,30);
+        
         
         ajouter.addActionListener(new ActionListener(){
             @Override
@@ -64,13 +80,25 @@ public class FenetreAdmin extends FenetreTemplate{
         });
         
         jours.setBounds(50, 150, 80, 30);
-        //jours.addItem("Jour");
+        jours.addItem("Jour");
         
         mois.setBounds(150,150,80,30);
-        //mois.addItem("Mois");
+        mois.addItem("Mois");
         
         annee.setBounds(250,150,80,30);
-        //annee.addItem("Année");
+        annee.addItem("Année");
+        
+        heure.setBounds(350,150,80,30);
+        heure.addItem("Heure");
+        
+        min.setBounds(450,150,80,30);
+        min.addItem("Minutes");
+        
+        matiere.setBounds(200,250,80,30);
+        matiere.addItem("Matière");
+        
+        typeCours.setBounds(300,250,80,30);
+        typeCours.addItem("Type de cours");
         
         for (int i=1;i<=31;i++)
         {
@@ -87,7 +115,28 @@ public class FenetreAdmin extends FenetreTemplate{
             annee.addItem(i);
         }
         
+        for (int i=8;i<=20;i++)
+        {
+            heure.addItem(i);
+        }
+        
+        for (int i=0;i<=45;i++)
+        {
+            min.addItem(i);
+            i=i-1+15;
+        }
+        
         pan.add(valide);
+        pan.add(valide1);
+        pan.add(jours);
+        pan.add(mois);
+        pan.add(annee);
+        pan.add(heure);
+        pan.add(min);
+        pan.add(typeCours);
+        pan.add(matiere);
+        
+        
         
         valide.addActionListener(new ActionListener(){
             @Override
@@ -95,16 +144,25 @@ public class FenetreAdmin extends FenetreTemplate{
                 j = jours.getSelectedItem().toString();
                 m = mois.getSelectedItem().toString();
                 a = annee.getSelectedItem().toString();
+                h = heure.getSelectedItem().toString();
+                mn= min.getSelectedItem().toString();
                 date = a +"-"+m+"-"+j;
-                System.out.print(date);
+                horaire = h + ":" + mn;
+                System.out.println(date);
+                System.out.print(horaire);
+            }
+        });
+        
+        valide1.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                
             }
         });
         
         pan.add(ajouter);
         pan.add(suppr);
-        pan.add(jours);
-        pan.add(mois);
-        pan.add(annee);
+        
         
        
         menuBar.add(test1);

@@ -250,7 +250,7 @@ public class FenetreEdt extends FenetreTemplate{
                 cours.setBackground(Color.LIGHT_GRAY);
                 cours.setFont(font);
                 cours.setEditable(false);
-                cours.setBounds(posX,posY+(i*pas),149,20);
+                cours.setBounds(posX,posY+(i*pas),1000,20);
                 cours.setText(iterator);
                 buffer.add(cours);
                 i++;
