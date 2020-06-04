@@ -15,7 +15,7 @@ public class InfosDB {
     public InfosDB() throws SQLException, ClassNotFoundException{
     }
     //RETOURNE TOUTES LES SALLES
-    public ArrayList<String> getSalles() throws SQLException, ClassNotFoundException{
+    public static ArrayList<String> getSalles() throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> salles = connect.ExecuterRequete("SELECT Nom FROM salle");
         for (String iterator : salles) {
@@ -25,7 +25,7 @@ public class InfosDB {
         return salles;
     }
     //RETOURNE TOUTES LES MATIERES
-    public ArrayList<String> getMatiere() throws SQLException, ClassNotFoundException{
+    public static ArrayList<String> getMatiere() throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> cours = connect.ExecuterRequete("SELECT Nom FROM cours");
         for (String iterator : cours) {
@@ -34,10 +34,10 @@ public class InfosDB {
         }
         return cours;
     }
-    //RETOURNE TOUS LES ENSEIGNANTS LIES A UNE MATIERE
-    public ArrayList<String> getEnseignant(int IDCours) throws SQLException, ClassNotFoundException{
+    //RETOURNE TOUS LES ENSEIGNANTS
+    public static ArrayList<String> getEnseignant() throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
-        ArrayList<String> ID = connect.ExecuterRequete("SELECT IDProf FROM enseignant WHERE ID_Cours =" + IDCours);
+        ArrayList<String> ID = connect.ExecuterRequete("SELECT IDProf FROM enseignant ");
         String request = "SELECT Nom FROM user WHERE ID =";
         
         Set<String> mySet = new HashSet<>(ID);
@@ -58,13 +58,13 @@ public class InfosDB {
         return enseignants;
     }
     //RETOURNE LES TYPES DE COURS
-    public ArrayList<String> getTypeDeCours() throws SQLException, ClassNotFoundException{
+    public static ArrayList<String> getTypeDeCours() throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> types = connect.ExecuterRequete("SELECT Nom FROM type_cours");
         return types;
     }
     //RETOURNE LES GROUPES EN FONCTION DES PROMOS
-    public ArrayList<String> getGroupes(String promo) throws SQLException, ClassNotFoundException{
+    public static ArrayList<String> getGroupes(String promo) throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> groupes = connect.ExecuterRequete("SELECT Nom FROM groupe WHERE ID_Promotion = "+promo);
         for (String iterator : groupes) {
@@ -74,7 +74,7 @@ public class InfosDB {
         return groupes;
     }
     //RETOURNE LES PROMOTIONS
-    public ArrayList<String> getPromotion() throws SQLException, ClassNotFoundException{
+    public static ArrayList<String> getPromotion() throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> promo = connect.ExecuterRequete("SELECT ID_Promotion FROM groupe ORDER BY ID_Promotion");
         Set<String> mySet = new HashSet<>(promo);

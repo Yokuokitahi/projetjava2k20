@@ -110,7 +110,7 @@ public class ConnexionDatabase {
         return(dateFormat.format(date));
     }
     
-    public ArrayList<String> SQLDateAjd() throws SQLException, ClassNotFoundException{
+    public static ArrayList<String> SQLDateAjd() throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = new ConnexionDatabase();
         
         ArrayList<String> resultat = connect.ExecuterRequete("SELECT CURDATE()");
@@ -130,7 +130,7 @@ public class ConnexionDatabase {
         return numSemaine; 
     }
     
-    public int SQLNumSemaine(String date) throws SQLException, ClassNotFoundException{
+    public static int SQLNumSemaine(String date) throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = new ConnexionDatabase();
         
         ArrayList<String> resultat = connect.ExecuterRequete("SELECT YEARWEEK(\""+date+"\")");

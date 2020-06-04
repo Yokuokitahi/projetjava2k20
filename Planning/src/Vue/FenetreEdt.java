@@ -24,6 +24,7 @@ public class FenetreEdt extends FenetreTemplate{
     private final JMenuItem item1 = new JMenuItem("Emploi du temps");
     private final JMenuItem item2 = new JMenuItem("Recap");
     private final JMenuItem item3 = new JMenuItem("Fermer");
+    private final JMenuItem deco = new JMenuItem("Déconnexion");
     
     private final Font font = new Font("courier",Font.ROMAN_BASELINE,10);
     private final Font font2 = new Font("courier",Font.ROMAN_BASELINE,15);
@@ -42,6 +43,22 @@ public class FenetreEdt extends FenetreTemplate{
         menuEtudiant.addSeparator();
         menuEtudiant.add(item3);
         menuBar.add(menuEtudiant);
+        menuBar.add(deco);
+        
+        deco.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fenetre.dispose();
+                FenetreConnexion test = null;
+                try {
+                    test = new FenetreConnexion();
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                test.constructPanel();
+            }
+        });
         
         item1.addActionListener(new ActionListener(){
             @Override
@@ -210,10 +227,9 @@ public class FenetreEdt extends FenetreTemplate{
     }
     
     public void Recap(final String login) throws SQLException, ClassNotFoundException{
-        
-        InfosDB infos = new InfosDB();
+
         RechercherSeance heures = new RechercherSeance();
-        ArrayList<String> matieres = infos.getMatiere();
+        ArrayList<String> matieres = InfosDB.getMatiere();
         fenetre.setJMenuBar(menuBar); 
         int posX = 81,posY=101, pas = 25, i=0;
 
@@ -238,19 +254,18 @@ public class FenetreEdt extends FenetreTemplate{
                 cours.setText(iterator);
                 buffer.add(cours);
                 i++;
-        }
-        
+        }  
     }
     
     public void ListeEdt(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
+        //JScrollPane test = new JScrollPane(buffer);
+        
         JTextPane jours = new JTextPane();
         JTextPane jours2 = new JTextPane();
         JTextPane jours3 = new JTextPane();
         JTextPane jours4 = new JTextPane();
         JTextPane jours5 = new JTextPane();
         JTextPane jours6 = new JTextPane();
-
-
         fenetre.setContentPane(buffer);
         semaine.setText("Semaine n°"+ nbSemaine);
         semaine.setFont(font2);
@@ -258,42 +273,9 @@ public class FenetreEdt extends FenetreTemplate{
         semaine.setBackground(grille.getBackground());
         semaine.setBounds(475, 10, 155, 20);
         buffer.add(semaine);
+        
         JButton suivant = new JButton("Semaine suivante");
         suivant.setBounds(550,30,155,20);
-        
-        JButton prec = new JButton("Semaine précédente");
-        prec.setBounds(350,30,155,20);
-        
-        JButton affichage = new JButton("Afficher en tableau");
-        affichage.setBounds(1000,200,155,20);
-        
-        affichage.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                grille.removeAll();
-                grille.repaint();
-                try {
-                    CreerEDT(login, nbSemaine);
-                } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }   
-        });
-        
-        prec.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                try {
-                    buffer.removeAll();
-                    buffer.repaint();
-                    ListeEdt( login, nbSemaine-1);
-                } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            
-        });
-        
         suivant.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -308,17 +290,47 @@ public class FenetreEdt extends FenetreTemplate{
             
         });
         
+        JButton prec = new JButton("Semaine précédente");
+        prec.setBounds(350,30,155,20);
+        prec.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    buffer.removeAll();
+                    buffer.repaint();
+                    ListeEdt( login, nbSemaine-1);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        });
         
+        JButton affichage = new JButton("Afficher en tableau");
+        affichage.setBounds(1000,200,155,20);   
+        affichage.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                grille.removeAll();
+                grille.repaint();
+                try {
+                    CreerEDT(login, nbSemaine);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }   
+        });
         
         fenetre.setJMenuBar(menuBar);
         buffer.add(suivant);
         buffer.add(prec); 
         buffer.add(affichage);
-        int posX=200, posY=150;
+        int posX=200, posY=150, var =0;
         String infox; 
         
         RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
         ArrayList<ArrayList<String>> result = testSeance.SeanceSemaine(login,nbSemaine);
+        
         if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
             for(ArrayList<String> iterator : result){     
                 infox = "heure du cours"+ " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
@@ -359,12 +371,13 @@ public class FenetreEdt extends FenetreTemplate{
                     iterator.set(3, "19:30 - 20:30");
                 }
                 
-                infox = iterator.get(3)+ " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
-                for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
-                    infox+= "Gr."+iterator.get(k)+" ";
-                    
-                }
+                
                 if("0".equals(iterator.get(2))){
+                    var=1;
+                    infox = iterator.get(3)+ " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
+                    for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
+                        infox+= "Gr."+iterator.get(k)+" ";      
+                    }
                     JTextPane cours = new JTextPane();
                     cours.setBackground(Color.orange);
                     cours.setFont(font);
@@ -373,9 +386,18 @@ public class FenetreEdt extends FenetreTemplate{
                     cours.setText(infox);
                     buffer.add(cours);
                     posY+=75;
-                }     
-            }
-            
+                }
+            } if(var==0){
+                    JTextPane pasDeCours = new JTextPane();
+                    pasDeCours.setBackground(Color.orange);
+                    pasDeCours.setFont(font);
+                    pasDeCours.setEditable(false);
+                    pasDeCours.setBounds(posX,posY,300,74);
+                    pasDeCours.setText("Pas de cours de jour-là");
+                    buffer.add(pasDeCours);
+                    posY+=75;
+                }  
+            var =0;
             jours2.setText("Mardi"); 
             jours2.setBounds(posX, posY, 150, 20);
             buffer.add(jours2);
@@ -406,23 +428,33 @@ public class FenetreEdt extends FenetreTemplate{
                     iterator.set(3, "19:30 - 20:30");
                 }
                 
-                 infox = iterator.get(3) + " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
-                for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
-                    infox+= "Gr."+iterator.get(k)+" ";
-                    
-                }
+                 
                 if("1".equals(iterator.get(2))){
+                    var = 1;
+                    infox = iterator.get(3) + " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
+                    for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
+                        infox+= "Gr."+iterator.get(k)+" "; 
+                    }
                     JTextPane cours = new JTextPane();
-            cours.setBackground(Color.orange);
-            cours.setFont(font);
-            cours.setEditable(false);
+                    cours.setBackground(Color.orange);
+                    cours.setFont(font);
+                    cours.setEditable(false);
                     cours.setBounds(posX,posY,300,74);
                     cours.setText(infox);
                     buffer.add(cours);
                     posY+=75;
                 }
-                
-            }
+            }if(var==0){
+                    JTextPane pasDeCours = new JTextPane();
+                    pasDeCours.setBackground(Color.orange);
+                    pasDeCours.setFont(font);
+                    pasDeCours.setEditable(false);
+                    pasDeCours.setBounds(posX,posY,300,74);
+                    pasDeCours.setText("Pas de cours de jour-là");
+                    buffer.add(pasDeCours);
+                    posY+=75;
+                } 
+            var =0;
             jours3.setText("Mercredi"); 
             jours3.setBounds(posX, posY, 150, 20);
             buffer.add(jours3);
@@ -453,23 +485,33 @@ public class FenetreEdt extends FenetreTemplate{
                     iterator.set(3, "19:30 - 20:30");
                 }
 
-                 infox = iterator.get(3) + " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";
-                for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
-                    infox+= "Gr."+iterator.get(k)+" ";
-
-                }
+                 
                 if("2".equals(iterator.get(2))){
+                    var =1;
+                    infox = iterator.get(3) + " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";
+                    for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
+                        infox+= "Gr."+iterator.get(k)+" ";
+                    }
                     JTextPane cours = new JTextPane();
-            cours.setBackground(Color.orange);
-            cours.setFont(font);
-            cours.setEditable(false);
+                    cours.setBackground(Color.orange);
+                    cours.setFont(font);
+                    cours.setEditable(false);
                     cours.setBounds(posX,posY,300,74);
                     cours.setText(infox);
                     buffer.add(cours);
                     posY+=75;
                 }
-
-            }
+            }if(var==0){
+                    JTextPane pasDeCours = new JTextPane();
+                    pasDeCours.setBackground(Color.orange);
+                    pasDeCours.setFont(font);
+                    pasDeCours.setEditable(false);
+                    pasDeCours.setBounds(posX,posY,300,74);
+                    pasDeCours.setText("Pas de cours de jour-là");
+                    buffer.add(pasDeCours);
+                    posY+=75;
+                } 
+            var = 0;
             jours4.setText("Jeudi"); 
             jours4.setBounds(posX, posY, 150, 20);
             buffer.add(jours4);
@@ -500,23 +542,33 @@ public class FenetreEdt extends FenetreTemplate{
                 if(iterator.get(3).equals("6")){
                     iterator.set(3, "19:30 - 20:30");
                 }
-                infox = iterator.get(3) + " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
-                for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
-                    infox+= "Gr."+iterator.get(k)+" ";
-                    
-                }
+                
                 if("3".equals(iterator.get(2))){
+                    var=1;
+                    infox = iterator.get(3) + " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
+                    for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
+                        infox+= "Gr."+iterator.get(k)+" ";   
+                    }
                     JTextPane cours = new JTextPane();
-            cours.setBackground(Color.orange);
-            cours.setFont(font);
-            cours.setEditable(false);
+                    cours.setBackground(Color.orange);
+                    cours.setFont(font);
+                    cours.setEditable(false);
                     cours.setBounds(posX,posY,300,74);
                     cours.setText(infox);
                     buffer.add(cours);
                     posY+=75;
                 }
-                
-            }
+            }if(var==0){
+                    JTextPane pasDeCours = new JTextPane();
+                    pasDeCours.setBackground(Color.orange);
+                    pasDeCours.setFont(font);
+                    pasDeCours.setEditable(false);
+                    pasDeCours.setBounds(posX,posY,300,74);
+                    pasDeCours.setText("Pas de cours de jour-là");
+                    buffer.add(pasDeCours);
+                    posY+=75;
+                } 
+            var = 0;
             jours5.setText("Vendredi"); 
             jours5.setBounds(posX, posY, 150, 20);
             buffer.add(jours5);
@@ -546,23 +598,33 @@ public class FenetreEdt extends FenetreTemplate{
                 if(iterator.get(3).equals("6")){
                     iterator.set(3, "19:30 - 20:30");
                 }
-                 infox = iterator.get(3) + " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
-                for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
-                    infox+= "Gr."+iterator.get(k)+" ";
-                    
-                }
+                 
                 if("4".equals(iterator.get(2))){
+                    var=1;
+                    infox = iterator.get(3) + " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
+                    for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
+                        infox+= "Gr."+iterator.get(k)+" ";
+                    }
                     JTextPane cours = new JTextPane();
-            cours.setBackground(Color.orange);
-            cours.setFont(font);
-            cours.setEditable(false);
+                    cours.setBackground(Color.orange);
+                    cours.setFont(font);
+                    cours.setEditable(false);
                     cours.setBounds(posX,posY,300,74);
                     cours.setText(infox);
                     buffer.add(cours);
                     posY+=75;
                 }
-                
-            }
+            }if(var==0){
+                    JTextPane pasDeCours = new JTextPane();
+                    pasDeCours.setBackground(Color.orange);
+                    pasDeCours.setFont(font);
+                    pasDeCours.setEditable(false);
+                    pasDeCours.setBounds(posX,posY,300,74);
+                    pasDeCours.setText("Pas de cours de jour-là");
+                    buffer.add(pasDeCours);
+                    posY+=75;
+                } 
+            var = 0;
             jours6.setText("Samedi"); 
             jours6.setBounds(posX, posY, 150, 20);
             buffer.add(jours6);
@@ -592,23 +654,32 @@ public class FenetreEdt extends FenetreTemplate{
                 if(iterator.get(3).equals("6")){
                     iterator.set(3, "19:30 - 20:30");
                 }
-                infox = iterator.get(3) + " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
-                for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
-                    infox+= "Gr."+iterator.get(k)+" ";
-                    
-                }
+                
                 if("5".equals(iterator.get(2))){
+                    var =1;
+                    infox = iterator.get(3) + " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
+                    for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
+                        infox+= "Gr."+iterator.get(k)+" ";
+                    }
                     JTextPane cours = new JTextPane();
-            cours.setBackground(Color.orange);
-            cours.setFont(font);
-            cours.setEditable(false);
+                    cours.setBackground(Color.orange);
+                    cours.setFont(font);
+                    cours.setEditable(false);
                     cours.setBounds(posX,posY,300,74);
                     cours.setText(infox);
                     buffer.add(cours);
                     posY+=75;
                 }
-                
-            }            
+            } if(var==0){
+                    JTextPane pasDeCours = new JTextPane();
+                    pasDeCours.setBackground(Color.orange);
+                    pasDeCours.setFont(font);
+                    pasDeCours.setEditable(false);
+                    pasDeCours.setBounds(posX,posY,300,74);
+                    pasDeCours.setText("Pas de cours de jour-là");
+                    buffer.add(pasDeCours);
+                    posY+=75;
+                }            
         }else{
             JOptionPane.showMessageDialog(null,result.get(0).get(0));
         }

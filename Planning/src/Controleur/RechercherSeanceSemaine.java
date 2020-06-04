@@ -614,7 +614,7 @@ public class RechercherSeanceSemaine {
         }
         
     }
-    //RECHERCHE AVEC COURS
+    //RECHERCHE AVEC COURS (NECESSITE ENSEIGNANT AVEC BONNE MATIERE)
     public ArrayList<ArrayList<String>> SeanceSemaineCours(String cours, int semaine) throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> identifiant, resultats,recherche;
