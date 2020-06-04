@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 public class FenetreEdt extends FenetreTemplate{
     private final JMenuBar menuBar = new JMenuBar();
     private final JMenu menuEtudiant = new JMenu("Etudiant");
+    private JTable tableau = new JTable();
     
     private final JMenuItem item1 = new JMenuItem("Emploi du temps");
     private final JMenuItem item2 = new JMenuItem("Recap");
@@ -30,6 +31,7 @@ public class FenetreEdt extends FenetreTemplate{
     private final Font font2 = new Font("courier",Font.ROMAN_BASELINE,15);
     
     private final JPanel buffer = new JPanel();
+    private final JPanel buffer2 = new JPanel();
     private final Panneau grille = new Panneau();
     
     private final JTextPane semaine = new JTextPane();
@@ -37,6 +39,7 @@ public class FenetreEdt extends FenetreTemplate{
     public FenetreEdt(final String login) throws SQLException, ClassNotFoundException{
         fenetre.setSize(new Dimension(1200,1000)); 
         buffer.setLayout(null);
+         //buffer2.setLayout(null);
         grille.setLayout(null);
         menuEtudiant.add(item1);
         menuEtudiant.add(item2);
@@ -64,8 +67,6 @@ public class FenetreEdt extends FenetreTemplate{
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 try {
-                    buffer.removeAll();
-                    buffer.repaint();
                     int nbSemaineact= ConnexionDatabase.SQLNumSemaine();
                     CreerEDT(login, nbSemaineact);
                 } catch (ClassNotFoundException | SQLException ex) {
@@ -78,8 +79,6 @@ public class FenetreEdt extends FenetreTemplate{
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 try {
-                    buffer.removeAll();
-                    buffer.repaint();
                     Recap(login);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
@@ -97,6 +96,9 @@ public class FenetreEdt extends FenetreTemplate{
     }
     
     public void CreerEDT(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
+        grille.setVisible(true);
+        buffer.setVisible(false);
+        buffer2.setVisible(false);
         fenetre.setContentPane(grille);
         semaine.setText("Semaine n°"+ nbSemaine);
         semaine.setFont(font2);
@@ -227,24 +229,24 @@ public class FenetreEdt extends FenetreTemplate{
     }
     
     public void Recap(final String login) throws SQLException, ClassNotFoundException{
-
+        
+        grille.setVisible(false);
+        buffer.setVisible(false);
+        buffer2.setVisible(true);
         RechercherSeance heures = new RechercherSeance();
         ArrayList<String> matieres = InfosDB.getMatiere();
         fenetre.setJMenuBar(menuBar); 
         int posX = 81,posY=101, pas = 25, i=0;
-
-  
-        fenetre.setContentPane(buffer);
-
+        fenetre.setContentPane(buffer2);
         
-        ArrayList<String> infosHeures;
         ArrayList<String> informations = new ArrayList<>();
+        ArrayList<String> infosHeures;
         for(String iterator:matieres){
             infosHeures = heures.RecapSeance(login, iterator);
             double nbHeures = (infosHeures.size())*1.5;
-            informations.add(iterator + "  " + nbHeures + " heures");
+            informations.add(iterator + "     "+ nbHeures + " heures");
         }
-       
+        
         for(String iterator:informations){
             JTextPane cours = new JTextPane();
                 cours.setBackground(Color.LIGHT_GRAY);
@@ -252,14 +254,16 @@ public class FenetreEdt extends FenetreTemplate{
                 cours.setEditable(false);
                 cours.setBounds(posX,posY+(i*pas),1000,20);
                 cours.setText(iterator);
-                buffer.add(cours);
+                buffer2.add(cours);
                 i++;
-        }  
+        } 
     }
     
     public void ListeEdt(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
         //JScrollPane test = new JScrollPane(buffer);
-        
+        grille.setVisible(false);
+        buffer.setVisible(true);
+        buffer2.setVisible(false);
         JTextPane jours = new JTextPane();
         JTextPane jours2 = new JTextPane();
         JTextPane jours3 = new JTextPane();
