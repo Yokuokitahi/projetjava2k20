@@ -26,7 +26,7 @@ public class InfosDB {
     }
     //RETOURNE TOUTES LES MATIERES
 
-    public ArrayList<String> getMatiere() throws SQLException, ClassNotFoundException{
+    public static ArrayList<String> getMatiere() throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
 
         ArrayList<String> cours = connect.ExecuterRequete("SELECT Nom FROM cours");
@@ -37,7 +37,7 @@ public class InfosDB {
         return cours;
     }
     //RETOURNE TOUS LES ENSEIGNANTS LIES A UNE MATIERE
-    public ArrayList<String> getEnseignant(int IDCours) throws SQLException, ClassNotFoundException{
+    public static ArrayList<String> getEnseignant(int IDCours) throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> ID = connect.ExecuterRequete("SELECT IDProf FROM enseignant WHERE ID_Cours =" + IDCours);
         String request = "SELECT Nom FROM user WHERE ID =";
@@ -60,7 +60,7 @@ public class InfosDB {
         return enseignants;
     }
     //RETOURNE LES TYPES DE COURS
-    public ArrayList<String> getTypeDeCours() throws SQLException, ClassNotFoundException{
+    public static ArrayList<String> getTypeDeCours() throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> types = connect.ExecuterRequete("SELECT Nom FROM type_cours");
         return types;

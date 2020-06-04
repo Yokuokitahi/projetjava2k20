@@ -32,6 +32,7 @@ public class FenetreAdmin extends FenetreTemplate{
     private final JComboBox min = new JComboBox();
     private final JComboBox matiere = new JComboBox();
     private final JComboBox typeCours = new JComboBox();
+    private final JComboBox enseignants = new JComboBox();
     
     private String j;
     private String m;
@@ -40,16 +41,22 @@ public class FenetreAdmin extends FenetreTemplate{
     private String mn;
     private String date;
     private String horaire;
+    private String typeC;
+    private String mat;
+    private String prof;
     
     
     public FenetreAdmin(String login)throws SQLException, ClassNotFoundException{
         fenetre.setTitle("Administration");
         fenetre.setSize(1200,1000);
-        
         pan.setLayout(null);
         
-        //ArrayList<String> matieres = InfosDB.getMatiere(connect);
+        //fonction pour avoir matieres + typecours depuis BDD
+        ArrayList<String> matieres = InfosDB.getMatiere();
+        ArrayList<String> type = InfosDB.getTypeDeCours();
         
+        
+        //Creations de boutons
         JButton ajouter = new JButton("Ajouter un cours");
         ajouter.setBackground(Color.GREEN);
         ajouter.setBounds(50,50,160,50);
@@ -64,7 +71,7 @@ public class FenetreAdmin extends FenetreTemplate{
         JButton valide1 = new JButton("Valider");
         valide1.setBounds(250,300,80,30);
         
-        
+        //Bouton ajouter cours
         ajouter.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -72,6 +79,7 @@ public class FenetreAdmin extends FenetreTemplate{
             }
         });
        
+        //bouton supprimer cours
         suppr.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -79,6 +87,7 @@ public class FenetreAdmin extends FenetreTemplate{
             }
         });
         
+        //on créer des menus deroulants
         jours.setBounds(50, 150, 80, 30);
         jours.addItem("Jour");
         
@@ -94,12 +103,25 @@ public class FenetreAdmin extends FenetreTemplate{
         min.setBounds(450,150,80,30);
         min.addItem("Minutes");
         
-        matiere.setBounds(200,250,80,30);
+        //Recupere les matieres ds un menu deroulant
+        matiere.setBounds(150,250,120,30);
         matiere.addItem("Matière");
+        for (int i = 0; i < matieres.size();i++){
+            matiere.addItem(matieres.get(i));
+        }
         
-        typeCours.setBounds(300,250,80,30);
+        //Recupere type de cours ds un menu deroulant
+        typeCours.setBounds(300,250,120,30);
         typeCours.addItem("Type de cours");
+        for (int i = 0; i < type.size();i++){
+            typeCours.addItem(type.get(i));
+        }
         
+        //Recupere le prof associé a une matiere via menu deroulant
+        enseignants.setBounds(450,250,120,30);
+        enseignants.addItem("Enseignants");
+        
+        //setup des menus deroulants
         for (int i=1;i<=31;i++)
         {
             jours.addItem(i);
@@ -126,8 +148,10 @@ public class FenetreAdmin extends FenetreTemplate{
             i=i-1+15;
         }
         
+        
+        //on ajoute les menus a notre pannel
         pan.add(valide);
-        pan.add(valide1);
+        
         pan.add(jours);
         pan.add(mois);
         pan.add(annee);
@@ -135,9 +159,10 @@ public class FenetreAdmin extends FenetreTemplate{
         pan.add(min);
         pan.add(typeCours);
         pan.add(matiere);
+        pan.add(enseignants);  
         
         
-        
+        //Boutons de validation avec action (on recupere les infos saisies)
         valide.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -149,22 +174,13 @@ public class FenetreAdmin extends FenetreTemplate{
                 date = a +"-"+m+"-"+j;
                 horaire = h + ":" + mn;
                 System.out.println(date);
-                System.out.print(horaire);
+                System.out.println(horaire);
             }
         });
-        
-        valide1.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                
-            }
-        });
-        
+ 
         pan.add(ajouter);
         pan.add(suppr);
-        
-        
-       
+
         menuBar.add(test1);
         fenetre.setContentPane(pan);
         fenetre.setJMenuBar(menuBar);
