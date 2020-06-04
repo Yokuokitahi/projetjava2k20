@@ -25,6 +25,7 @@ public class InfosDB {
         return salles;
     }
     //RETOURNE TOUTES LES MATIERES
+
     public static ArrayList<String> getMatiere() throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
 
@@ -35,8 +36,10 @@ public class InfosDB {
         }
         return cours;
     }
+
     //RETOURNE TOUS LES ENSEIGNANTS
     public static ArrayList<String> getEnseignant() throws SQLException, ClassNotFoundException{
+
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> ID = connect.ExecuterRequete("SELECT IDProf FROM enseignant ");
         String request = "SELECT Nom FROM user WHERE ID =";
