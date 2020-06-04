@@ -21,8 +21,6 @@ public class FenetreEdt extends FenetreTemplate{
     private final JMenuBar menuBar = new JMenuBar();
     private final JMenu menuEtudiant = new JMenu("Etudiant");
     
-   
-    
     private final JMenuItem item1 = new JMenuItem("Emploi du temps");
     private final JMenuItem item2 = new JMenuItem("Recap");
     private final JMenuItem item3 = new JMenuItem("Fermer");
@@ -72,6 +70,8 @@ public class FenetreEdt extends FenetreTemplate{
                     grille.repaint();
                     buffer.removeAll();
                     buffer.repaint();
+                    buffer2.removeAll();
+                    buffer2.repaint();
                     int nbSemaineact= ConnexionDatabase.SQLNumSemaine();
                     CreerEDT(login, nbSemaineact);
                 } catch (ClassNotFoundException | SQLException ex) {
@@ -88,6 +88,8 @@ public class FenetreEdt extends FenetreTemplate{
                     grille.repaint();
                     buffer.removeAll();
                     buffer.repaint();
+                    buffer2.removeAll();
+                    buffer2.repaint();
                     Recap(login);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
