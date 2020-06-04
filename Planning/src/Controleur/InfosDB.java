@@ -65,6 +65,10 @@ public class InfosDB {
     public static ArrayList<String> getTypeDeCours() throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         ArrayList<String> types = connect.ExecuterRequete("SELECT Nom FROM type_cours");
+        for (String iterator : types) {
+            String temp = iterator.replaceAll("\n", "");
+            types.set(types.indexOf(iterator), temp);
+        }
         return types;
     }
     //RETOURNE LES GROUPES EN FONCTION DES PROMOS

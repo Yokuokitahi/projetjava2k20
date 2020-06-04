@@ -54,7 +54,7 @@ public class FenetreAdmin extends FenetreTemplate{
         //fonction pour avoir matieres + typecours depuis BDD
         ArrayList<String> matieres = InfosDB.getMatiere();
         ArrayList<String> type = InfosDB.getTypeDeCours();
-        
+        ArrayList<String> enseignant = InfosDB.getEnseignant();
         
         //Creations de boutons
         JButton ajouter = new JButton("Ajouter un cours");
@@ -66,10 +66,7 @@ public class FenetreAdmin extends FenetreTemplate{
         suppr.setBounds(250,50,160,50);
         
         JButton valide = new JButton("Valider");
-        valide.setBounds(250,200,80,30);
-        
-        JButton valide1 = new JButton("Valider");
-        valide1.setBounds(250,300,80,30);
+        valide.setBounds(250,250,80,30);
         
         //Bouton ajouter cours
         ajouter.addActionListener(new ActionListener(){
@@ -104,22 +101,25 @@ public class FenetreAdmin extends FenetreTemplate{
         min.addItem("Minutes");
         
         //Recupere les matieres ds un menu deroulant
-        matiere.setBounds(150,250,120,30);
+        matiere.setBounds(50,200,120,30);
         matiere.addItem("Matière");
         for (int i = 0; i < matieres.size();i++){
             matiere.addItem(matieres.get(i));
         }
         
         //Recupere type de cours ds un menu deroulant
-        typeCours.setBounds(300,250,120,30);
+        typeCours.setBounds(200,200,120,30);
         typeCours.addItem("Type de cours");
         for (int i = 0; i < type.size();i++){
             typeCours.addItem(type.get(i));
         }
         
         //Recupere le prof associé a une matiere via menu deroulant
-        enseignants.setBounds(450,250,120,30);
+        enseignants.setBounds(350,200,120,30);
         enseignants.addItem("Enseignants");
+        for (int i = 0; i < enseignant.size();i++){
+            enseignants.addItem(enseignant.get(i));
+        }
         
         //setup des menus deroulants
         for (int i=1;i<=31;i++)
@@ -151,7 +151,6 @@ public class FenetreAdmin extends FenetreTemplate{
         
         //on ajoute les menus a notre pannel
         pan.add(valide);
-        
         pan.add(jours);
         pan.add(mois);
         pan.add(annee);
@@ -173,8 +172,14 @@ public class FenetreAdmin extends FenetreTemplate{
                 mn= min.getSelectedItem().toString();
                 date = a +"-"+m+"-"+j;
                 horaire = h + ":" + mn;
+                prof = enseignants.getSelectedItem().toString();
+                typeC = typeCours.getSelectedItem().toString();
+                mat = matiere.getSelectedItem().toString();
                 System.out.println(date);
                 System.out.println(horaire);
+                System.out.println(typeC);
+                System.out.println(mat);
+                System.out.println(prof);
             }
         });
  
