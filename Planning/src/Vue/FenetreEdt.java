@@ -67,6 +67,10 @@ public class FenetreEdt extends FenetreTemplate{
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 try {
+                    grille.removeAll();
+                    grille.repaint();
+                    buffer.removeAll();
+                    buffer.repaint();
                     int nbSemaineact= ConnexionDatabase.SQLNumSemaine();
                     CreerEDT(login, nbSemaineact);
                 } catch (ClassNotFoundException | SQLException ex) {
@@ -79,6 +83,10 @@ public class FenetreEdt extends FenetreTemplate{
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 try {
+                    grille.removeAll();
+                    grille.repaint();
+                    buffer.removeAll();
+                    buffer.repaint();
                     Recap(login);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
@@ -120,6 +128,8 @@ public class FenetreEdt extends FenetreTemplate{
             public void actionPerformed(ActionEvent e) {
                 grille.removeAll();
                 grille.repaint();
+                buffer.removeAll();
+                buffer.repaint();
                 try {
                     ListeEdt(login, nbSemaine);
                 } catch (SQLException | ClassNotFoundException ex) {
@@ -134,6 +144,8 @@ public class FenetreEdt extends FenetreTemplate{
                 try {
                     grille.removeAll();
                     grille.repaint();
+                    buffer.removeAll();
+                    buffer.repaint();
                     CreerEDT(login, nbSemaine-1);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
@@ -147,6 +159,8 @@ public class FenetreEdt extends FenetreTemplate{
                 try {
                     grille.removeAll();
                     grille.repaint();
+                    buffer.removeAll();
+                    buffer.repaint();
                     CreerEDT(login, nbSemaine+1);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
@@ -246,7 +260,6 @@ public class FenetreEdt extends FenetreTemplate{
             double nbHeures = (infosHeures.size())*1.5;
             informations.add(iterator + "     "+ nbHeures + " heures");
         }
-        
         for(String iterator:informations){
             JTextPane cours = new JTextPane();
                 cours.setBackground(Color.LIGHT_GRAY);
