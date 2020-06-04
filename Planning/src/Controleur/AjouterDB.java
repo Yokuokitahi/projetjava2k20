@@ -13,7 +13,7 @@ public class AjouterDB {
     public AjouterDB() throws SQLException, ClassNotFoundException{
     }
     
-    public void AjouterSeance(String date, String heureDebut, String cours, String typeCours, String nomProf, ArrayList<String> groupes, String promo, String salle) throws SQLException, ClassNotFoundException{
+    public static void AjouterSeance(String date, String heureDebut, String cours, String typeCours, String nomProf, ArrayList<String> groupes, String promo, String salle) throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance();
         String heureFin = "";
         int semaine = ConnexionDatabase.SQLNumSemaine(date);
