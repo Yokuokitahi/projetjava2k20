@@ -468,13 +468,13 @@ public class FenetreEdt extends FenetreTemplate{
             colonne4.setPreferredWidth(200);
             TableColumn colonne5 = tableau2.getColumnModel().getColumn(5);
             colonne5.setPreferredWidth(200);
-            TableColumn colonne6 = tableau2.getColumnModel().getColumn(5);
+            TableColumn colonne6 = tableau2.getColumnModel().getColumn(6);
             colonne6.setPreferredWidth(200);
-            TableColumn colonne7 = tableau2.getColumnModel().getColumn(5);
+            TableColumn colonne7 = tableau2.getColumnModel().getColumn(7);
             colonne7.setPreferredWidth(200);
             
             JScrollPane scroll = new JScrollPane(tableau2);
-            scroll.setPreferredSize(new Dimension(1190,1000));
+            scroll.setPreferredSize(new Dimension(1100,900));
             buffer.add(scroll);
             
             /*jours1.setText("Lundi"); 

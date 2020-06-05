@@ -23,6 +23,6 @@ public class Planning {
 
        //ArrayList<ArrayList<String>> tes = RechercherSeance.Seance();
        //System.out.println(tes);
-
+       
     }   
 }
