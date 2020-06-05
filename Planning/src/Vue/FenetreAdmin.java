@@ -251,4 +251,17 @@ public class FenetreAdmin extends FenetreTemplate{
  
         pan.add(ajouter);
     }
+    
+    public void supprimerCours(){
+        
+        Object [][] infos = null;
+        String[] titre = null;
+        
+        JTable tableau;
+        tableau = new JTable(infos,titre);
+        
+    }
+    
 }
+
+    

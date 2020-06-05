@@ -37,8 +37,8 @@ public class FenetreEdt extends FenetreTemplate{
     
     public FenetreEdt(final String login) throws SQLException, ClassNotFoundException{
         fenetre.setSize(new Dimension(1200,1000)); 
-        buffer.setLayout(null);
-         //buffer2.setLayout(null);
+        //buffer.setLayout(null);
+        //buffer2.setLayout(null);
         grille.setLayout(null);
         menuEtudiant.add(item1);
         menuEtudiant.add(item2);
@@ -295,6 +295,7 @@ public class FenetreEdt extends FenetreTemplate{
         JTextPane jours5 = new JTextPane();
         JTextPane jours6 = new JTextPane();*/
         fenetre.setContentPane(buffer);
+        
         semaine.setText("Semaine n°"+ nbSemaine);
         semaine.setFont(font2);
         semaine.setEditable(false);
@@ -359,6 +360,7 @@ public class FenetreEdt extends FenetreTemplate{
         RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
         ArrayList<ArrayList<String>> result = testSeance.SeanceSemaine(login,nbSemaine);
         ArrayList<String> infos = new ArrayList<>();
+        
         String[] jours = {"Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"};
         //if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
             for(ArrayList<String> iterator : result){     
@@ -373,15 +375,14 @@ public class FenetreEdt extends FenetreTemplate{
             System.out.println(infos.size());
             System.out.println(infos);
             
-            Object[][] table = new Object[1][infos.size()];
+            Object[][] table = new Object[infos.size()][1];
          
             for (int j=0; j < infos.size();j++)
             {
-                table[0][j] = infos.get(j);
+                table[j][0] = infos.get(j);
             }
             
             JTable tableau2 = new JTable(table,jours);
-         
             buffer.add(new JScrollPane(tableau2));
             
             
