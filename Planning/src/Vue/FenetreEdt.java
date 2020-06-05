@@ -371,10 +371,15 @@ public class FenetreEdt extends FenetreTemplate{
                 }
             }
             
-        Object[][] table = new Object[20][20];
-        
+        Object[][] table = {{" ", " ", " ", " ", " ", " "," "," "},
+                           {" ", " ", " ", " ", " ", " "," "," "},
+                           {" ", " ", " ", " ", " ", " "," "," "},
+                           {" ", " ", " ", " ", " ", " "," "," "},
+                           {" ", " ", " ", " ", " ", " "," "," "},
+                           {" ", " ", " ", " ", " ", " "," "," "},
+        };
         //ArrayList<String> infos = new ArrayList<>();
-        String[] jours = {"test"};
+        String[] jours = {"Jour", "Cours n°1", "Cours n°2", "Cours n°3", "Cours n°4", "Cours n°5","Cours n°6","Cours n°7"};
         if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
             for(ArrayList<String> iterator : result){
                 
@@ -410,32 +415,32 @@ public class FenetreEdt extends FenetreTemplate{
                 if("0".equals(iterator.get(2))){
                     System.out.println(lundi);
                     table[0][0]="Lundi";
-                    table[lundi][0] = infox;
+                    table[0][lundi] = infox;
                     lundi++;
                 }
                 if("1".equals(iterator.get(2))){
                     table[1][0]="Mardi";
-                    table[mardi][0] = infox;
+                    table[1][mardi] = infox;
                     mardi++;
                 }
                 if("2".equals(iterator.get(2))){
                     table[2][0]="Mercredi";
-                    table[mercredi][0] = infox;
+                    table[2][mercredi] = infox;
                     mercredi++;
                 }
                 if("3".equals(iterator.get(2))){
                     table[3][0]="Jeudi";
-                    table[jeudi][0] = infox;
+                    table[3][jeudi] = infox;
                     jeudi++;
                 }
                 if("4".equals(iterator.get(2))){
                     table[4][0]="Vendredi";
-                    table[vendredi][0] = infox;
+                    table[4][vendredi] = infox;
                     vendredi++;
                 }
                 if("5".equals(iterator.get(2))){
                     table[5][0]="Samedi";
-                    table[samedi][0] = infox;
+                    table[5][samedi] = infox;
                     samedi++;
                 }
                 //infos.add(infox);
@@ -449,10 +454,10 @@ public class FenetreEdt extends FenetreTemplate{
          }*/
             
             JTable tableau2 = new JTable(table,jours);
-
-            /*tableau2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            
+            tableau2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
             TableColumn colonne0 = tableau2.getColumnModel().getColumn(0);
-            colonne0.setPreferredWidth(200);
+            colonne0.setPreferredWidth(100);
             TableColumn colonne1 = tableau2.getColumnModel().getColumn(1);
             colonne1.setPreferredWidth(200);
             TableColumn colonne2 = tableau2.getColumnModel().getColumn(2);
@@ -462,11 +467,14 @@ public class FenetreEdt extends FenetreTemplate{
             TableColumn colonne4 = tableau2.getColumnModel().getColumn(4);
             colonne4.setPreferredWidth(200);
             TableColumn colonne5 = tableau2.getColumnModel().getColumn(5);
-            colonne5.setPreferredWidth(200);*/
-
+            colonne5.setPreferredWidth(200);
+            TableColumn colonne6 = tableau2.getColumnModel().getColumn(5);
+            colonne6.setPreferredWidth(200);
+            TableColumn colonne7 = tableau2.getColumnModel().getColumn(5);
+            colonne7.setPreferredWidth(200);
             
             JScrollPane scroll = new JScrollPane(tableau2);
-            //scroll.setPreferredSize(new Dimension(1190,1000));
+            scroll.setPreferredSize(new Dimension(1190,1000));
             buffer.add(scroll);
             
             /*jours1.setText("Lundi"); 
