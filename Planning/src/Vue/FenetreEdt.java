@@ -38,6 +38,9 @@ public class FenetreEdt extends FenetreTemplate{
     
     public FenetreEdt(final String login) throws SQLException, ClassNotFoundException{
         fenetre.setSize(new Dimension(1200,1000)); 
+        //buffer.setLayout(null);
+        //buffer2.setLayout(null);
+
         grille.setLayout(null);
         //buffer.setLayout(null);
         menuEtudiant.add(item1);
@@ -296,6 +299,7 @@ public class FenetreEdt extends FenetreTemplate{
         JTextPane jours6 = new JTextPane();
         fenetre.setJMenuBar(menuBar);
         fenetre.setContentPane(buffer);
+        
         semaine.setText("Semaine n°"+ nbSemaine);
         semaine.setFont(font2);
         semaine.setEditable(false);
@@ -359,6 +363,7 @@ public class FenetreEdt extends FenetreTemplate{
         
         RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
         ArrayList<ArrayList<String>> result = testSeance.SeanceSemaine(login,nbSemaine);
+
         int max = 0, lundi=1,mardi=1,mercredi=1,jeudi=1,vendredi=1,samedi=1;
             for (ArrayList<String> result1 : result) {
                 if (result1.size() > max) {
@@ -402,6 +407,7 @@ public class FenetreEdt extends FenetreTemplate{
                     iterator.set(3, "19:30 - 20:30");
                 }
                 infox = iterator.get(3)+ " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
+
                 for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
                     infox+= "Gr."+iterator.get(k)+" ";
                     
@@ -448,6 +454,7 @@ public class FenetreEdt extends FenetreTemplate{
          }*/
             
             JTable tableau2 = new JTable(table,jours);
+            
             tableau2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
             TableColumn colonne0 = tableau2.getColumnModel().getColumn(0);
             colonne0.setPreferredWidth(100);
