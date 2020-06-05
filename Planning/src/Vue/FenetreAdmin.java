@@ -7,7 +7,9 @@ package Vue;
 
 import Controleur.AjouterDB;
 import Controleur.InfosDB;
+import Controleur.RechercherSeance;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -15,6 +17,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -252,14 +255,60 @@ public class FenetreAdmin extends FenetreTemplate{
         pan.add(ajouter);
     }
     
-    public void supprimerCours(){
+    public void supprimerCours() throws SQLException, ClassNotFoundException{
         
-        Object [][] infos = null;
-        String[] titre = null;
+        JPanel pan1 = new JPanel();
+        fenetre.setContentPane(pan1);
+        ArrayList<ArrayList<String>> recup = RechercherSeance.Seance();
+        
+        
+        String[] titre = {"Date","Heure de début","Cours","Type de cours","Professeur","Salle","Gr","Gr","suppr","modif"};
+        
+        for (int i=0; i<recup.size(); i++){
+                recup.get(i).remove(0);
+                recup.get(i).remove(0);          
+        }
+        
+        int max = 0;
+            for (ArrayList<String> result1 : recup) {
+                if (result1.size() > max) {
+                    max = result1.size();
+                }
+            }
+        
+        Object [][] infos =  new Object[recup.size()][max+2];
+        
+        for (int i=0; i<recup.size(); i++){
+            for (int s = 0; s< recup.get(i).size();s++){
+                infos[i][s] = recup.get(i).get(s);
+            }
+        }
         
         JTable tableau;
         tableau = new JTable(infos,titre);
-        
+        tableau.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            TableColumn colonne0 = tableau.getColumnModel().getColumn(0);
+            colonne0.setPreferredWidth(80);
+            TableColumn colonne1 = tableau.getColumnModel().getColumn(1);
+            colonne1.setPreferredWidth(100);
+            TableColumn colonne2 = tableau.getColumnModel().getColumn(2);
+            colonne2.setPreferredWidth(120);
+            TableColumn colonne3 = tableau.getColumnModel().getColumn(3);
+            colonne3.setPreferredWidth(120);
+            TableColumn colonne4 = tableau.getColumnModel().getColumn(4);
+            colonne4.setPreferredWidth(100);
+            TableColumn colonne5 = tableau.getColumnModel().getColumn(5);
+            colonne5.setPreferredWidth(80);
+            TableColumn colonne6 = tableau.getColumnModel().getColumn(6);
+            colonne6.setPreferredWidth(60);
+            TableColumn colonne7 = tableau.getColumnModel().getColumn(7);
+            colonne7.setPreferredWidth(60);
+            
+            JScrollPane scroll = new JScrollPane(tableau);
+            scroll.setPreferredSize(new Dimension(1100,900));
+            
+            pan1.add(scroll);
+            
     }
     
 }
