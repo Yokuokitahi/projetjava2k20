@@ -20,5 +20,8 @@ public class Planning {
        tt = test.RecapSeance("malo", "Initiation réseau");
        double nbHeures = (tt.size())*1.5;
        System.out.println("Initiation réseau : " + nbHeures+ " heures");*/
+       // ArrayList<ArrayList<String>> test = RechercherSeance.Seance();
+        //System.out.println(test);
+        //System.out.println(test.get(0).get(3));
     }   
 }
