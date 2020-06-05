@@ -256,10 +256,12 @@ public class FenetreAdmin extends FenetreTemplate{
         
         Object [][] infos = null;
         String[] titre = null;
+        JPanel pan1 = new JPanel();
+        fenetre.setContentPane(pan1);
         
         JTable tableau;
         tableau = new JTable(infos,titre);
-        
+        pan1.add(new JScrollPane(tableau));
     }
     
 }
