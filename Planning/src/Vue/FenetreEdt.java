@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.TableColumn;
 
 
 /**
@@ -39,7 +40,9 @@ public class FenetreEdt extends FenetreTemplate{
         fenetre.setSize(new Dimension(1200,1000)); 
         //buffer.setLayout(null);
         //buffer2.setLayout(null);
+
         grille.setLayout(null);
+        //buffer.setLayout(null);
         menuEtudiant.add(item1);
         menuEtudiant.add(item2);
         menuEtudiant.addSeparator();
@@ -288,12 +291,13 @@ public class FenetreEdt extends FenetreTemplate{
         grille.setVisible(false);
         buffer.setVisible(true);
         buffer2.setVisible(false);
-        /*JTextPane jours1 = new JTextPane();
+        JTextPane jours1 = new JTextPane();
         JTextPane jours2 = new JTextPane();
         JTextPane jours3 = new JTextPane();
         JTextPane jours4 = new JTextPane();
         JTextPane jours5 = new JTextPane();
-        JTextPane jours6 = new JTextPane();*/
+        JTextPane jours6 = new JTextPane();
+        fenetre.setJMenuBar(menuBar);
         fenetre.setContentPane(buffer);
         
         semaine.setText("Semaine n°"+ nbSemaine);
@@ -350,41 +354,120 @@ public class FenetreEdt extends FenetreTemplate{
             }   
         });
         
-        fenetre.setJMenuBar(menuBar);
-        buffer.add(suivant);
-        buffer.add(prec); 
+        
+        //buffer.add(suivant);
+        //buffer.add(prec); 
         buffer.add(affichage);
         //int posX=200, posY=150, var =0;
         String infox; 
         
         RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
         ArrayList<ArrayList<String>> result = testSeance.SeanceSemaine(login,nbSemaine);
-        ArrayList<String> infos = new ArrayList<>();
+
+        int max = 0, lundi=1,mardi=1,mercredi=1,jeudi=1,vendredi=1,samedi=1;
+            for (ArrayList<String> result1 : result) {
+                if (result1.size() > max) {
+                    max = result1.size();
+                }
+            }
+            
+        Object[][] table = new Object[20][20];
         
-        String[] jours = {"Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"};
-        //if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
-            for(ArrayList<String> iterator : result){     
-                infox = "heure du cours"+ " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
+        //ArrayList<String> infos = new ArrayList<>();
+        String[] jours = {"test"};
+        if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
+            for(ArrayList<String> iterator : result){
+                
+                if(iterator.get(3).equals("0")){
+                    iterator.set(3, "08:30 - 10:00");
+                }
+                if(iterator.get(3).equals("1")){
+                    iterator.set(3, "10:15 - 11:45");
+                 
+                }
+                if(iterator.get(3).equals("2")){
+                    iterator.set(3, "12:00 - 13:30");
+                    
+                }
+                if(iterator.get(3).equals("3")){
+                    iterator.set(3, "13:45 - 15:15");
+                }
+                if(iterator.get(3).equals("4")){
+                    iterator.set(3, "15:30 - 17:00");
+                }
+                if(iterator.get(3).equals("5")){
+                    iterator.set(3, "17:15 - 18:45");
+                }
+                if(iterator.get(3).equals("6")){
+                    iterator.set(3, "19:30 - 20:30");
+                }
+                infox = iterator.get(3)+ " "+ iterator.get(4)+"  "+iterator.get(6).toUpperCase()+"  "+iterator.get(7)+"  "+iterator.get(5)+"\n";    
+
                 for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
                     infox+= "Gr."+iterator.get(k)+" ";
                     
                 }
-                infos.add(infox);
+                if("0".equals(iterator.get(2))){
+                    System.out.println(lundi);
+                    table[0][0]="Lundi";
+                    table[lundi][0] = infox;
+                    lundi++;
+                }
+                if("1".equals(iterator.get(2))){
+                    table[1][0]="Mardi";
+                    table[mardi][0] = infox;
+                    mardi++;
+                }
+                if("2".equals(iterator.get(2))){
+                    table[2][0]="Mercredi";
+                    table[mercredi][0] = infox;
+                    mercredi++;
+                }
+                if("3".equals(iterator.get(2))){
+                    table[3][0]="Jeudi";
+                    table[jeudi][0] = infox;
+                    jeudi++;
+                }
+                if("4".equals(iterator.get(2))){
+                    table[4][0]="Vendredi";
+                    table[vendredi][0] = infox;
+                    vendredi++;
+                }
+                if("5".equals(iterator.get(2))){
+                    table[5][0]="Samedi";
+                    table[samedi][0] = infox;
+                    samedi++;
+                }
+                //infos.add(infox);
             }
             
-            System.out.println(infos.size());
-            System.out.println(infos);
-            
-            Object[][] table = new Object[infos.size()][1];
-         
-            for (int j=0; j < infos.size();j++)
+        /*for(int i=0; i<result.size();i++){
+            for (int j=0; j < result.get(i).size();j++)
             {
-                table[j][0] = infos.get(j);
+                table[i][j] = result.get(i).get(j);
             }
+         }*/
             
             JTable tableau2 = new JTable(table,jours);
-            buffer.add(new JScrollPane(tableau2));
+
+            /*tableau2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            TableColumn colonne0 = tableau2.getColumnModel().getColumn(0);
+            colonne0.setPreferredWidth(200);
+            TableColumn colonne1 = tableau2.getColumnModel().getColumn(1);
+            colonne1.setPreferredWidth(200);
+            TableColumn colonne2 = tableau2.getColumnModel().getColumn(2);
+            colonne2.setPreferredWidth(200);
+            TableColumn colonne3 = tableau2.getColumnModel().getColumn(3);
+            colonne3.setPreferredWidth(200);
+            TableColumn colonne4 = tableau2.getColumnModel().getColumn(4);
+            colonne4.setPreferredWidth(200);
+            TableColumn colonne5 = tableau2.getColumnModel().getColumn(5);
+            colonne5.setPreferredWidth(200);*/
+
             
+            JScrollPane scroll = new JScrollPane(tableau2);
+            //scroll.setPreferredSize(new Dimension(1190,1000));
+            buffer.add(scroll);
             
             /*jours1.setText("Lundi"); 
             jours1.setBounds(posX, posY, 150, 20);
@@ -725,9 +808,9 @@ public class FenetreEdt extends FenetreTemplate{
                     pasDeCours.setText("Pas de cours de jour-là");
                     buffer.add(pasDeCours);
                     posY+=75;
-                } */           
-        //}else{
-          //  JOptionPane.showMessageDialog(null,result.get(0).get(0));
-        //}
+                }*/           
+        }else{
+            JOptionPane.showMessageDialog(null,result.get(0).get(0));
+        }
     }
 }
