@@ -13,7 +13,7 @@ public class UpdateDB {
     public UpdateDB() throws SQLException, ClassNotFoundException{
     }
     
-    public void Supprimer(String idSeance) throws SQLException, ClassNotFoundException{
+    public static void Supprimer(String idSeance) throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         connect.ExecuterUpdate("DELETE FROM seance WHERE ID = "+ idSeance);
         connect.ExecuterUpdate("DELETE FROM seance_enseignant WHERE ID_Seance = "+ idSeance);

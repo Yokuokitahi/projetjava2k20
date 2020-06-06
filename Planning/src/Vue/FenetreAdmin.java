@@ -8,6 +8,7 @@ package Vue;
 import Controleur.AjouterDB;
 import Controleur.InfosDB;
 import Controleur.RechercherSeance;
+import Controleur.UpdateDB;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -57,7 +58,7 @@ public class FenetreAdmin extends FenetreTemplate{
     private String promo;
     
     
-    public FenetreAdmin(String login)throws SQLException, ClassNotFoundException{
+    public FenetreAdmin()throws SQLException, ClassNotFoundException{
         fenetre.setTitle("Administration");
         fenetre.setSize(1200,1000);
         pan.setLayout(null);
@@ -264,7 +265,7 @@ public class FenetreAdmin extends FenetreTemplate{
         ArrayList<ArrayList<String>> recup = RechercherSeance.Seance();
         
         
-        String[] titre = {"Date","Heure de début","Cours","Type de cours","Professeur","Salle","Gr","Gr","suppr","modif"};
+        String[] titre = {"Id","Date","Heure de début","Cours","Type de cours","Professeur","Salle","Gr","Gr","suppr","modif"};
         
         for (int i=0; i<recup.size(); i++){
                 recup.get(i).remove(1);         
@@ -280,8 +281,8 @@ public class FenetreAdmin extends FenetreTemplate{
         Object [][] infos =  new Object[recup.size()][max+3];
         
         for (int i=0; i<recup.size(); i++){
-            for (int s = 1; s< recup.get(i).size();s++){
-                infos[i][s-1] = recup.get(i).get(s);
+            for (int s = 0; s< recup.get(i).size();s++){
+                infos[i][s] = recup.get(i).get(s);
             }
         }
         
@@ -346,6 +347,7 @@ class ButtonEditor extends DefaultCellEditor {
   private boolean isPushed;
   
   private int idL;
+  private Object ident;
 
   public ButtonEditor(JCheckBox checkBox) {
     super(checkBox);
@@ -370,23 +372,35 @@ class ButtonEditor extends DefaultCellEditor {
     }
     label = (value == null) ? "" : value.toString();
     button.setText(label);
-    System.out.println(row);
-    idL=row;
+    
+    //idL=row;
+    ident=table.getValueAt(row,0);
     isPushed = true;
     return button;
   }
-
+  
   public Object getCellEditorValue() {
     if (isPushed) {
       // 
-      // 
-      JOptionPane.showMessageDialog(button, label + ":"+ idL + " !");
-      // System.out.println(label + ": Ouch!");
+      String S= (String) ident;
+        try {
+            UpdateDB.Supprimer(S);
+            FenetreAdmin refresh= new FenetreAdmin();
+            fenetre.dispose();
+            refresh.supprimerCours();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      //JOptionPane.showMessageDialog(button, label + ":"+ idL + " !");
+      System.out.println("ident =" + ident);
     }
     isPushed = false;
     return new String(label);
   }
 
+  public int getRow(){
+      return idL;
+  }
   public boolean stopCellEditing() {
     isPushed = false;
     return super.stopCellEditing();

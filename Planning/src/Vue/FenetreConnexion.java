@@ -84,7 +84,7 @@ public class FenetreConnexion extends FenetreTemplate{
                     JOptionPane.showMessageDialog(null,"Connexion réussie");
                     fenetre.dispose();
                     try {
-                        FenetreAdmin admin = new FenetreAdmin(log);
+                        FenetreAdmin admin = new FenetreAdmin();
                         //admin.ajouterCours();
                         admin.supprimerCours();
                     } catch (SQLException | ClassNotFoundException ex) {
