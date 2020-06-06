@@ -283,21 +283,20 @@ public class FenetreEdt extends FenetreTemplate{
          }
          
          JTable tableau = new JTable(table,colonne);
-         tableau.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-         for(int i =0;i<informations.size();i++){
-             TableColumn colonne0 = tableau.getColumnModel().getColumn(i);
-            colonne0.setPreferredWidth(150);
-         }
-        
-           JScrollPane scroll = new JScrollPane(tableau);
-           scroll.setPreferredSize(new Dimension(1100,900));
-            buffer2.add(scroll);
+         
+         buffer2.add(new JScrollPane(tableau));
     }
     
     public void ListeEdt(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
         grille.setVisible(false);
         buffer.setVisible(true);
         buffer2.setVisible(false);
+        JTextPane jours1 = new JTextPane();
+        JTextPane jours2 = new JTextPane();
+        JTextPane jours3 = new JTextPane();
+        JTextPane jours4 = new JTextPane();
+        JTextPane jours5 = new JTextPane();
+        JTextPane jours6 = new JTextPane();
         fenetre.setJMenuBar(menuBar);
         fenetre.setContentPane(buffer);
         
@@ -355,7 +354,11 @@ public class FenetreEdt extends FenetreTemplate{
             }   
         });
         
+        
+        //buffer.add(suivant);
+        //buffer.add(prec); 
         buffer.add(affichage);
+        //int posX=200, posY=150, var =0;
         String infox; 
         
         RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();

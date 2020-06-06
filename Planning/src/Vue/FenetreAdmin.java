@@ -19,8 +19,10 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
@@ -60,7 +62,7 @@ public class FenetreAdmin extends FenetreTemplate{
     private String promo;
     
     
-    public FenetreAdmin(String login)throws SQLException, ClassNotFoundException{
+    public FenetreAdmin()throws SQLException, ClassNotFoundException{
         fenetre.setTitle("Administration");
         fenetre.setSize(1200,1000);
         pan.setLayout(null);
@@ -416,12 +418,10 @@ public class FenetreAdmin extends FenetreTemplate{
         //System.out.println(recup);
         //System.out.println(recup.get(1).get(0));
         
-        String[] titre = {"Date","Heure de début","Cours","Type de cours","Professeur","Salle","Gr","Gr","suppr","modif"};
+        String[] titre = {"Id","Date","Heure de début","Cours","Type de cours","Professeur","Salle","Gr","Gr","suppr","modif"};
         
         for (int i=0; i<recup.size(); i++){
-                System.out.println(recup.get(i).get(0));
-                recup.get(i).remove(0);
-                recup.get(i).remove(0); 
+                recup.get(i).remove(1);         
         }
         
         int max = 0;
@@ -430,8 +430,9 @@ public class FenetreAdmin extends FenetreTemplate{
                     max = result1.size()+2;
                 }
             }
-       
-        Object [][] infos =  new Object[recup.size()][max];
+
+        Object [][] infos =  new Object[recup.size()][max+3];
+
         
         for (int i=0; i<recup.size(); i++){
             for (int s = 0; s< recup.get(i).size();s++){
@@ -467,14 +468,110 @@ public class FenetreAdmin extends FenetreTemplate{
             
             pan1.add(scroll);
             
-            /*tableau.getColumn("suppr").setCellRenderer(new ButtonRenderer());
+            tableau.getColumn("suppr").setCellRenderer(new ButtonRenderer());
             tableau.getColumn("suppr").setCellEditor(new ButtonEditor(new JCheckBox()));
-
+            
             tableau.getColumn("modif").setCellRenderer(new ButtonRenderer());
-            tableau.getColumn("modif").setCellEditor(new ButtonEditor(new JCheckBox()));*/
-
+            tableau.getColumn("modif").setCellEditor(new ButtonEditor(new JCheckBox()));
     }
     
+class ButtonRenderer extends JButton implements TableCellRenderer {
+
+  public ButtonRenderer() {
+    setOpaque(true);
+  }
+
+  public Component getTableCellRendererComponent(JTable table, Object value,
+      boolean isSelected, boolean hasFocus, int row, int column) {
+    if (isSelected) {
+      setForeground(table.getSelectionForeground());
+      setBackground(table.getSelectionBackground());
+    } else {
+      setForeground(table.getForeground());
+      setBackground(UIManager.getColor("Button.background"));
+    }
+    setText((value == null) ? "" : value.toString());
+    return this;
+  }
+}
+
+
+class ButtonEditor extends DefaultCellEditor {
+  protected JButton button;
+
+  private String label;
+
+  private boolean isPushed;
+  private boolean isPousse;
+  
+  private int idL;
+  private Object ident, date, heure, cours, type, prof, salle, gr1, gr2;
+
+  public ButtonEditor(JCheckBox checkBox) {
+    super(checkBox);
+    button = new JButton();
+    button.setOpaque(true);
+    button.addActionListener(new ActionListener() {
+    
+        public void actionPerformed(ActionEvent e) {
+        fireEditingStopped();
+      }
+    });
+  }
+
+  public Component getTableCellEditorComponent(JTable table, Object value,
+      boolean isSelected, int row, int column) {
+    if (isSelected) {
+      button.setForeground(table.getSelectionForeground());
+      button.setBackground(table.getSelectionBackground());  
+    } else {
+      button.setForeground(table.getForeground());
+      button.setBackground(table.getBackground());
+    }
+    label = (value == null) ? "" : value.toString();
+    button.setText(label);
+
+    ident = table.getValueAt(row,0);
+    date = table.getValueAt(row,1);
+    heure = table.getValueAt(row,2);
+    cours = table.getValueAt(row,3);
+    type = table.getValueAt(row,4);
+    prof = table.getValueAt(row,5);
+    salle = table.getValueAt(row,6);
+    gr1 = table.getValueAt(row,7);
+    gr2 = table.getValueAt(row,8);
+    
+    if(column == 9){
+        isPushed = true;
+        isPousse = false;
+    }
+    if (column == 10){
+        isPushed = false;
+        isPousse = true;
+          
+    }
+    return button;  
+  }
+  
+  public Object getCellEditorValue() {
+    if (isPushed) {
+      // 
+      String S= (String) ident;
+        try {
+            UpdateDB.Supprimer(S);
+            FenetreAdmin refresh= new FenetreAdmin();
+            fenetre.dispose();
+            refresh.supprimerCours();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      JOptionPane.showMessageDialog(button, label + ":"+ idL + " !");
+      System.out.println("ident =" + ident);
+
+    }
+    isPushed = false;
+    
+
 
 /*class ButtonRenderer extends JButton implements TableCellRenderer {
 
@@ -555,16 +652,61 @@ class ButtonEditor extends DefaultCellEditor {
   }
 
   @Override
+
+    if(isPousse){
+        try {
+            String identS= (String) ident;
+            String dateS= (String) date;
+            String heureS= (String) heure;
+            String coursS= (String) cours;
+            String typesS= (String) type;
+            String profS= (String) prof;
+            String salleS= (String) salle;
+            String gr1S= (String) gr1;
+            String gr2S= (String) gr2;
+            
+            ArrayList<String> tokens = new ArrayList<>(Arrays.asList(dateS.split("-")));
+            String annee= tokens.get(0);
+            String mois= tokens.get(1);
+            String jours= tokens.get(2);
+            
+            tokens = new ArrayList<>(Arrays.asList(heureS.split(":")));
+            String heure= tokens.get(0);
+            String minute= tokens.get(1);
+           
+            System.out.print(heure +" "+ minute);
+           FenetreAdmin refresh2;
+           refresh2 = new FenetreAdmin(); 
+           // refresh2.ajouterCours();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }     
+    }
+    isPousse=false;
+    return new String(label);
+  }
+
+  public int getRow(){
+      return idL;
+  }
+
   public boolean stopCellEditing() {
     isPushed = false;
     return super.stopCellEditing();
   }
+
 
   @Override
   protected void fireEditingStopped() {
     super.fireEditingStopped();
   }
 }*/
+
+  protected void fireEditingStopped() {
+    super.fireEditingStopped();
+  }
+}
+
 }
 
     
