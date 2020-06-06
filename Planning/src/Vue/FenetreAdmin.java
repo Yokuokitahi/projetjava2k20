@@ -9,6 +9,7 @@ import Controleur.AjouterDB;
 import Controleur.InfosDB;
 import Controleur.RechercherSeance;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 /**
@@ -265,8 +267,7 @@ public class FenetreAdmin extends FenetreTemplate{
         String[] titre = {"Date","Heure de début","Cours","Type de cours","Professeur","Salle","Gr","Gr","suppr","modif"};
         
         for (int i=0; i<recup.size(); i++){
-                recup.get(i).remove(0);
-                recup.get(i).remove(0);          
+                recup.get(i).remove(1);         
         }
         
         int max = 0;
@@ -275,12 +276,12 @@ public class FenetreAdmin extends FenetreTemplate{
                     max = result1.size();
                 }
             }
-        
-        Object [][] infos =  new Object[recup.size()][max+2];
+       
+        Object [][] infos =  new Object[recup.size()][max+3];
         
         for (int i=0; i<recup.size(); i++){
-            for (int s = 0; s< recup.get(i).size();s++){
-                infos[i][s] = recup.get(i).get(s);
+            for (int s = 1; s< recup.get(i).size();s++){
+                infos[i][s-1] = recup.get(i).get(s);
             }
         }
         
@@ -309,8 +310,92 @@ public class FenetreAdmin extends FenetreTemplate{
             
             pan1.add(scroll);
             
+            tableau.getColumn("suppr").setCellRenderer(new ButtonRenderer());
+            tableau.getColumn("suppr").setCellEditor(new ButtonEditor(new JCheckBox()));
+            
+            tableau.getColumn("modif").setCellRenderer(new ButtonRenderer());
+            tableau.getColumn("modif").setCellEditor(new ButtonEditor(new JCheckBox()));
     }
     
+class ButtonRenderer extends JButton implements TableCellRenderer {
+
+  public ButtonRenderer() {
+    setOpaque(true);
+  }
+
+  public Component getTableCellRendererComponent(JTable table, Object value,
+      boolean isSelected, boolean hasFocus, int row, int column) {
+    if (isSelected) {
+      setForeground(table.getSelectionForeground());
+      setBackground(table.getSelectionBackground());
+    } else {
+      setForeground(table.getForeground());
+      setBackground(UIManager.getColor("Button.background"));
+    }
+    setText((value == null) ? "" : value.toString());
+    return this;
+  }
+}
+
+
+class ButtonEditor extends DefaultCellEditor {
+  protected JButton button;
+
+  private String label;
+
+  private boolean isPushed;
+  
+  private int idL;
+
+  public ButtonEditor(JCheckBox checkBox) {
+    super(checkBox);
+    button = new JButton();
+    button.setOpaque(true);
+    button.addActionListener(new ActionListener() {
+    
+        public void actionPerformed(ActionEvent e) {
+        fireEditingStopped();
+      }
+    });
+  }
+
+  public Component getTableCellEditorComponent(JTable table, Object value,
+      boolean isSelected, int row, int column) {
+    if (isSelected) {
+      button.setForeground(table.getSelectionForeground());
+      button.setBackground(table.getSelectionBackground());  
+    } else {
+      button.setForeground(table.getForeground());
+      button.setBackground(table.getBackground());
+    }
+    label = (value == null) ? "" : value.toString();
+    button.setText(label);
+    System.out.println(row);
+    idL=row;
+    isPushed = true;
+    return button;
+  }
+
+  public Object getCellEditorValue() {
+    if (isPushed) {
+      // 
+      // 
+      JOptionPane.showMessageDialog(button, label + ":"+ idL + " !");
+      // System.out.println(label + ": Ouch!");
+    }
+    isPushed = false;
+    return new String(label);
+  }
+
+  public boolean stopCellEditing() {
+    isPushed = false;
+    return super.stopCellEditing();
+  }
+
+  protected void fireEditingStopped() {
+    super.fireEditingStopped();
+  }
+}
 }
 
     
