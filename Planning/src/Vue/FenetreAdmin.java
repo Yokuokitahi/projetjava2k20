@@ -345,9 +345,10 @@ class ButtonEditor extends DefaultCellEditor {
   private String label;
 
   private boolean isPushed;
+  private boolean isPousse;
   
   private int idL;
-  private Object ident;
+  private Object ident, date, heure, cours, type, prof, salle, gr1, gr2;
 
   public ButtonEditor(JCheckBox checkBox) {
     super(checkBox);
@@ -372,11 +373,27 @@ class ButtonEditor extends DefaultCellEditor {
     }
     label = (value == null) ? "" : value.toString();
     button.setText(label);
+
+    ident = table.getValueAt(row,0);
+    date = table.getValueAt(row,1);
+    heure = table.getValueAt(row,2);
+    cours = table.getValueAt(row,3);
+    type = table.getValueAt(row,4);
+    prof = table.getValueAt(row,5);
+    salle = table.getValueAt(row,6);
+    gr1 = table.getValueAt(row,7);
+    gr2 = table.getValueAt(row,8);
     
-    //idL=row;
-    ident=table.getValueAt(row,0);
-    isPushed = true;
-    return button;
+    if(column == 9){
+        isPushed = true;
+        isPousse = false;
+    }
+    if (column == 10){
+        isPushed = false;
+        isPousse = true;
+          
+    }
+    return button;  
   }
   
   public Object getCellEditorValue() {
@@ -391,10 +408,41 @@ class ButtonEditor extends DefaultCellEditor {
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
-      //JOptionPane.showMessageDialog(button, label + ":"+ idL + " !");
+      JOptionPane.showMessageDialog(button, label + ":"+ idL + " !");
       System.out.println("ident =" + ident);
     }
     isPushed = false;
+    
+    if(isPousse){
+        try {
+            String identS= (String) ident;
+            String dateS= (String) date;
+            String heureS= (String) heure;
+            String coursS= (String) cours;
+            String typesS= (String) type;
+            String profS= (String) prof;
+            String salleS= (String) salle;
+            String gr1S= (String) gr1;
+            String gr2S= (String) gr2;
+            
+            ArrayList<String> tokens = new ArrayList<>(Arrays.asList(dateS.split("-")));
+            String annee= tokens.get(0);
+            String mois= tokens.get(1);
+            String jours= tokens.get(2);
+            
+            tokens = new ArrayList<>(Arrays.asList(heureS.split(":")));
+            String heure= tokens.get(0);
+            String minute= tokens.get(1);
+           
+            System.out.print(heure +" "+ minute);
+           FenetreAdmin refresh2;
+           refresh2 = new FenetreAdmin(); 
+           // refresh2.ajouterCours();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }     
+    }
+    isPousse=false;
     return new String(label);
   }
 
