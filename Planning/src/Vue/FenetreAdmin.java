@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vue;
 
 import Controleur.AjouterDB;
@@ -19,9 +14,6 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
 
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -232,13 +224,13 @@ public class FenetreAdmin extends FenetreTemplate{
                 promo = promotion.getSelectedItem().toString();
                 ArrayList<String> grp = new ArrayList<>();
                 grp.add(groupes.getSelectedItem().toString());
-                System.out.println(date);
+                /*System.out.println(date);
                 System.out.println(horaire);
                 System.out.println(typeC);
                 System.out.println(mat);
                 System.out.println(prof);
                 System.out.println(salle);
-                System.out.println(promo);
+                System.out.println(promo);*/
                 
                 try {
                     AjouterDB.AjouterSeance(date, horaire, mat, typeC, prof, grp, promo, salle);

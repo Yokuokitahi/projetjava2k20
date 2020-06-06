@@ -94,6 +94,12 @@ public class FenetreConnexion extends FenetreTemplate{
                 }
                 else if(logUser == 2){
                     //FENETRE REFERENT
+                    FenetreReferent referent = new FenetreReferent();
+                    try {
+                        referent.Recherche();
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     JOptionPane.showMessageDialog(null,"Connexion réussie");
                     fenetre.dispose();
                     
