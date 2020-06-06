@@ -86,7 +86,8 @@ public class FenetreConnexion extends FenetreTemplate{
                     try {
                         FenetreAdmin admin = new FenetreAdmin(log);
                         //admin.ajouterCours();
-                        admin.supprimerCours();
+                        //admin.supprimerCours();
+                        admin.modifierCours("5", "2020-06-06", "15:30", "Probabilité", "Cours Magistral", "coudray", "Amphi A", "B, 2022","null");
                     } catch (SQLException | ClassNotFoundException ex) {
                         Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
                     }
