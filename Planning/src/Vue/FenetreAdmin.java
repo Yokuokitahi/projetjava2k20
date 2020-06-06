@@ -400,6 +400,9 @@ public class FenetreAdmin extends FenetreTemplate{
                 
                 try {
                     UpdateDB.Modifier(id, date, horaire, mat, typeC, prof, salle);
+                    fenetre.dispose();
+                    FenetreAdmin refresh = new FenetreAdmin();
+                    refresh.supprimerCours();
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -571,88 +574,6 @@ class ButtonEditor extends DefaultCellEditor {
     }
     isPushed = false;
     
-
-
-/*class ButtonRenderer extends JButton implements TableCellRenderer {
-
-  public ButtonRenderer() {
-    setOpaque(true);
-  }
-
-  @Override
-  public Component getTableCellRendererComponent(JTable table, Object value,
-      boolean isSelected, boolean hasFocus, int row, int column) {
-    if (isSelected) {
-      setForeground(table.getSelectionForeground());
-      setBackground(table.getSelectionBackground());
-    } else {
-      setForeground(table.getForeground());
-      setBackground(UIManager.getColor("Button.background"));
-    }
-    setText((value == null) ? "" : value.toString());
-    return this;
-  }
-}
-
-
-class ButtonEditor extends DefaultCellEditor {
-  protected JButton button;
-
-  private String label;
-
-  private boolean isPushed;
-
-  public ButtonEditor(JCheckBox checkBox) {
-    super(checkBox);
-    button = new JButton();
-    
-    button.setOpaque(true);
-    button.addActionListener(new ActionListener() {
-    
-        @Override
-        public void actionPerformed(ActionEvent e) {
-        fireEditingStopped();
-      }
-    });
-  }
-
-  @Override
-  public Component getTableCellEditorComponent(JTable table, Object value,
-      boolean isSelected, int row, int column) {
-    if (isSelected) {
-      button.setForeground(table.getSelectionForeground());
-      button.setBackground(table.getSelectionBackground());
-    } else {
-      button.setForeground(table.getForeground());
-      button.setBackground(table.getBackground());
-    }
-    label = (value == null) ? "appuie" : value.toString();
-    button.setText(label);
-    isPushed = true;
-    return button;
-  }
-
-  @Override
-  public Object getCellEditorValue() {
-    if (isPushed) {
-        
-        try {
-            ArrayList<ArrayList<String>> recup = RechercherSeance.Seance();
-            try {
-                UpdateDB.Supprimer(recup.get(0).get(0));
-            } catch (SQLException | ClassNotFoundException ex) {
-                Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    isPushed = false;
-    return label;
-  }
-
-  @Override
-
     if(isPousse){
         try {
             String identS= (String) ident;
@@ -665,19 +586,22 @@ class ButtonEditor extends DefaultCellEditor {
             String gr1S= (String) gr1;
             String gr2S= (String) gr2;
             
-            ArrayList<String> tokens = new ArrayList<>(Arrays.asList(dateS.split("-")));
+            /*ArrayList<String> tokens = new ArrayList<>(Arrays.asList(dateS.split("-")));
             String annee= tokens.get(0);
             String mois= tokens.get(1);
             String jours= tokens.get(2);
             
             tokens = new ArrayList<>(Arrays.asList(heureS.split(":")));
             String heure= tokens.get(0);
-            String minute= tokens.get(1);
+            String minute= tokens.get(1);*/
            
-            System.out.print(heure +" "+ minute);
+            //System.out.print(heure +" "+ minute);
+            
            FenetreAdmin refresh2;
            refresh2 = new FenetreAdmin(); 
-           // refresh2.ajouterCours();
+           refresh2.modifierCours(identS, dateS, heureS,coursS, typesS, profS, salleS, gr1S, gr2S);
+           fenetre.dispose();
+           
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }     
@@ -700,13 +624,10 @@ class ButtonEditor extends DefaultCellEditor {
   protected void fireEditingStopped() {
     super.fireEditingStopped();
   }
-}*/
-
-  protected void fireEditingStopped() {
-    super.fireEditingStopped();
-  }
 }
 
 }
+
+
 
     
