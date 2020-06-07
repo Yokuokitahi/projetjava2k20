@@ -39,11 +39,8 @@ public class FenetreEdt extends FenetreTemplate{
     
     public FenetreEdt(final String login) throws SQLException, ClassNotFoundException{
         fenetre.setSize(new Dimension(1200,1000)); 
-        //buffer.setLayout(null);
-        //buffer2.setLayout(null);
-
+ 
         grille.setLayout(null);
-        //buffer.setLayout(null);
         menuEtudiant.add(item1);
         menuEtudiant.add(item2);
         menuEtudiant.addSeparator();
@@ -254,6 +251,162 @@ public class FenetreEdt extends FenetreTemplate{
                 if("Initiation réseau".equals(iterator.get(4))){
                     cours.setBackground(Color.magenta);
                 }     
+                //cours.setBackground(Color.orange);
+                cours.setFont(font);
+                cours.setEditable(false);
+                cours.setBounds(posX,posY,149,74);
+                cours.setText(infox);
+                grille.add(cours);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,result.get(0).get(0));
+        }
+    }
+    
+    public void AdminCreerEDT(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
+        grille.setVisible(true);
+        buffer.setVisible(false);
+        buffer2.setVisible(false);
+        fenetre.setContentPane(grille);
+        semaine.setText("Semaine n°"+ nbSemaine);
+        semaine.setFont(font2);
+        semaine.setEditable(false);
+        semaine.setBackground(fenetre.getBackground());
+        semaine.setBounds(475, 10, 155, 20);
+        grille.add(semaine);
+        menuBar.remove(menuEtudiant);
+        JButton retour = new JButton("Revenir à la recherche");
+        retour.setBounds(100,30,155,20);
+        
+        JButton suivant = new JButton("Semaine suivante");
+        suivant.setBounds(550,30,155,20);
+        
+        JButton prec = new JButton("Semaine précédente");
+        prec.setBounds(350,30,155,20);
+        
+        prec.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    grille.removeAll();
+                    grille.repaint();
+                    buffer.removeAll();
+                    buffer.repaint();
+                    RefCreerEDT(login, nbSemaine-1);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }            
+        });
+        
+        retour.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    FenetreAdmin admin = new FenetreAdmin();
+                    fenetre.dispose();
+                    admin.BaseAdmin();
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        });
+        
+        suivant.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    grille.removeAll();
+                    grille.repaint();
+                    buffer.removeAll();
+                    buffer.repaint();
+                    RefCreerEDT(login, nbSemaine+1);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }         
+        });
+
+        fenetre.setJMenuBar(menuBar);
+        grille.add(suivant);
+        grille.add(prec); 
+        grille.add(retour);
+        
+        String infox;
+        int posX=0, posY=0;
+        RechercherSeanceSemaine testSeance = new RechercherSeanceSemaine();
+        ArrayList<ArrayList<String>> result = testSeance.SeanceSemaine(login,nbSemaine);
+        if(!result.get(0).get(0).equals("Erreur : pas de cours disponibles actuellement")){
+            for(ArrayList<String> iterator : result){
+                infox = iterator.get(4)+"\n"+iterator.get(6).toUpperCase()+"\n"+iterator.get(5)+"\n"+iterator.get(7)+"\n";
+                for(int k=9;k<iterator.size();k++){//AJOUTER LES INFOS DU COURS
+                    infox+= "Gr."+iterator.get(k)+" ";
+                }
+                
+                switch (iterator.get(2)) {
+                    case "0":
+                        posX = 81;
+                        break;
+                    case "1":
+                        posX=231;
+                        break;
+                    case "2":
+                        posX=381;
+                        break;
+                    case "3":
+                        posX=531;
+                        break;
+                    case "4":
+                        posX=681;
+                        break;
+                    case "5":
+                        posX=831;
+                        break;
+                    default: 
+                        break;
+                }
+                switch(iterator.get(3)){
+                    case "0":
+                        posY=101;
+                        break;
+                    case "1":
+                        posY=188;
+                        break;
+                    case "2":
+                        posY=276;
+                        break;
+                    case "3":
+                        posY=363;
+                        break;
+                    case "4":
+                        posY=451;
+                        break;
+                    case "5":
+                        posY=538;
+                        break;
+                    case "6":
+                        posY=626;
+                        break;
+                }
+                JTextPane cours = new JTextPane(); 
+                StyledDocument doc = cours.getStyledDocument();
+                SimpleAttributeSet center = new SimpleAttributeSet();
+                StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+                doc.setParagraphAttributes(0, doc.getLength(), center, false);
+                if("Probabilité".equals(iterator.get(4))){
+                    cours.setBackground(Color.green);
+                }
+                if("Physique".equals(iterator.get(4))){
+                    cours.setBackground(Color.cyan);
+                }
+                if("Analyse de Fourier".equals(iterator.get(4))){
+                    cours.setBackground(Color.orange);
+                }
+                if("Initiation réseau".equals(iterator.get(4))){
+                    cours.setBackground(Color.magenta);
+                } 
                 //cours.setBackground(Color.orange);
                 cours.setFont(font);
                 cours.setEditable(false);
