@@ -4,6 +4,7 @@ import Controleur.AjouterDB;
 import Controleur.InfosDB;
 import Controleur.RechercherSeance;
 import Controleur.UpdateDB;
+import Modele.ConnexionDatabase;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -25,11 +26,13 @@ import javax.swing.table.TableColumn;
 public class FenetreAdmin extends FenetreTemplate{
     
     private final JMenuBar menuBar = new JMenuBar();
+    private final JMenuItem item1 = new JMenuItem("Retour");
     private final JMenu admin = new JMenu("Admin");
     private final JMenuItem deco = new JMenuItem("Déconnexion");
     private final JMenuItem close = new JMenuItem("Fermer");
     
     private final JPanel pan = new JPanel();
+    private final JPanel buff = new JPanel();
     private final JComboBox jours = new JComboBox();
     private final JComboBox mois = new JComboBox();
     private final JComboBox annee = new JComboBox();
@@ -60,6 +63,8 @@ public class FenetreAdmin extends FenetreTemplate{
         fenetre.setTitle("Administration");
         fenetre.setSize(1200,1000);
         pan.setLayout(null);
+        buff.setLayout(null);
+        admin.add(item1);
 
         menuBar.add(admin);
         admin.add(deco);
@@ -94,11 +99,285 @@ public class FenetreAdmin extends FenetreTemplate{
         pan.setBackground(fenetre.getBackground());
         fenetre.setJMenuBar(menuBar);
         
+        item1.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                try {
+                    FenetreAdmin admin = new FenetreAdmin();
+                    fenetre.dispose();
+                    admin.BaseAdmin();
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
     }
     
+    public void BaseAdmin() throws SQLException, ClassNotFoundException{
+        pan.setVisible(false);
+        buff.setVisible(true);
+        ArrayList<String> prom = InfosDB.getPromotion();
+        final JRadioButton professeur; 
+        final JRadioButton gr;
+        final JRadioButton etudiant; 
+        final JTextField nom = new JTextField();
+        final JTextField prenom = new JTextField();
+        final JButton rech = new JButton("Rechercher un emploi du temps");
+        final JButton ajouterUnCours = new JButton("Ajouter une séance");
+        final JButton modifCours = new JButton("Modifier/Supprimer une séance");
+        ajouterUnCours.setBackground(Color.green);
+        modifCours.setBackground(Color.red);
+        rech.setBackground(Color.GREEN);
+    
+        ButtonGroup G1; 
+        JLabel text = new JLabel("Choississez une recherche :");
+        professeur = new JRadioButton(); 
+        gr = new JRadioButton();
+        etudiant = new JRadioButton(); 
+        final JButton ajouterGr = new JButton("Ajouter un groupe");
+        G1 = new ButtonGroup(); 
+        
+        professeur.setText("Professeur"); 
+        gr.setText("Groupe");
+        etudiant.setText("Etudiant"); 
+    
+        professeur.setBackground(buff.getBackground());
+        gr.setBackground(buff.getBackground());
+        etudiant.setBackground(buff.getBackground());
+        
+        ajouterUnCours.setBounds(300,40,250,50);
+        modifCours.setBounds(600,40,250,50);
+        rech.setBounds(450,420,250,50);
+        professeur.setBounds(400, 150, 120, 50); 
+        gr.setBounds(530,150,120,50);
+        etudiant.setBounds(660, 150, 80, 50); 
+        text.setBounds(500, 130, 300,20);
+        ajouterGr.setBounds(510,320,130,30);
+        groupes.setBounds(650,320,80,30);
+        groupes.addItem("Groupes");
+        nom.setBounds(460,320,100,30);
+        prenom.setBounds(580,320,100,30);
+    
+        promotion.setBounds(400,320,100,30);
+        promotion.addItem("Promo");
+        for (String prom1 : prom) {
+            promotion.addItem(prom1);
+        }
+    
+        buff.add(text);
+        buff.add(professeur); 
+        buff.add(gr);
+        buff.add(nom);
+        buff.add(prenom);
+        buff.add(etudiant); 
+        buff.add(promotion);
+        buff.add(ajouterGr);
+        buff.add(groupes);
+        buff.add(rech);
+        buff.add(ajouterUnCours);
+        buff.add(modifCours);
+        ajouterUnCours.setVisible(true);
+        modifCours.setVisible(true);
+        groupes.setVisible(false);
+        ajouterGr.setVisible(false);
+        promotion.setVisible(false);
+        nom.setVisible(false);
+        prenom.setVisible(false);
+        rech.setVisible(false);
+  
+        G1.add(professeur); 
+        G1.add(gr);
+        G1.add(etudiant); 
+        
+        
+        ajouterUnCours.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buff.removeAll();
+                buff.repaint();
+                try {
+                    FenetreAdmin ad = new FenetreAdmin();
+                    fenetre.dispose();
+                    ad.ajouterCours();
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        });
+        
+        modifCours.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buff.removeAll();
+                buff.repaint();
+                try {
+                    FenetreAdmin ad = new FenetreAdmin();
+                    fenetre.dispose();
+                    ad.supprimerCours();
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        });
+        rech.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(professeur.isSelected()){
+                String nomProf = nom.getText();
+                String prenomProf = prenom.getText();
+                String login;
+                FenetreEdt edt;
+                try {
+                    int nbSemaine = ConnexionDatabase.SQLNumSemaine();
+                    login = InfosDB.getLogin(nomProf, prenomProf);
+                    if(!"User not found".equals(login)){
+                        edt = new FenetreEdt(login);
+                        fenetre.dispose();
+                        edt.AdminCreerEDT(login, nbSemaine);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "User not found");
+                        FenetreAdmin ad = new FenetreAdmin();
+                        fenetre.dispose();
+                        ad.BaseAdmin();
+                    }
+                    
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+            }
+            if(gr.isSelected()){
+                String promo = promotion.getSelectedItem().toString();
+                String grp = groupes.getSelectedItem().toString();
+                FenetreEdt edt;
+                try {
+                    int nbSemaine = ConnexionDatabase.SQLNumSemaine();
+                    String login = InfosDB.getLoginGroupe(grp, promo);
+                    if(!"User not found".equals(login)){
+                        edt = new FenetreEdt(login);
+                        fenetre.dispose();
+                        edt.AdminCreerEDT(login, nbSemaine);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "User not found");
+                        FenetreAdmin ad = new FenetreAdmin();
+                        fenetre.dispose();
+                        ad.BaseAdmin();
+                        ;
+                    }
+                    
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+                
+                
+            }
+            if(etudiant.isSelected()){
+                String nomEtudiant = nom.getText();
+                String prenomEtudiant = prenom.getText();
+                String login;
+                FenetreEdt edt;
+                try {
+                    int nbSemaine = ConnexionDatabase.SQLNumSemaine();
+                    login = InfosDB.getLogin(nomEtudiant, prenomEtudiant);
+                    if(!"User not found".equals(login)){
+                        edt = new FenetreEdt(login);
+                        fenetre.dispose();
+                        edt.AdminCreerEDT(login, nbSemaine);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "User not found");
+                        FenetreAdmin ad = new FenetreAdmin();
+                        fenetre.dispose();
+                        ad.BaseAdmin();
+                    }
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+            }
+            
+        }
+        
+    });
+    
+    professeur.addActionListener(new ActionListener(){
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            promotion.setVisible(false);
+            ajouterGr.setVisible(false);
+            groupes.setVisible(false);
+            nom.setVisible(true);
+            prenom.setVisible(true);
+            rech.setVisible(true);
+            ajouterUnCours.setVisible(false);
+            modifCours.setVisible(false);
+        }
+        
+    });
+    
+    gr.addActionListener(new ActionListener(){
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            promotion.setVisible(true);
+            ajouterGr.setVisible(true);
+            groupes.setVisible(false);
+            nom.setVisible(false);
+            prenom.setVisible(false);
+            rech.setVisible(true);
+            ajouterUnCours.setVisible(false);
+            modifCours.setVisible(false);
+        }
+    });
+    
+    etudiant.addActionListener(new ActionListener(){
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            promotion.setVisible(false);
+            ajouterGr.setVisible(false);
+            groupes.setVisible(false);
+            nom.setVisible(true);
+            prenom.setVisible(true);
+            rech.setVisible(true);
+            ajouterUnCours.setVisible(false);
+            modifCours.setVisible(false);
+        }
+        
+    });
+    
+    ajouterGr.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                String promo = promotion.getSelectedItem().toString();
+                
+                ArrayList<String> gr = new ArrayList<>();
+                
+                if (!"Promo".equals(promo)){  
+                try {
+                    gr = InfosDB.getGroupes(promo);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                groupes.removeAllItems();
+                groupes.addItem("Groupes");
+                    for (String gr1 : gr) {
+                        groupes.addItem(gr1);
+                    }
+                    
+                groupes.setVisible(true);
+                
+                }else{
+                groupes.setVisible(false);
+                }
+            }
+        });
+        fenetre.setContentPane(buff);
+    }
     
     public void ajouterCours() throws SQLException, ClassNotFoundException{
-        
         //fonction pour avoir matieres + typecours depuis BDD
         ArrayList<String> matieres = InfosDB.getMatiere();
         ArrayList<String> type = InfosDB.getTypeDeCours();
@@ -256,16 +535,10 @@ public class FenetreAdmin extends FenetreTemplate{
                 promo = promotion.getSelectedItem().toString();
                 ArrayList<String> grp = new ArrayList<>();
                 grp.add(groupes.getSelectedItem().toString());
-                /*System.out.println(date);
-                System.out.println(horaire);
-                System.out.println(typeC);
-                System.out.println(mat);
-                System.out.println(prof);
-                System.out.println(salle);
-                System.out.println(promo);*/
                 
                 try {
                     AjouterDB.AjouterSeance(date, horaire, mat, typeC, prof, grp, promo, salle);
+                    BaseAdmin();
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
                 }
