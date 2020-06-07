@@ -65,6 +65,7 @@ public class FenetreAdmin extends FenetreTemplate{
         
     }
     
+    
     public void ajouterCours() throws SQLException, ClassNotFoundException{
         
         //fonction pour avoir matieres + typecours depuis BDD
