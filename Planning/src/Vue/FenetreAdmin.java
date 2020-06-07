@@ -42,6 +42,7 @@ public class FenetreAdmin extends FenetreTemplate{
     private final JComboBox salles = new JComboBox();
     private final JComboBox promotion = new JComboBox();
     private final JComboBox groupes = new JComboBox();
+    private final JComboBox groupes2 = new JComboBox();
     
     private String j;
     private String m;
@@ -405,6 +406,8 @@ public class FenetreAdmin extends FenetreTemplate{
         
         JButton ajouterGr = new JButton("Ajouter Groupe");
         ajouterGr.setBounds(300,250,130,30);
+        final JButton ajouter2Gr = new JButton("Ajouter un deuxième groupe");
+        ajouter2Gr.setBounds(300, 300, 150, 30);
 
         //on créer des menus deroulants
         jours.setBounds(50, 150, 80, 30);
@@ -458,6 +461,9 @@ public class FenetreAdmin extends FenetreTemplate{
         groupes.setBounds(450,250,80,30);
         groupes.addItem("Groupes");
         
+        groupes2.setBounds(450,300,80,30);
+        groupes2.addItem("Groupes");
+        
         //setup des menus deroulants
         for (int i=1;i<=31;i++)
         {
@@ -492,6 +498,7 @@ public class FenetreAdmin extends FenetreTemplate{
         
         //on ajoute les menus a notre pannel
         pan.add(ajouterGr);
+        pan.add(ajouter2Gr);
         pan.add(jours);
         pan.add(mois);
         pan.add(annee);
@@ -503,7 +510,10 @@ public class FenetreAdmin extends FenetreTemplate{
         pan.add(promotion);
         pan.add(salles);
         pan.add(groupes);
+        pan.add(groupes2);
+        ajouter2Gr.setVisible(false);
         groupes.setVisible(false);
+        groupes2.setVisible(false);
         
         ajouterGr.addActionListener(new ActionListener(){
             @Override
@@ -520,10 +530,13 @@ public class FenetreAdmin extends FenetreTemplate{
                 }
                 groupes.removeAllItems();
                 groupes.addItem("Groupes");
-                    for (String gr1 : gr) {
-                        groupes.addItem(gr1);
-                    }
-                    
+                groupes2.removeAllItems();
+                groupes2.addItem("Groupes");
+                for (String gr1 : gr) {
+                    groupes.addItem(gr1);
+                    groupes2.addItem(gr1);
+                }
+                ajouter2Gr.setVisible(true);
                 groupes.setVisible(true);
                 
                 }else{
@@ -532,6 +545,14 @@ public class FenetreAdmin extends FenetreTemplate{
             }
         });
         
+        ajouter2Gr.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                groupes2.setVisible(true);
+            }
+            
+        });
         
         //Boutons ajout de cours
         ajouter.addActionListener(new ActionListener(){
@@ -551,6 +572,9 @@ public class FenetreAdmin extends FenetreTemplate{
                 promo = promotion.getSelectedItem().toString();
                 ArrayList<String> grp = new ArrayList<>();
                 grp.add(groupes.getSelectedItem().toString());
+                if(groupes2.getSelectedItem() != "Groupes"){
+                    grp.add(groupes2.getSelectedItem().toString());
+                }
                 
                 try {
                     AjouterDB.AjouterSeance(date, horaire, mat, typeC, prof, grp, promo, salle);
