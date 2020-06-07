@@ -19,6 +19,8 @@ public class Connexion{
     }
     
     public int UserConnect(String login,String password) throws SQLException, ClassNotFoundException{
+        ///AUTHENTIFICATION lors de la connexion (selon le login)
+        
         ConnexionDatabase connect = ConnexionDatabase.getInstance();
         int log = 0;
         ArrayList<String> resultats;

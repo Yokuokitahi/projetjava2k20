@@ -13,6 +13,7 @@ public class UpdateDB {
     public UpdateDB() throws SQLException, ClassNotFoundException{
     }
     
+    ///Fonction supprimer (que l'on utilise pour supprimer un cours puis mettre a jours dans bdd)
     public static void Supprimer(String idSeance) throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         connect.ExecuterUpdate("DELETE FROM seance WHERE ID = "+ idSeance);
@@ -22,6 +23,7 @@ public class UpdateDB {
         JOptionPane.showMessageDialog(null, "Séance supprimée");
     }
     
+    ///Fonction mmodifier (que l'on utilise pour supprimer un cours puis mettre a jours dans bdd)
     public static void Modifier(String IDSeance, String date, String heureDebut, String cours, String typeCours, String nomEnseignant, String nomSalle) throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
         

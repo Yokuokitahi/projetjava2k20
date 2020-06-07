@@ -7,7 +7,6 @@ package Vue;
 
 import Controleur.Connexion;
 import Modele.ConnexionDatabase;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.*;
@@ -34,7 +33,7 @@ public class FenetreConnexion extends FenetreTemplate{
     
     public FenetreConnexion() throws SQLException, ClassNotFoundException {
         connexion = new Connexion();
-        
+        //Creation de notre fenetre pour se connecter
         fenetre.setContentPane(container);
         fenetre.setSize(901,900);
         container.setLayout(null);
@@ -71,7 +70,7 @@ public class FenetreConnexion extends FenetreTemplate{
     }
     
     public void constructPanel(){     
-
+        //interraction de notre bouton "se connecter"       
         connectButton.addActionListener(new ActionListener ()
         {
             @Override
@@ -111,7 +110,7 @@ public class FenetreConnexion extends FenetreTemplate{
                     
                     
                 }
-                else if(logUser == 3 || logUser == 4){
+                else if(logUser == 3 || logUser == 4){ //Fenetre ELEVES & PROFs
                     JOptionPane.showMessageDialog(null,"Connexion réussie");
                     fenetre.dispose();
                     try {

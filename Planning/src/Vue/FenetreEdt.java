@@ -38,6 +38,8 @@ public class FenetreEdt extends FenetreTemplate{
     private final JTextPane semaine = new JTextPane();
     
     public FenetreEdt(final String login) throws SQLException, ClassNotFoundException{
+        ///Fenetre qui affiche l'emplois du temps
+        
         fenetre.setSize(new Dimension(1200,1000)); 
  
         grille.setLayout(null);
@@ -109,6 +111,8 @@ public class FenetreEdt extends FenetreTemplate{
     }
     
     public void CreerEDT(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
+        ///Creation d'un edt pour un eleve/prof
+        
         grille.setVisible(true);
         buffer.setVisible(false);
         buffer2.setVisible(false);
@@ -250,7 +254,10 @@ public class FenetreEdt extends FenetreTemplate{
                 }
                 if("Initiation réseau".equals(iterator.get(4))){
                     cours.setBackground(Color.magenta);
-                }     
+                }
+                if("Informatique".equals(iterator.get(4))){
+                    cours.setBackground(Color.yellow);
+                }
                 //cours.setBackground(Color.orange);
                 cours.setFont(font);
                 cours.setEditable(false);
@@ -264,6 +271,8 @@ public class FenetreEdt extends FenetreTemplate{
     }
     
     public void AdminCreerEDT(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
+        //Creation edt pour un admin
+        
         grille.setVisible(true);
         buffer.setVisible(false);
         buffer2.setVisible(false);
@@ -406,7 +415,10 @@ public class FenetreEdt extends FenetreTemplate{
                 }
                 if("Initiation réseau".equals(iterator.get(4))){
                     cours.setBackground(Color.magenta);
-                } 
+                }
+                if("Informatique".equals(iterator.get(4))){
+                    cours.setBackground(Color.yellow);
+                }
                 //cours.setBackground(Color.orange);
                 cours.setFont(font);
                 cours.setEditable(false);
@@ -420,6 +432,8 @@ public class FenetreEdt extends FenetreTemplate{
     }
     
     public void RefCreerEDT(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
+        //Creation de l'edt d'un prof référent
+        
         grille.setVisible(true);
         buffer.setVisible(false);
         buffer2.setVisible(false);
@@ -562,7 +576,10 @@ public class FenetreEdt extends FenetreTemplate{
                 }
                 if("Initiation réseau".equals(iterator.get(4))){
                     cours.setBackground(Color.magenta);
-                } 
+                }
+                if("Informatique".equals(iterator.get(4))){
+                    cours.setBackground(Color.yellow);
+                }
                 //cours.setBackground(Color.orange);
                 cours.setFont(font);
                 cours.setEditable(false);
@@ -576,6 +593,7 @@ public class FenetreEdt extends FenetreTemplate{
     }
     
     public void Recap(final String login) throws SQLException, ClassNotFoundException{
+        //Récap des cours en listes(jtable)
         
         grille.setVisible(false);
         buffer.setVisible(false);
@@ -618,6 +636,8 @@ public class FenetreEdt extends FenetreTemplate{
     }
     
     public void ListeEdt(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
+        //Affichage soit en grille soit en liste de notre EDT
+        
         grille.setVisible(false);
         buffer.setVisible(true);
         buffer2.setVisible(false);

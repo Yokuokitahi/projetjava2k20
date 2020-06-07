@@ -26,6 +26,8 @@ public class FenetreReferent extends FenetreTemplate{
     private final JComboBox groupes = new JComboBox();
     
     public FenetreReferent(){
+        ///Fenetre du réferent
+        
         fenetre.setTitle("Référent Pédagogique");
         fenetre.setSize(1200,500);
         buff.setLayout(null);
@@ -65,6 +67,8 @@ public class FenetreReferent extends FenetreTemplate{
     
     
     public void Recherche() throws SQLException, ClassNotFoundException{
+    //Methode pour rechercher edt selon nom prenom prof/eleves ou selon groupe/promo
+        
     ArrayList<String> prom = InfosDB.getPromotion();
     final JRadioButton prof; 
     final JRadioButton gr;

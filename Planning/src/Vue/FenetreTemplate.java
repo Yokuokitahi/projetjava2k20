@@ -11,7 +11,7 @@ import javax.swing.*;
 public class FenetreTemplate extends JFrame {
    
     protected final JFrame fenetre = new JFrame();
-    
+    ///MODELE DE LA FENETRE DE BASE
     public FenetreTemplate(){
         fenetre.setTitle("Planning");
         fenetre.setSize(900,900);

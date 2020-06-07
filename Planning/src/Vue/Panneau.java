@@ -14,6 +14,7 @@ public class Panneau extends JPanel{
         y=100;
         width=900;
         height=600;
+        //On creer la grille de notre edt 
         
         //carré
         g.setColor(Color.white);
@@ -46,12 +47,10 @@ public class Panneau extends JPanel{
         g.drawString("18h45",x-45,y+512);
         g.drawString("19h00",x-45,y+525);
         g.drawString("20h30",x-45,y+600);
-        
      
         g.setColor(Color.black);
         
-       //lignes
-        
+       //lignes 
         g.drawLine(x,y,x+width,y);//8h30
         g.drawLine(x,y+75,x+width,y+75);//10h
         g.drawLine(x,y+87,x+width,y+87);//10h15
@@ -66,8 +65,6 @@ public class Panneau extends JPanel{
         g.drawLine(x,y+512,x+width,y+512);//18h45
         g.drawLine(x,y+525,x+width,y+525);//19h
         g.drawLine(x,y+600,x+width,y+600);//20h30
-        
-        
         
         //colonnes
         g.drawLine(x,y,x,height+y);

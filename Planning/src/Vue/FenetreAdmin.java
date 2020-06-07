@@ -60,6 +60,7 @@ public class FenetreAdmin extends FenetreTemplate{
     
     
     public FenetreAdmin()throws SQLException, ClassNotFoundException{
+        //FENETRE D'UN ADMIN
         fenetre.setTitle("Administration");
         fenetre.setSize(1200,1000);
         pan.setLayout(null);
@@ -71,7 +72,7 @@ public class FenetreAdmin extends FenetreTemplate{
         admin.addSeparator();
         admin.add(close);
         
-        
+        //se deconnecter
         deco.addActionListener(new ActionListener(){
 
             @Override
@@ -88,6 +89,7 @@ public class FenetreAdmin extends FenetreTemplate{
             }
         });
         
+        //fermer la fenetre
         close.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -99,6 +101,7 @@ public class FenetreAdmin extends FenetreTemplate{
         pan.setBackground(fenetre.getBackground());
         fenetre.setJMenuBar(menuBar);
         
+        //bouton retour
         item1.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -114,6 +117,7 @@ public class FenetreAdmin extends FenetreTemplate{
     }
     
     public void BaseAdmin() throws SQLException, ClassNotFoundException{
+        //Ce que l'on voit de base quand on se connecte en tant qu'admin
         pan.setVisible(false);
         buff.setVisible(true);
         buff.setBackground(fenetre.getBackground());
@@ -190,7 +194,7 @@ public class FenetreAdmin extends FenetreTemplate{
         G1.add(gr);
         G1.add(etudiant); 
         
-        
+        //bouton ajouter un cours (qui nous redirige et permet ajout d'un cours)
         ajouterUnCours.addActionListener(new ActionListener(){
 
             @Override
@@ -208,6 +212,7 @@ public class FenetreAdmin extends FenetreTemplate{
             
         });
         
+        //bouton modifier un cours (qui nous redirige et permet de modifer un cours)
         modifCours.addActionListener(new ActionListener(){
 
             @Override
@@ -224,6 +229,8 @@ public class FenetreAdmin extends FenetreTemplate{
             }
             
         });
+        
+        //bouton qui permet d'effectuer la recherche d'un emploi du temps
         rech.addActionListener(new ActionListener(){
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -250,7 +257,7 @@ public class FenetreAdmin extends FenetreTemplate{
                     Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
                 } 
             }
-            if(gr.isSelected()){
+            if(gr.isSelected()){//selon groupe + promo
                 String promo = promotion.getSelectedItem().toString();
                 String grp = groupes.getSelectedItem().toString();
                 FenetreEdt edt;
@@ -275,7 +282,7 @@ public class FenetreAdmin extends FenetreTemplate{
                 
                 
             }
-            if(etudiant.isSelected()){
+            if(etudiant.isSelected()){//selon nom+prenom d'un etudiant ou un prof
                 String nomEtudiant = nom.getText();
                 String prenomEtudiant = prenom.getText();
                 String login;
@@ -302,6 +309,7 @@ public class FenetreAdmin extends FenetreTemplate{
         
     });
     
+    //si l'on coche professeur
     professeur.addActionListener(new ActionListener(){
 
         @Override
@@ -318,6 +326,7 @@ public class FenetreAdmin extends FenetreTemplate{
         
     });
     
+    //si l'on coche promo/groupe
     gr.addActionListener(new ActionListener(){
 
         @Override
@@ -333,6 +342,7 @@ public class FenetreAdmin extends FenetreTemplate{
         }
     });
     
+    //si l'on coche etudiant
     etudiant.addActionListener(new ActionListener(){
 
         @Override
@@ -349,6 +359,7 @@ public class FenetreAdmin extends FenetreTemplate{
         
     });
     
+    //on ajoute un groupe en fonction de la promo choisie
     ajouterGr.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -379,6 +390,8 @@ public class FenetreAdmin extends FenetreTemplate{
     }
     
     public void ajouterCours() throws SQLException, ClassNotFoundException{
+        ///PERMET D'AJOUTER UN COURS
+
         //fonction pour avoir matieres + typecours depuis BDD
         ArrayList<String> matieres = InfosDB.getMatiere();
         ArrayList<String> type = InfosDB.getTypeDeCours();
@@ -556,7 +569,7 @@ public class FenetreAdmin extends FenetreTemplate{
     }
     
     public void modifierCours(final String id, String d, String he, String c, String t, String pr, String sa, String gr1, String gr2) throws SQLException, ClassNotFoundException{
-        
+        ///PERMET DE MODIFIER UN COURS
         fenetre.setSize(800,600);
         
         //fonction pour avoir matieres + typecours depuis BDD
@@ -661,9 +674,12 @@ public class FenetreAdmin extends FenetreTemplate{
         
         for (int i=0;i<=45;i++)
         {
+            if (i==0){
+                min.addItem(0+"0");
+            }
             min.addItem(i);
             i=i-1+15;
-        }
+        }min.removeItemAt(2);
         
         
         //on ajoute les menus a notre pannel
@@ -715,7 +731,7 @@ public class FenetreAdmin extends FenetreTemplate{
     }
     
     public void supprimerCours() throws SQLException, ClassNotFoundException{
-        
+        ///PERMET DE SUPPRIMER UN COURS
         JPanel pan1 = new JPanel();
         fenetre.setContentPane(pan1);
         pan1.setBackground(fenetre.getBackground());
@@ -782,6 +798,7 @@ public class FenetreAdmin extends FenetreTemplate{
             tableau.getColumn("modif").setCellEditor(new ButtonEditor(new JCheckBox()));
     }
     
+///Classe qui permettent d'introduire des boutons dans un JTABLE    
 class ButtonRenderer extends JButton implements TableCellRenderer {
 
   public ButtonRenderer() {
@@ -803,7 +820,7 @@ class ButtonRenderer extends JButton implements TableCellRenderer {
   }
 }
 
-
+///Classe qui permet d'effectuer une action des boutons dans un JTABLE
 class ButtonEditor extends DefaultCellEditor {
   protected JButton button;
 
