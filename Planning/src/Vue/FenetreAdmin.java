@@ -625,7 +625,3 @@ class ButtonEditor extends DefaultCellEditor {
 }
 
 }
-
-
-
-    

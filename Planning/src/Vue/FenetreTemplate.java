@@ -18,7 +18,6 @@ public class FenetreTemplate extends JFrame {
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         fenetre.setVisible(true);
-    }
-        
+    }       
         
 }

@@ -64,4 +64,3 @@ public class UpdateDB {
         JOptionPane.showMessageDialog(null, "Changement effectué");        
     }
 }
-

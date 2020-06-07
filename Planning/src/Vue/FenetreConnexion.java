@@ -123,5 +123,3 @@ public class FenetreConnexion extends FenetreTemplate{
         });
     }
 }
-
-
