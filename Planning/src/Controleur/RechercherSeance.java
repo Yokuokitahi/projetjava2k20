@@ -85,21 +85,6 @@ public class RechercherSeance {
                 }
             
             }
-            
-            /*for (ArrayList<String> iterator : tokenResultats) { //affichage Jour de la séance
-                
-                String requete = "SELECT DAYOFWEEK('" + iterator.get(2)+"')";
-                ArrayList<String> jour = connect.ExecuterRequete(requete);
-                jour.set(0, jour.get(0).replaceAll("\n", ""));
-                int day = Integer.parseInt(jour.get(0));
-                day -= 2;
-                String s=String.valueOf(day);
-                
-                if (!jour.isEmpty()) {
-                    iterator.set(2, s);
-                }
-            }*/
-            
             for (ArrayList<String> tokenResultat : tokenResultats) {//TOKENIZER
                 for (String iterator : tokenResultat) {
                     String temp = iterator.replaceAll("\n", "");

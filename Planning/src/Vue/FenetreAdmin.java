@@ -102,34 +102,34 @@ public class FenetreAdmin extends FenetreTemplate{
         //Recupere les matieres ds un menu deroulant
         matiere.setBounds(50,200,120,30);
         matiere.addItem("Matière");
-        for (int i = 0; i < matieres.size();i++){
-            matiere.addItem(matieres.get(i));
+        for (String matiere1 : matieres) {
+            matiere.addItem(matiere1);
         }
         
         //Recupere type de cours ds un menu deroulant
         typeCours.setBounds(200,200,120,30);
         typeCours.addItem("Type de cours");
-        for (int i = 0; i < type.size();i++){
-            typeCours.addItem(type.get(i));
+        for (String type1 : type) {
+            typeCours.addItem(type1);
         }
         
         //Recupere le prof associé a une matiere via menu deroulant
         enseignants.setBounds(350,200,120,30);
         enseignants.addItem("Enseignants");
-        for (int i = 0; i < enseignant.size();i++){
-            enseignants.addItem(enseignant.get(i));
+        for (String enseignant1 : enseignant) {
+            enseignants.addItem(enseignant1);
         }
         
         salles.setBounds(50,250,120,30);
         salles.addItem("Salles");
-        for (int i = 0; i < sal.size();i++){
-            salles.addItem(sal.get(i));
+        for (String sal1 : sal) {
+            salles.addItem(sal1);
         }
         
         promotion.setBounds(200,250,100,30);
         promotion.addItem("Promo");
-        for (int i = 0; i < prom.size();i++){
-            promotion.addItem(prom.get(i));
+        for (String prom1 : prom) {
+            promotion.addItem(prom1);
         }
         
         groupes.setBounds(450,250,80,30);
@@ -193,9 +193,9 @@ public class FenetreAdmin extends FenetreTemplate{
                 }
                 groupes.removeAllItems();
                 groupes.addItem("Groupes");
-                for (int i = 0; i < gr.size();i++){
-                        groupes.addItem(gr.get(i));
-                }
+                    for (String gr1 : gr) {
+                        groupes.addItem(gr1);
+                    }
                     
                 groupes.setVisible(true);
                 
@@ -304,28 +304,28 @@ public class FenetreAdmin extends FenetreTemplate{
         //Recupere les matieres ds un menu deroulant
         matiere.setBounds(50,200,120,30);
         matiere.addItem(c);
-        for (int i = 0; i < matieres.size();i++){
-            matiere.addItem(matieres.get(i));
+        for (String matiere1 : matieres) {
+            matiere.addItem(matiere1);
         }
         
         //Recupere type de cours ds un menu deroulant
         typeCours.setBounds(200,200,120,30);
         typeCours.addItem(t);
-        for (int i = 0; i < type.size();i++){
-            typeCours.addItem(type.get(i));
+        for (String type1 : type) {
+            typeCours.addItem(type1);
         }
         
         //Recupere le prof associé a une matiere via menu deroulant
         enseignants.setBounds(350,200,120,30);
         enseignants.addItem(pr);
-        for (int i = 0; i < enseignant.size();i++){
-            enseignants.addItem(enseignant.get(i));
+        for (String enseignant1 : enseignant) {
+            enseignants.addItem(enseignant1);
         }
         
         salles.setBounds(50,250,120,30);
         salles.addItem(sa);
-        for (int i = 0; i < sal.size();i++){
-            salles.addItem(sal.get(i));
+        for (String sal1 : sal) {
+            salles.addItem(sal1);
         }
         
         //setup des menus deroulants
@@ -415,8 +415,8 @@ public class FenetreAdmin extends FenetreTemplate{
         
         String[] titre = {"Id","Date","Heure de début","Cours","Type de cours","Professeur","Salle","Gr","Gr","suppr","modif"};
         
-        for (int i=0; i<recup.size(); i++){
-                recup.get(i).remove(1);         
+        for (ArrayList<String> recup1 : recup) {
+            recup1.remove(1);         
         }
         
         int max = 0;
@@ -476,6 +476,7 @@ class ButtonRenderer extends JButton implements TableCellRenderer {
     setOpaque(true);
   }
 
+  @Override
   public Component getTableCellRendererComponent(JTable table, Object value,
       boolean isSelected, boolean hasFocus, int row, int column) {
     if (isSelected) {
@@ -508,12 +509,14 @@ class ButtonEditor extends DefaultCellEditor {
     button.setOpaque(true);
     button.addActionListener(new ActionListener() {
     
+        @Override
         public void actionPerformed(ActionEvent e) {
         fireEditingStopped();
       }
     });
   }
 
+  @Override
   public Component getTableCellEditorComponent(JTable table, Object value,
       boolean isSelected, int row, int column) {
     if (isSelected) {
@@ -548,6 +551,7 @@ class ButtonEditor extends DefaultCellEditor {
     return button;  
   }
   
+  @Override
   public Object getCellEditorValue() {
     if (isPushed) {
       // 
@@ -599,13 +603,14 @@ class ButtonEditor extends DefaultCellEditor {
         }     
     }
     isPousse=false;
-    return new String(label);
+    return label;
   }
 
   public int getRow(){
       return idL;
   }
 
+  @Override
   public boolean stopCellEditing() {
     isPushed = false;
     return super.stopCellEditing();
