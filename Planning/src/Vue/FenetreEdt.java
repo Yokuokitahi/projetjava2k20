@@ -20,6 +20,7 @@ import javax.swing.text.*;
  * @author Drakking
  */
 public class FenetreEdt extends FenetreTemplate{
+   
     private final JMenuBar menuBar = new JMenuBar();
     private final JMenu menuEtudiant = new JMenu("Etudiant");
     
@@ -258,7 +259,6 @@ public class FenetreEdt extends FenetreTemplate{
                 if("Informatique".equals(iterator.get(4))){
                     cours.setBackground(Color.yellow);
                 }
-                //cours.setBackground(Color.orange);
                 cours.setFont(font);
                 cours.setEditable(false);
                 cours.setBounds(posX,posY,149,74);
@@ -580,7 +580,6 @@ public class FenetreEdt extends FenetreTemplate{
                 if("Informatique".equals(iterator.get(4))){
                     cours.setBackground(Color.yellow);
                 }
-                //cours.setBackground(Color.orange);
                 cours.setFont(font);
                 cours.setEditable(false);
                 cours.setBounds(posX,posY,149,74);

@@ -6,10 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-/**
- *
- * @author Xavier Antoine
- */
+/* @author Xavier Antoine */
 public class RechercherSeance {
 
     public RechercherSeance() throws SQLException {

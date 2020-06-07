@@ -19,10 +19,8 @@ import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-/**
- *
- * @author Drakking
- */
+/* @author Drakking */
+
 public class FenetreAdmin extends FenetreTemplate{
     
     private final JMenuBar menuBar = new JMenuBar();
@@ -273,7 +271,7 @@ public class FenetreAdmin extends FenetreTemplate{
                         FenetreAdmin ad = new FenetreAdmin();
                         fenetre.dispose();
                         ad.BaseAdmin();
-                        ;
+                        
                     }
                     
                 } catch (SQLException | ClassNotFoundException ex) {
@@ -709,12 +707,12 @@ public class FenetreAdmin extends FenetreTemplate{
                 mat = matiere.getSelectedItem().toString();
                 salle = salles.getSelectedItem().toString();
 
-                System.out.println(date);
+                /*System.out.println(date);
                 System.out.println(horaire);
                 System.out.println(typeC);
                 System.out.println(mat);
                 System.out.println(prof);
-                System.out.println(salle);
+                System.out.println(salle);*/
                 
                 try {
                     UpdateDB.Modifier(id, date, horaire, mat, typeC, prof, salle);
@@ -736,9 +734,6 @@ public class FenetreAdmin extends FenetreTemplate{
         fenetre.setContentPane(pan1);
         pan1.setBackground(fenetre.getBackground());
         ArrayList<ArrayList<String>> recup = RechercherSeance.Seance();
-        
-        //System.out.println(recup);
-        //System.out.println(recup.get(1).get(0));
         
         String[] titre = {"Id","Date","Heure de début","Cours","Type de cours","Professeur","Salle","Gr","Gr","suppr","modif"};
         
@@ -764,7 +759,7 @@ public class FenetreAdmin extends FenetreTemplate{
         
         JTable tableau;
         tableau = new JTable(infos,titre);
-        //tableau.setDefaultRenderer(JButton.class, new TableComponent());
+        
         tableau.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
             TableColumn colonne0 = tableau.getColumnModel().getColumn(0);
             colonne0.setPreferredWidth(80);
@@ -907,18 +902,7 @@ class ButtonEditor extends DefaultCellEditor {
             String salleS= (String) salle;
             String gr1S= (String) gr1;
             String gr2S= (String) gr2;
-            
-            /*ArrayList<String> tokens = new ArrayList<>(Arrays.asList(dateS.split("-")));
-            String annee= tokens.get(0);
-            String mois= tokens.get(1);
-            String jours= tokens.get(2);
-            
-            tokens = new ArrayList<>(Arrays.asList(heureS.split(":")));
-            String heure= tokens.get(0);
-            String minute= tokens.get(1);*/
-           
-            //System.out.print(heure +" "+ minute);
-            
+ 
            FenetreAdmin refresh2;
            refresh2 = new FenetreAdmin(); 
            refresh2.modifierCours(identS, dateS, heureS,coursS, typesS, profS, salleS, gr1S, gr2S);

@@ -14,6 +14,8 @@ public class AjouterDB {
     }
     
     public static void AjouterSeance(String date, String heureDebut, String cours, String typeCours, String nomProf, ArrayList<String> groupes, String promo, String salle) throws SQLException, ClassNotFoundException{
+        ///FONCTION POUR AJOUTER UNE SEANCE DANS NOTRE BDD
+        
         ConnexionDatabase connect = ConnexionDatabase.getInstance();
         String heureFin = "";
         int semaine = ConnexionDatabase.SQLNumSemaine(date);

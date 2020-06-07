@@ -1,4 +1,3 @@
-
 package Controleur;
 
 
@@ -7,10 +6,8 @@ import java.util.*;
 import java.sql.*;
 
 
-/**
- *
- * @author xavan
- */
+/* @author xavan*/
+
 public class Connexion{
     
 
