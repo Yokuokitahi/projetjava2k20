@@ -25,7 +25,9 @@ import javax.swing.table.TableColumn;
 public class FenetreAdmin extends FenetreTemplate{
     
     private final JMenuBar menuBar = new JMenuBar();
-    private final JMenu test1 = new JMenu("Admin");
+    private final JMenu admin = new JMenu("Admin");
+    private final JMenuItem deco = new JMenuItem("Déconnexion");
+    private final JMenuItem close = new JMenuItem("Fermer");
     
     private final JPanel pan = new JPanel();
     private final JComboBox jours = new JComboBox();
@@ -59,7 +61,35 @@ public class FenetreAdmin extends FenetreTemplate{
         fenetre.setSize(1200,1000);
         pan.setLayout(null);
 
-        menuBar.add(test1);
+        menuBar.add(admin);
+        admin.add(deco);
+        admin.addSeparator();
+        admin.add(close);
+        
+        
+        deco.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fenetre.dispose();
+                FenetreConnexion test;
+                try {
+                    test = new FenetreConnexion();
+                    test.constructPanel();
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+        });
+        
+        close.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                System.exit(0);
+            }
+        });
+        
         fenetre.setContentPane(pan);
         pan.setBackground(fenetre.getBackground());
         fenetre.setJMenuBar(menuBar);

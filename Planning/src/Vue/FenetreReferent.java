@@ -18,6 +18,9 @@ public class FenetreReferent extends FenetreTemplate{
     
     private final JMenuBar menuBar = new JMenuBar();
     private final JMenu referent = new JMenu("Référent Pédagogique");
+    private final JMenuItem deco = new JMenuItem("Déconnexion");
+    private final JMenuItem close = new JMenuItem("Fermer");
+
     private final JPanel buff = new JPanel();
     private final JComboBox promotion = new JComboBox();
     private final JComboBox groupes = new JComboBox();
@@ -27,6 +30,34 @@ public class FenetreReferent extends FenetreTemplate{
         fenetre.setSize(1200,500);
         buff.setLayout(null);
         buff.setBackground(fenetre.getBackground());
+        
+        referent.add(deco);
+        referent.addSeparator();
+        referent.add(close);
+        
+        deco.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fenetre.dispose();
+                FenetreConnexion test;
+                try {
+                    test = new FenetreConnexion();
+                    test.constructPanel();
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+        });
+        
+        close.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                System.exit(0);
+            }
+        });
+        
         menuBar.add(referent);
         fenetre.setContentPane(buff);
         fenetre.setJMenuBar(menuBar);
