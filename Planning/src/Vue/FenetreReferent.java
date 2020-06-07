@@ -1,6 +1,7 @@
 package Vue;
 
 import Controleur.InfosDB;
+import Modele.ConnexionDatabase;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +16,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -43,9 +45,9 @@ public class FenetreReferent extends FenetreTemplate{
     
     public void Recherche() throws SQLException, ClassNotFoundException{
     ArrayList<String> prom = InfosDB.getPromotion();
-    JRadioButton prof; 
-    JRadioButton gr;
-    JRadioButton etudiant; 
+    final JRadioButton prof; 
+    final JRadioButton gr;
+    final JRadioButton etudiant; 
     final JTextField nom = new JTextField();
     final JTextField prenom = new JTextField();
     final JButton ajouter = new JButton("Rechercher un emploi du temps");
@@ -101,7 +103,83 @@ public class FenetreReferent extends FenetreTemplate{
     G1.add(gr);
     G1.add(etudiant); 
     
-    
+    ajouter.addActionListener(new ActionListener(){
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(prof.isSelected()){
+                String nomProf = nom.getText();
+                String prenomProf = prenom.getText();
+                String login;
+                FenetreEdt edt;
+                try {
+                    int nbSemaine = ConnexionDatabase.SQLNumSemaine();
+                    login = InfosDB.getLogin(nomProf, prenomProf);
+                    if(!"User not found".equals(login)){
+                        edt = new FenetreEdt(login);
+                        fenetre.dispose();
+                        edt.RefCreerEDT(login, nbSemaine);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "User not found");
+                        FenetreReferent ref = new FenetreReferent();
+                        fenetre.dispose();
+                        ref.Recherche();
+                    }
+                    
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreReferent.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+            }
+            if(gr.isSelected()){
+                String promo = promotion.getSelectedItem().toString();
+                String grp = groupes.getSelectedItem().toString();
+                FenetreEdt edt;
+                try {
+                    int nbSemaine = ConnexionDatabase.SQLNumSemaine();
+                    String login = InfosDB.getLoginGroupe(grp, promo);
+                    if(!"User not found".equals(login)){
+                        edt = new FenetreEdt(login);
+                        fenetre.dispose();
+                        edt.RefCreerEDT(login, nbSemaine);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "User not found");
+                        FenetreReferent ref = new FenetreReferent();
+                        fenetre.dispose();
+                        ref.Recherche();
+                    }
+                    
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreReferent.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+                
+                
+            }
+            if(etudiant.isSelected()){
+                String nomEtudiant = nom.getText();
+                String prenomEtudiant = prenom.getText();
+                String login;
+                FenetreEdt edt;
+                try {
+                    int nbSemaine = ConnexionDatabase.SQLNumSemaine();
+                    login = InfosDB.getLogin(nomEtudiant, prenomEtudiant);
+                    if(!"User not found".equals(login)){
+                        edt = new FenetreEdt(login);
+                        fenetre.dispose();
+                        edt.RefCreerEDT(login, nbSemaine);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "User not found");
+                        FenetreReferent ref = new FenetreReferent();
+                        fenetre.dispose();
+                        ref.Recherche();
+                    }
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(FenetreReferent.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+            }
+            
+        }
+        
+    });
     
     prof.addActionListener(new ActionListener(){
 

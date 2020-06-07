@@ -94,14 +94,15 @@ public class FenetreConnexion extends FenetreTemplate{
                 }
                 else if(logUser == 2){
                     //FENETRE REFERENT
+                    JOptionPane.showMessageDialog(null,"Connexion réussie");
+                    fenetre.dispose();
                     FenetreReferent referent = new FenetreReferent();
                     try {
                         referent.Recherche();
                     } catch (SQLException | ClassNotFoundException ex) {
                         Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    JOptionPane.showMessageDialog(null,"Connexion réussie");
-                    fenetre.dispose();
+                    
                     
                 }
                 else if(logUser == 3 || logUser == 4){

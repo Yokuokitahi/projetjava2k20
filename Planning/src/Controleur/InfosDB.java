@@ -3,6 +3,7 @@ package Controleur;
 import Modele.ConnexionDatabase;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,7 +26,6 @@ public class InfosDB {
         return salles;
     }
     //RETOURNE TOUTES LES MATIERES
-
     public static ArrayList<String> getMatiere() throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = ConnexionDatabase.getInstance ();
 
@@ -92,6 +92,33 @@ public class InfosDB {
             promo.set(promo.indexOf(iterator), temp);
         }
         return promo;
+    }
+    //RETOURNE LE LOGIN DE LA PERSONNE
+    public static String getLogin(String nom, String prenom) throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = ConnexionDatabase.getInstance();
+        ArrayList<String> log = connect.ExecuterRequete("SELECT  Email FROM user WHERE (Nom = '"+nom +"' AND Prenom = '"+prenom +"') OR (Nom = '"+prenom +"' AND Prenom = '"+nom +"')");
+        if(!log.isEmpty()){
+            String login = log.get(0);
+            login = login.replaceAll("\n","");
+            return login;
+        }else{
+            return "User not found";
+        }
+    }
+    //RETOURNE UN LOGIN D'UNE PERSONNE D'UN GROUPE
+    public static String getLoginGroupe(String grp, String promo) throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = ConnexionDatabase.getInstance();
+        ArrayList<String> ID = connect.ExecuterRequete("SELECT ID FROM groupe WHERE (Nom = '"+grp +"' AND ID_Promotion = '"+promo +"') OR (Nom = '"+promo +"' AND ID_Promotion = '"+grp +"')");
+        String IDGroupe = ID.get(0);
+        ArrayList<String> nomPrenom = connect.ExecuterRequete("SELECT Nom,Prenom FROM `etudiant` WHERE ID_Groupe = "+ IDGroupe+" LIMIT 1");
+        ArrayList<String> tokens = new ArrayList<>(Arrays.asList(nomPrenom.get(0).split(",")));
+        String nom= tokens.get(0);
+        nom = nom.replaceAll("\n", "");
+        String prenom= tokens.get(1);
+        prenom = prenom.replaceAll("\n","");
+        String login = InfosDB.getLogin(nom, prenom);
+        login = login.replaceAll("\n","");
+        return login;
     }
 
 }

@@ -15,14 +15,6 @@ public class Planning {
         
        FenetreConnexion test = new FenetreConnexion();
        test.constructPanel();
-       /* ArrayList<String> tt;
-       RechercherSeance test = new RechercherSeance();
-       tt = test.RecapSeance("malo", "Initiation réseau");
-       double nbHeures = (tt.size())*1.5;
-       System.out.println("Initiation réseau : " + nbHeures+ " heures");*/
-
-       //ArrayList<ArrayList<String>> tes = RechercherSeance.Seance();
-       //System.out.println(tes);
        
     }   
 }
