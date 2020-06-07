@@ -116,6 +116,7 @@ public class FenetreAdmin extends FenetreTemplate{
     public void BaseAdmin() throws SQLException, ClassNotFoundException{
         pan.setVisible(false);
         buff.setVisible(true);
+        buff.setBackground(fenetre.getBackground());
         ArrayList<String> prom = InfosDB.getPromotion();
         final JRadioButton professeur; 
         final JRadioButton gr;
@@ -469,9 +470,13 @@ public class FenetreAdmin extends FenetreTemplate{
         
         for (int i=0;i<=45;i++)
         {
+            if (i==0){
+                min.addItem(0+"0");
+            }
             min.addItem(i);
+            
             i=i-1+15;
-        }
+        }min.removeItemAt(2);
         
         
         //on ajoute les menus a notre pannel
@@ -871,9 +876,6 @@ class ButtonEditor extends DefaultCellEditor {
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
-      JOptionPane.showMessageDialog(button, label + ":"+ idL + " !");
-      System.out.println("ident =" + ident);
-
     }
     isPushed = false;
     

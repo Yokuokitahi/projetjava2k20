@@ -292,7 +292,7 @@ public class FenetreEdt extends FenetreTemplate{
                     grille.repaint();
                     buffer.removeAll();
                     buffer.repaint();
-                    RefCreerEDT(login, nbSemaine-1);
+                    AdminCreerEDT(login, nbSemaine-1);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -322,7 +322,7 @@ public class FenetreEdt extends FenetreTemplate{
                     grille.repaint();
                     buffer.removeAll();
                     buffer.repaint();
-                    RefCreerEDT(login, nbSemaine+1);
+                    AdminCreerEDT(login, nbSemaine+1);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreEdt.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -7,8 +7,9 @@ package Vue;
 
 import Controleur.Connexion;
 import Modele.ConnexionDatabase;
-import java.awt.Container;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -21,9 +22,13 @@ public class FenetreConnexion extends FenetreTemplate{
     private final JPasswordField password = new JPasswordField();;
     private final JLabel labelLogin = new JLabel("Nom d'utilisateur:");
     private final JLabel labelPassword = new JLabel("Mot de passe:");
+    private final ImageIcon img = new ImageIcon(new ImageIcon("ece.png").getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH));
+    private final JLabel image = new JLabel();
     private final JTextPane titre = new JTextPane();
     private final JButton connectButton = new JButton("Se connecter");
     private final JPanel container = new JPanel();
+    
+
     private final Connexion connexion;
     private int logUser = 0;
     
@@ -33,6 +38,7 @@ public class FenetreConnexion extends FenetreTemplate{
         fenetre.setContentPane(container);
         fenetre.setSize(901,900);
         container.setLayout(null);
+        container.setBackground(fenetre.getBackground());
         
         Font police  = new Font(Font.SERIF, Font.PLAIN,  28);
         Font police2  = new Font(Font.SERIF, Font.PLAIN,  40);
@@ -45,12 +51,15 @@ public class FenetreConnexion extends FenetreTemplate{
         titre.setBackground(container.getBackground());
         password.setEchoChar('*');
         
-        titre.setBounds(350,150,400,60);
+        titre.setBounds(350,250,400,60);
         login.setBounds(400, 360, 300, 50);
         password.setBounds(400, 460, 300, 50);
         connectButton.setBounds(350, 550, 150, 60);
         labelLogin.setBounds(130, 350, 200, 60);
         labelPassword.setBounds(130, 450, 200, 60);
+        
+        image.setIcon(img);
+        image.setBounds(350,50,205,205);
         
         container.add(login);
         container.add(password);
@@ -58,6 +67,7 @@ public class FenetreConnexion extends FenetreTemplate{
         container.add(labelLogin);
         container.add(labelPassword);
         container.add(titre);
+        container.add(image);
     }
     
     public void constructPanel(){     
