@@ -577,8 +577,13 @@ public class FenetreAdmin extends FenetreTemplate{
                 }
                 
                 try {
-                    AjouterDB.AjouterSeance(date, horaire, mat, typeC, prof, grp, promo, salle);
-                    BaseAdmin();
+                    if(groupes.getSelectedItem() != "Groupes" && jours.getSelectedItem() != "Jour" && mois.getSelectedItem() != "Mois" && annee.getSelectedItem() != "Année" && heure.getSelectedItem() != "Heure" && min.getSelectedItem() != "Minutes" 
+                        && matiere.getSelectedItem() != "Matière" && typeCours.getSelectedItem() != "Type de cours" && enseignants.getSelectedItem() != "Enseignants" && salles.getSelectedItem() != "Salles" && promotion.getSelectedItem() != "Promo"){
+                        AjouterDB.AjouterSeance(date, horaire, mat, typeC, prof, grp, promo, salle);
+                        BaseAdmin();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Veuillez entrer tous les champs");
+                    }                    
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(FenetreAdmin.class.getName()).log(Level.SEVERE, null, ex);
                 }

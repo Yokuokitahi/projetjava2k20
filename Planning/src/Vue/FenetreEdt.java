@@ -601,7 +601,7 @@ public class FenetreEdt extends FenetreTemplate{
         RechercherSeance heures = new RechercherSeance();
         ArrayList<String> matieres = InfosDB.getMatiere();
         fenetre.setJMenuBar(menuBar); 
-        fenetre.setContentPane(buffer2);
+        
         
         ArrayList<String> informations = new ArrayList<>();
         ArrayList<String> infosHeures;
@@ -631,7 +631,7 @@ public class FenetreEdt extends FenetreTemplate{
          scroll.getViewport().setBackground(fenetre.getBackground());
          
          buffer2.add(scroll);
-         
+         fenetre.setContentPane(buffer2);
     }
     
     public void ListeEdt(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
@@ -763,7 +763,6 @@ public class FenetreEdt extends FenetreTemplate{
                     
                 }
                 if("0".equals(iterator.get(2))){
-                    System.out.println(lundi);
                     table[0][0]="Lundi";
                     table[0][lundi] = infox;
                     lundi++;
