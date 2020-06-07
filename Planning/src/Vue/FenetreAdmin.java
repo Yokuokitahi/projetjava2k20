@@ -61,6 +61,7 @@ public class FenetreAdmin extends FenetreTemplate{
 
         menuBar.add(test1);
         fenetre.setContentPane(pan);
+        pan.setBackground(fenetre.getBackground());
         fenetre.setJMenuBar(menuBar);
         
     }
@@ -409,6 +410,7 @@ public class FenetreAdmin extends FenetreTemplate{
         
         JPanel pan1 = new JPanel();
         fenetre.setContentPane(pan1);
+        pan1.setBackground(fenetre.getBackground());
         ArrayList<ArrayList<String>> recup = RechercherSeance.Seance();
         
         //System.out.println(recup);
@@ -461,6 +463,7 @@ public class FenetreAdmin extends FenetreTemplate{
             
             JScrollPane scroll = new JScrollPane(tableau);
             scroll.setPreferredSize(new Dimension(1100,900));
+            scroll.getViewport().setBackground(fenetre.getBackground());
             
             pan1.add(scroll);
             

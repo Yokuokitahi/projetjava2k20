@@ -7,6 +7,7 @@ package Vue;
 
 import Controleur.Connexion;
 import Modele.ConnexionDatabase;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.*;
@@ -27,9 +28,7 @@ public class FenetreConnexion extends FenetreTemplate{
     
     public FenetreConnexion() throws SQLException, ClassNotFoundException {
         connexion = new Connexion();
-       
-        container = fenetre;
-        
+        container = fenetre; 
     }
     
     
@@ -37,7 +36,6 @@ public class FenetreConnexion extends FenetreTemplate{
             
         Font police  = new Font(Font.SERIF, Font.PLAIN,  28);
         Font police2  = new Font(Font.SERIF, Font.PLAIN,  40);
-        
         //creation des labels 
         labelLogin=new JLabel("Nom d'utilisateur:");
         labelLogin.setFont(police);

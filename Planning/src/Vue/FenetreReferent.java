@@ -26,7 +26,7 @@ public class FenetreReferent extends FenetreTemplate{
         fenetre.setTitle("Référent Pédagogique");
         fenetre.setSize(1200,500);
         buff.setLayout(null);
-
+        buff.setBackground(fenetre.getBackground());
         menuBar.add(referent);
         fenetre.setContentPane(buff);
         fenetre.setJMenuBar(menuBar);
@@ -40,8 +40,8 @@ public class FenetreReferent extends FenetreTemplate{
     final JRadioButton etudiant; 
     final JTextField nom = new JTextField();
     final JTextField prenom = new JTextField();
-    final JButton ajouter = new JButton("Rechercher un emploi du temps");
-    ajouter.setBackground(Color.GREEN);
+    final JButton rech = new JButton("Rechercher un emploi du temps");
+    rech.setBackground(Color.GREEN);
     
     ButtonGroup G1; 
     JLabel text = new JLabel("Choississez une recherche :");
@@ -55,7 +55,11 @@ public class FenetreReferent extends FenetreTemplate{
     gr.setText("Groupe");
     etudiant.setText("Etudiant"); 
     
-    ajouter.setBounds(450,350,250,50);
+    prof.setBackground(buff.getBackground());
+    gr.setBackground(buff.getBackground());
+    etudiant.setBackground(buff.getBackground());
+    
+    rech.setBounds(450,350,250,50);
     prof.setBounds(400, 80, 120, 50); 
     gr.setBounds(530,80,120,50);
     etudiant.setBounds(660, 80, 80, 50); 
@@ -81,19 +85,19 @@ public class FenetreReferent extends FenetreTemplate{
     buff.add(promotion);
     buff.add(ajouterGr);
     buff.add(groupes);
-    buff.add(ajouter);
+    buff.add(rech);
     groupes.setVisible(false);
     ajouterGr.setVisible(false);
     promotion.setVisible(false);
     nom.setVisible(false);
     prenom.setVisible(false);
-    ajouter.setVisible(false);
+    rech.setVisible(false);
   
     G1.add(prof); 
     G1.add(gr);
     G1.add(etudiant); 
     
-    ajouter.addActionListener(new ActionListener(){
+    rech.addActionListener(new ActionListener(){
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -180,7 +184,7 @@ public class FenetreReferent extends FenetreTemplate{
             groupes.setVisible(false);
             nom.setVisible(true);
             prenom.setVisible(true);
-            ajouter.setVisible(true);
+            rech.setVisible(true);
         }
         
     });
@@ -194,7 +198,7 @@ public class FenetreReferent extends FenetreTemplate{
             groupes.setVisible(false);
             nom.setVisible(false);
             prenom.setVisible(false);
-            ajouter.setVisible(true);
+            rech.setVisible(true);
         }
     });
     
@@ -207,7 +211,7 @@ public class FenetreReferent extends FenetreTemplate{
             groupes.setVisible(false);
             nom.setVisible(true);
             prenom.setVisible(true);
-            ajouter.setVisible(true);
+            rech.setVisible(true);
         }
         
     });

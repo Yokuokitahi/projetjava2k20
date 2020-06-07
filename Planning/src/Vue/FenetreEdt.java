@@ -12,6 +12,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.TableColumn;
+import javax.swing.text.*;
 
 
 /**
@@ -118,7 +119,7 @@ public class FenetreEdt extends FenetreTemplate{
         semaine.setText("Semaine n°"+ nbSemaine);
         semaine.setFont(font2);
         semaine.setEditable(false);
-        semaine.setBackground(grille.getBackground());
+        semaine.setBackground(fenetre.getBackground());
         semaine.setBounds(475, 10, 155, 20);
         grille.add(semaine);
         JButton suivant = new JButton("Semaine suivante");
@@ -237,7 +238,23 @@ public class FenetreEdt extends FenetreTemplate{
                         break;
                 }
                 JTextPane cours = new JTextPane();
-                cours.setBackground(Color.orange);
+                StyledDocument doc = cours.getStyledDocument();
+                SimpleAttributeSet center = new SimpleAttributeSet();
+                StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+                doc.setParagraphAttributes(0, doc.getLength(), center, false);
+                if("Probabilité".equals(iterator.get(4))){
+                    cours.setBackground(Color.green);
+                }
+                if("Physique".equals(iterator.get(4))){
+                    cours.setBackground(Color.cyan);
+                }
+                if("Analyse de Fourier".equals(iterator.get(4))){
+                    cours.setBackground(Color.orange);
+                }
+                if("Initiation réseau".equals(iterator.get(4))){
+                    cours.setBackground(Color.magenta);
+                }     
+                //cours.setBackground(Color.orange);
                 cours.setFont(font);
                 cours.setEditable(false);
                 cours.setBounds(posX,posY,149,74);
@@ -257,7 +274,7 @@ public class FenetreEdt extends FenetreTemplate{
         semaine.setText("Semaine n°"+ nbSemaine);
         semaine.setFont(font2);
         semaine.setEditable(false);
-        semaine.setBackground(grille.getBackground());
+        semaine.setBackground(fenetre.getBackground());
         semaine.setBounds(475, 10, 155, 20);
         grille.add(semaine);
         menuBar.remove(menuEtudiant);
@@ -376,8 +393,24 @@ public class FenetreEdt extends FenetreTemplate{
                         posY=626;
                         break;
                 }
-                JTextPane cours = new JTextPane();
-                cours.setBackground(Color.orange);
+                JTextPane cours = new JTextPane(); 
+                StyledDocument doc = cours.getStyledDocument();
+                SimpleAttributeSet center = new SimpleAttributeSet();
+                StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+                doc.setParagraphAttributes(0, doc.getLength(), center, false);
+                if("Probabilité".equals(iterator.get(4))){
+                    cours.setBackground(Color.green);
+                }
+                if("Physique".equals(iterator.get(4))){
+                    cours.setBackground(Color.cyan);
+                }
+                if("Analyse de Fourier".equals(iterator.get(4))){
+                    cours.setBackground(Color.orange);
+                }
+                if("Initiation réseau".equals(iterator.get(4))){
+                    cours.setBackground(Color.magenta);
+                } 
+                //cours.setBackground(Color.orange);
                 cours.setFont(font);
                 cours.setEditable(false);
                 cours.setBounds(posX,posY,149,74);
@@ -394,7 +427,7 @@ public class FenetreEdt extends FenetreTemplate{
         grille.setVisible(false);
         buffer.setVisible(false);
         buffer2.setVisible(true);
-        
+        buffer2.setBackground(fenetre.getBackground());
         RechercherSeance heures = new RechercherSeance();
         ArrayList<String> matieres = InfosDB.getMatiere();
         fenetre.setJMenuBar(menuBar); 
@@ -424,14 +457,18 @@ public class FenetreEdt extends FenetreTemplate{
          }
          
          JTable tableau = new JTable(table,colonne);
+         JScrollPane scroll = new JScrollPane(tableau);
+         scroll.getViewport().setBackground(fenetre.getBackground());
          
-         buffer2.add(new JScrollPane(tableau));
+         buffer2.add(scroll);
+         
     }
     
     public void ListeEdt(final String login, final int nbSemaine) throws SQLException, ClassNotFoundException{
         grille.setVisible(false);
         buffer.setVisible(true);
         buffer2.setVisible(false);
+        buffer.setBackground(fenetre.getBackground());
         JTextPane jours1 = new JTextPane();
         JTextPane jours2 = new JTextPane();
         JTextPane jours3 = new JTextPane();
@@ -444,7 +481,7 @@ public class FenetreEdt extends FenetreTemplate{
         semaine.setText("Semaine n°"+ nbSemaine);
         semaine.setFont(font2);
         semaine.setEditable(false);
-        semaine.setBackground(grille.getBackground());
+        semaine.setBackground(fenetre.getBackground());
         semaine.setBounds(475, 10, 155, 20);
         buffer.add(semaine);
         
@@ -608,6 +645,8 @@ public class FenetreEdt extends FenetreTemplate{
             
             JScrollPane scroll = new JScrollPane(tableau2);
             scroll.setPreferredSize(new Dimension(1100,900));
+            scroll.getViewport().setBackground(fenetre.getBackground());
+            
             buffer.add(scroll);           
         }else{
             JOptionPane.showMessageDialog(null,result.get(0).get(0));

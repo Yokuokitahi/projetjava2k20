@@ -1,5 +1,6 @@
 package Vue;
 
+import java.awt.Color;
 import javax.swing.*;
 
 
@@ -14,6 +15,7 @@ public class FenetreTemplate extends JFrame {
     public FenetreTemplate(){
         fenetre.setTitle("Planning");
         fenetre.setSize(900,900);
+        fenetre.setBackground(Color.PINK);
         fenetre.setLocationRelativeTo(null);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
