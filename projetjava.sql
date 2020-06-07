@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 25 mai 2020 à 17:56
+-- Généré le :  Dim 07 juin 2020 à 11:26
 -- Version du serveur :  8.0.18
 -- Version de PHP :  7.3.12
 
@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `salle` (
 
 INSERT INTO `salle` (`IDSalle`, `Nom`, `Capacite`, `ID_Site`) VALUES
 (1, 'Amphi A', 125, 1),
-(2, 'amphi B', 125, 1),
+(2, 'Amphi B', 125, 1),
 (3, 'Salle 415', 70, 2),
 (4, 'Salle 435', 70, 2),
 (5, 'Salle E300', 35, 3),
@@ -189,16 +189,30 @@ INSERT INTO `salle` (`IDSalle`, `Nom`, `Capacite`, `ID_Site`) VALUES
 
 DROP TABLE IF EXISTS `seance`;
 CREATE TABLE IF NOT EXISTS `seance` (
-  `ID` int(11) NOT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Semaine` int(11) NOT NULL,
   `Date` date NOT NULL,
   `Heure_debut` time NOT NULL,
   `Heure_fin` time NOT NULL,
-  `Etat` int(11) NOT NULL,
+  `Etat` int(11) NOT NULL DEFAULT '1',
   `ID_Cours` int(11) NOT NULL,
   `ID_Type` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `seance`
+--
+
+INSERT INTO `seance` (`ID`, `Semaine`, `Date`, `Heure_debut`, `Heure_fin`, `Etat`, `ID_Cours`, `ID_Type`) VALUES
+(1, 23, '2020-06-06', '10:15:00', '11:45:00', 1, 5, 1),
+(2, 22, '2020-05-27', '15:30:00', '17:00:00', 1, 4, 2),
+(10, 23, '2020-06-06', '10:15:00', '11:45:00', 1, 4, 1),
+(4, 22, '2020-05-29', '08:30:00', '10:00:00', 1, 6, 4),
+(5, 22, '2020-05-26', '08:30:00', '10:00:00', 1, 2, 5),
+(6, 23, '2020-06-01', '10:15:00', '11:45:00', 1, 5, 6),
+(7, 21, '2020-05-19', '15:30:00', '17:00:00', 1, 6, 1),
+(11, 23, '2020-06-01', '12:00:00', '13:30:00', 1, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -213,6 +227,21 @@ CREATE TABLE IF NOT EXISTS `seance_enseignant` (
   PRIMARY KEY (`ID_Seance`,`ID_Enseignant`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `seance_enseignant`
+--
+
+INSERT INTO `seance_enseignant` (`ID_Seance`, `ID_Enseignant`) VALUES
+(1, 16),
+(2, 18),
+(4, 2),
+(5, 18),
+(6, 16),
+(7, 2),
+(10, 16),
+(11, 18),
+(12, 18);
+
 -- --------------------------------------------------------
 
 --
@@ -226,6 +255,24 @@ CREATE TABLE IF NOT EXISTS `seance_groupes` (
   PRIMARY KEY (`ID_Seance`,`ID_Groupe`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `seance_groupes`
+--
+
+INSERT INTO `seance_groupes` (`ID_Seance`, `ID_Groupe`) VALUES
+(1, 2),
+(1, 3),
+(2, 2),
+(4, 3),
+(5, 2),
+(6, 2),
+(7, 1),
+(7, 2),
+(10, 5),
+(10, 6),
+(11, 2),
+(12, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -238,6 +285,21 @@ CREATE TABLE IF NOT EXISTS `seance_salles` (
   `ID_Salle` int(11) NOT NULL,
   PRIMARY KEY (`ID_Seance`,`ID_Salle`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `seance_salles`
+--
+
+INSERT INTO `seance_salles` (`ID_Seance`, `ID_Salle`) VALUES
+(1, 1),
+(2, 2),
+(4, 4),
+(5, 5),
+(6, 2),
+(7, 2),
+(10, 1),
+(11, 2),
+(12, 2);
 
 -- --------------------------------------------------------
 
@@ -308,12 +370,12 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`ID`, `Email`, `Password`, `Nom`, `Prenom`, `DroitAcces`) VALUES
-(1, 'xavier.antoine@edu.ece.fr', 'root', 'antoine', 'xavier', 4),
+(1, 'antoine@edu.ece.fr', 'root', 'antoine', 'xavier', 4),
 (2, 'jps@edu.ece.fr', 'jps', 'Segado', 'Jean-Pierre', 3),
-(3, 'paire@edu.ece.fr', 'paire', 'Paire', 'Benoit', 2),
-(4, 'admin@edu.ece.fr', 'admin', 'Admin', 'Philippe', 1),
+(3, 'ref', 'ref', 'Paire', 'Benoit', 2),
+(4, 'admin', 'admin', 'Admin', 'Philippe', 1),
 (5, 'goncalves@edu.ece.fr', 'goncalves', 'Goncalves', 'Philippe', 4),
-(6, 'abdoulnasir@edu.ece.fr', 'abdoulnasir', 'abdoulnasir', 'yacin-malo', 4),
+(6, 'malo', 'root', 'abdoulnasir', 'yacin-malo', 4),
 (7, 'zidane@edu.ece.fr', 'zidane', 'zidane', 'zinedine', 4),
 (8, 'pogba@edu.ece.fr', 'pogba', 'pogba', 'paul', 4),
 (9, 'lloris@edu.ece.fr', 'lloris', 'lloris', 'hugo', 4),

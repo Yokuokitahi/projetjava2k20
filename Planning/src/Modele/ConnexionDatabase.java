@@ -3,13 +3,15 @@ package Modele;
 import java.sql.*;
 import java.text.*;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class ConnexionDatabase {
 
-    private final Connection conn;
+    private static Connection conn = null;
     private final Statement stmt;
     private ResultSet rset;
     private ResultSetMetaData rsetMeta;
+    private static ConnexionDatabase connexion = null;
 
     public ArrayList<String> tables = new ArrayList<>();
 
@@ -17,7 +19,7 @@ public class ConnexionDatabase {
  
     public ArrayList<String> requetesMaj = new ArrayList<>();
 
-    public ConnexionDatabase() throws SQLException, ClassNotFoundException{
+    private ConnexionDatabase() throws SQLException, ClassNotFoundException{
         Class.forName("com.mysql.jdbc.Driver");
 
         String urlDatabase = "jdbc:mysql://localhost:3306/projetjava";
@@ -26,6 +28,14 @@ public class ConnexionDatabase {
 
         stmt = conn.createStatement();
     }
+    
+    public static ConnexionDatabase getInstance() throws SQLException, ClassNotFoundException{
+    if(conn == null){
+      connexion = new ConnexionDatabase();
+      
+    } 
+    return connexion;   
+  }  
 
     public void ajouterTable(String table) {
         tables.add(table);
@@ -88,19 +98,19 @@ public class ConnexionDatabase {
         return liste;
     }
 
-    public void executeUpdate(String requeteMaj) throws SQLException {
+    public void ExecuterUpdate(String requeteMaj) throws SQLException {
         stmt.executeUpdate(requeteMaj);
     }
     
     public String dateAjd(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         java.util.Date date = new java.util.Date();
-        System.out.println(dateFormat.format(date));
+        //System.out.println(dateFormat.format(date));
         
         return(dateFormat.format(date));
     }
     
-    public ArrayList<String> SQLDateAjd() throws SQLException, ClassNotFoundException{
+    public static ArrayList<String> SQLDateAjd() throws SQLException, ClassNotFoundException{
         ConnexionDatabase connect = new ConnexionDatabase();
         
         ArrayList<String> resultat = connect.ExecuterRequete("SELECT CURDATE()");
@@ -108,9 +118,8 @@ public class ConnexionDatabase {
         return resultat;   
     }
     
-    public int SQLNumSemaine() throws SQLException, ClassNotFoundException{
-        ConnexionDatabase connect = new ConnexionDatabase();
-        
+    public static int SQLNumSemaine() throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = ConnexionDatabase.getInstance();
         ArrayList<String> resultat = connect.ExecuterRequete("SELECT YEARWEEK(CURDATE())");
         String result = resultat.get(0);
         int longueur = result.length();
@@ -119,5 +128,24 @@ public class ConnexionDatabase {
         int numSemaine = Integer.parseInt(semaine) + 1; 
         
         return numSemaine; 
+    }
+    
+    public static int SQLNumSemaine(String date) throws SQLException, ClassNotFoundException{
+        ConnexionDatabase connect = new ConnexionDatabase();
+        
+        ArrayList<String> resultat = connect.ExecuterRequete("SELECT YEARWEEK(\""+date+"\")");
+        if(!resultat.isEmpty()){
+            String result = resultat.get(0);
+            int longueur = result.length();
+        
+            String semaine = Character.toString(result.charAt(longueur-3)) + Character.toString(result.charAt(longueur-2)) ;
+            int numSemaine = Integer.parseInt(semaine) + 1; 
+        
+            return numSemaine; 
+        }else{
+            JOptionPane.showMessageDialog(null, "Erreur");
+            return 0;
+        }
+        
     }
 }

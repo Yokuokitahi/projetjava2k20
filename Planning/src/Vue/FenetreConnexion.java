@@ -6,6 +6,7 @@ package Vue;
  */
 
 import Controleur.Connexion;
+import Modele.ConnexionDatabase;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.*;
@@ -14,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
-public class FenetreConnexion extends FenetreTemplate {
+public class FenetreConnexion extends FenetreTemplate{
     
     private JTextField login;
     private JPasswordField password;
@@ -24,8 +25,8 @@ public class FenetreConnexion extends FenetreTemplate {
     private final Connexion connexion;
     private int logUser =0;
     
-    public FenetreConnexion() throws SQLException {
-        this.connexion = new Connexion();
+    public FenetreConnexion() throws SQLException, ClassNotFoundException {
+        connexion = new Connexion();
        
         container = fenetre;
         
@@ -65,35 +66,61 @@ public class FenetreConnexion extends FenetreTemplate {
         connectButton.setBounds(350, 550, 150, 60);
         labelLogin.setBounds(130, 350, 200, 60);
         labelPassword.setBounds(130, 450, 200, 60);
-        
         connectButton.addActionListener(new ActionListener ()
         {
-            
             @Override
             public void actionPerformed(ActionEvent e)
             {
                 String log = login.getText();
                 String passw = password.getText();
-                
-                try {
-                    logUser = connexion.UserConnect(log, passw);
-                } catch (SQLException ex) {
-                    Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
+               
+                    try {
+                        logUser = connexion.UserConnect(log, passw);
+                    } catch (ClassNotFoundException | SQLException  ex) {
+                        Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 if(logUser == 1){
-                    JOptionPane jop = new JOptionPane();
-                    JOptionPane.showMessageDialog(null,"Connexion réussie","Etat connexion",JOptionPane.INFORMATION_MESSAGE);
+                    //FENETRE ADMIN
+                    JOptionPane.showMessageDialog(null,"Connexion réussie");
                     fenetre.dispose();
-                    FenetreEdt edt = new FenetreEdt();
+                    try {
+                        FenetreAdmin admin = new FenetreAdmin();
+                        //admin.ajouterCours();
+                        admin.supprimerCours();
+                        //admin.modifierCours("5", "2020-06-06", "15:30", "Probabilité", "Cours Magistral", "coudray", "Amphi A", "B, 2022","null");
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else if(logUser == 2){
+                    //FENETRE REFERENT
+                    JOptionPane.showMessageDialog(null,"Connexion réussie");
+                    fenetre.dispose();
+                    FenetreReferent referent = new FenetreReferent();
+                    try {
+                        referent.Recherche();
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    
+                }
+                else if(logUser == 3 || logUser == 4){
+                    JOptionPane.showMessageDialog(null,"Connexion réussie");
+                    fenetre.dispose();
+                    try {
+                        int nbSemaine = ConnexionDatabase.SQLNumSemaine();
+                        FenetreEdt edt = new FenetreEdt(log);
+                        edt.CreerEDT(log, nbSemaine);
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        Logger.getLogger(FenetreConnexion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }else{
                     JOptionPane.showMessageDialog(null,"La connexion a échoué","Etat connexion",JOptionPane.ERROR_MESSAGE);
                 }
                 
-            }
-            
-        }
-        );
+            }  
+        });
     }
 }
 
